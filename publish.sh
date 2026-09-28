@@ -6,11 +6,10 @@ cd /workspace/bots-app
 for f in /workspace/gv-vacatures-*.md; do
   [ -e "$f" ] || continue
   d=$(date -r "$f" +%Y-%m-%dT%H-%M)
-  day=${d%%T*}
-  # sla over als er voor die dag al een gv-bestand is met dezelfde inhoud
-  if ! ls updates/gv/${day}T*.md >/dev/null 2>&1 || ! cmp -s "$f" "updates/gv/$d.md" 2>/dev/null && [ ! -e "updates/gv/$d.md" ]; then
-    cp "$f" "updates/gv/$d.md"
-  fi
+  [ -e "updates/gv/$d.md" ] && continue
+  # één GV-rapport per dag: vervang een oudere versie van dezelfde dag
+  rm -f updates/gv/"${d%%T*}"T*.md
+  cp "$f" "updates/gv/$d.md"
 done
 python3 build_data.py >/dev/null
 python3 -m json.tool data.json >/dev/null
