@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mijn Bots</title>
+  <meta name="description" content="Laatste updates van Mike's Grok Bot-assistenten">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- iOS: installeren via 'Zet op beginscherm' -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mijn Bots">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#F4F5FA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0B0E1F" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- PIN-scherm -->
+  <section id="lock" class="lock" hidden>
+    <div class="lock-inner">
+      <img class="lock-logo" src="icons/icon-192.png" alt="" width="84" height="84">
+      <h1>Mijn Bots</h1>
+      <p class="lock-hint" id="lockHint">Voer je pincode in</p>
+      <div class="pin-dots" id="pinDots" aria-live="polite"></div>
+      <div class="keypad" id="keypad">
+        <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
+        <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
+        <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
+        <span></span><button data-k="0">0</button><button data-k="del" aria-label="Wissen">⌫</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Startscherm -->
+  <section id="home" class="view" hidden>
+    <header class="topbar">
+      <div>
+        <h1>Mijn Bots</h1>
+        <p class="refreshed" id="refreshed">Laden…</p>
+      </div>
+      <button class="icon-btn" id="refreshBtn" aria-label="Vernieuwen">↻</button>
+    </header>
+    <main id="botList" class="bot-list"></main>
+    <footer class="foot">
+      <button class="link-btn" id="lockBtn">🔒 Vergrendelen</button>
+    </footer>
+  </section>
+
+  <!-- Detailscherm -->
+  <section id="detail" class="view" hidden>
+    <header class="topbar detail-bar" id="detailBar">
+      <button class="back-btn" id="backBtn" aria-label="Terug">‹ Terug</button>
+      <div class="detail-title">
+        <span class="detail-emoji" id="detailEmoji"></span>
+        <h1 id="detailName"></h1>
+      </div>
+    </header>
+    <main class="detail-body" id="detailBody"></main>
+  </section>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="config.js"></script>
+  <script src="md.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
