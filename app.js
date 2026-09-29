@@ -215,6 +215,7 @@
     var b = e.target.closest("button"); if (b) pinModalPress(b.getAttribute("data-k"));
   });
   $("pinChangeBtn").addEventListener("click", openPinModal);
+  $("lockPinChangeBtn").addEventListener("click", openPinModal);
   $("pinModalCancel").addEventListener("click", closePinModal);
 
   // ---------- Data ----------

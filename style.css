@@ -183,3 +183,12 @@ details.hist[open] summary { margin-bottom: 8px; border-bottom: 1px solid var(--
   flex: none; width: 36px; height: 36px; border: 0; border-radius: 50%;
   background: transparent; color: var(--muted); font-size: 22px; line-height: 1;
 }
+
+.pin-change-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 10px 16px; margin: 4px;
+  border-radius: 12px; border: 1px solid var(--border, #ccc);
+  background: var(--card, #fff); color: var(--fg, #111);
+  font-size: 15px; font-weight: 600;
+}
+.lock-pin-change { margin-top: 18px; color: var(--fg, #111); font-weight: 600; text-decoration: underline; }
