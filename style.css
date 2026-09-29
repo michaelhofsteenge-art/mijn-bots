@@ -120,3 +120,66 @@ details.hist[open] summary { margin-bottom: 8px; border-bottom: 1px solid var(--
 /* ---------- Toast ---------- */
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--sab) + 24px); z-index: 30;
   background: rgba(20,23,43,.92); color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 15px; box-shadow: var(--shadow); }
+
+/* ---------- Chrome-tip ---------- */
+.chrome-tip {
+  margin: 18px 8px 0; padding: 10px 14px; border-radius: 14px;
+  background: color-mix(in srgb, var(--card) 85%, var(--link));
+  color: var(--muted); font-size: 13.5px; line-height: 1.4; text-align: left;
+  border: 1px solid var(--line);
+}
+.home-tip { margin: 12px 16px 0; }
+
+/* ---------- Footer-knoppen ---------- */
+.foot { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 8px; }
+.link-btn { min-height: 44px; }
+
+/* ---------- Modal (PIN wijzigen) ---------- */
+.modal {
+  position: fixed; inset: 0; z-index: 25; display: grid; place-items: center;
+  background: rgba(10,12,28,.55); padding: calc(var(--sat) + 16px) 16px calc(var(--sab) + 16px);
+}
+.modal-card {
+  width: 100%; max-width: 360px; background: var(--bg); border-radius: 24px;
+  padding: 22px 18px 10px; box-shadow: var(--shadow); text-align: center;
+}
+.modal-card h2 { margin: 0 0 6px; font-size: 22px; }
+.modal-hint { color: var(--muted); margin: 0 0 16px; min-height: 1.5em; font-size: 15px; }
+.modal-cancel { margin-top: 8px; width: 100%; }
+
+/* ---------- Crypto trade panel ---------- */
+.trade-panel { margin-bottom: 16px; }
+.trade-title { margin: 0 0 6px; font-size: 18px; }
+.trade-intro { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+.trade-form {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; margin-bottom: 12px;
+}
+.trade-form label {
+  display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; color: var(--muted);
+}
+.trade-form label.full { grid-column: 1 / -1; }
+.trade-form input, .trade-form select {
+  font: inherit; color: var(--fg); background: var(--code); border: 1px solid var(--line);
+  border-radius: 12px; padding: 12px 12px; min-height: 44px; width: 100%;
+}
+.trade-form input:focus, .trade-form select:focus { outline: 2px solid var(--link); outline-offset: 1px; }
+.primary-btn {
+  border: 0; border-radius: 14px; background: var(--link); color: #fff; font-weight: 700;
+  padding: 12px 16px; min-height: 48px; box-shadow: var(--shadow);
+}
+.primary-btn.full { grid-column: 1 / -1; width: 100%; }
+.trade-actions { margin: 4px 0 14px; }
+.trade-actions .primary-btn { width: 100%; }
+.trade-sub { margin: 0 0 8px; font-size: 15px; color: var(--muted); }
+.trade-empty { color: var(--muted); font-size: 14px; margin: 0; }
+.trade-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.trade-item {
+  display: flex; align-items: flex-start; gap: 8px; padding: 10px 12px;
+  background: var(--code); border-radius: 12px;
+}
+.trade-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; font-size: 14.5px; }
+.trade-note { color: var(--muted); font-size: 13px; }
+.trade-del {
+  flex: none; width: 36px; height: 36px; border: 0; border-radius: 50%;
+  background: transparent; color: var(--muted); font-size: 22px; line-height: 1;
+}

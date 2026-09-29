@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T12:02:43+02:00",
+  "generated_at": "2026-09-29T12:03:33+02:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -112,7 +112,20 @@
       "emoji": "🏛️",
       "color": "#C0392B",
       "subtitle": "Congres-aandelentransacties & advies",
-      "updates": []
+      "updates": [
+        {
+          "date": "2026-09-28T16:14+02:00",
+          "markdown": "**Advies:** HOUD / VOLG\n**Ticker:** DVN, XOM (energie-cluster; ook BSX, MRSH, PTC, HD)\n**Waarom (1-3 zinnen):** Kevin Hern (OK-01) heeft eind aug–half sep via trusts/IRA’s stevig afgebouwd, met cumulatieve verkopen op DVN (~$330k–$850k) en XOM ($100k–$250k). Losse regels lijken klein, samen groot; opvallend bij een Oklahoma-rep. Interessant om te volgen of dit doorzet, niet als zeker shorts-signaal.\n**Let op:** Ranges zijn breed; via meerdere trusts kan herbalancering/liquiditeit meespelen; disclosure-lag ~2 weken. Geen formeel advies, geen garantie; Mike beslist.\n\n**Congres-alert**\n\n**Kevin Hern** (R, Huis Oklahoma-01) heeft eind augustus tot half september flink verkocht via zijn family trusts en IRA's. Losse regels zijn vaak klein, maar opgeteld per ticker wordt het groot. Het staat in een nieuwe filing, getekend op 25 september.\n\n- `DVN` (Devon Energy): 5 verkopen tussen 31 aug en 14 sep, samen ongeveer **$330k–$850k**\n- `XOM` (Exxon): 1 verkoop van **$100k–$250k** op 31 aug\n- `BSX` (Boston Scientific): 6 verkopen, samen ongeveer $118k–$295k\n- `MRSH` (Marsh): 3 verkopen, samen ongeveer $102k–$280k\n- `PTC`: 2 verkopen, samen ongeveer $100k–$200k\n- `HD` (Home Depot): 6 verkopen, samen ongeveer $62k–$230k\n\nDaarnaast zijn er kleinere verkopen in onder andere `TJX`, `CDNS`, `OKE`, `ITW` en `ROK`, en staan er in deze filing nauwelijks aankopen. Het valt vooral op dat een vertegenwoordiger uit Oklahoma zijn energieposities (`DVN`, `XOM`, `OKE`) afbouwt.\nBron: https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20035491.pdf\n\n**Signaal:** Het is interessant om te volgen, vooral de energieverkopen en of dit doorzet in een volgende filing. De bedragen zijn wel brede ranges, en omdat het via meerdere trusts loopt kan het ook om herbalancering of liquiditeit gaan in plaats van een negatieve verwachting over deze aandelen. Daarbij zit er ongeveer twee weken tussen trade en melding. Lees het dus niet als een zeker verkoopsignaal. Dit is geen formeel advies en geen garantie; jij beslist."
+        },
+        {
+          "date": "2026-09-24T16:22+02:00",
+          "markdown": "**Advies:** HOUD / VOLG\n**Ticker:** BNS (label; onderliggend XLE/SPX structured products)\n**Waarom (1-3 zinnen):** Sheri Biggs (SC-03) spouse/trust: sell $500k–$1M (19 aug) en buy $500k–$1M (1 sep) op BNS-gelabelde regels, cumulatief ≈ $1–2M bruto. Omvang is groot, maar de filing noemt structured products op XLE (sell) en SPX (buy), geen plain BNS-aandeelrichting.\n**Let op:** Zwak als koop/verkoop-signaal op BNS-bankequity; professioneel beheerd. Geen formeel advies, geen garantie; Mike beslist.\n\n**Congres-alert**\n\n**Sheri Biggs** (R, Huis SC-03) — echtgenoot / W.S.B. Trust  \n- **Verkoop** `BNS` [CS]: **$500k–$1M** — trade 19 aug, filing getekend 22 sep  \n- **Koop** `BNS` [CS]: **$500k–$1M** — trade 1 sep, zelfde filing  \n- **Cumulatief:** ≈ **$1–2M** bruto activiteit op BNS-gelabelde posities  \n- Filing: professioneel beheerd; verkoop = structured product op **XLE**, koop = structured product op **SPX** — dus geen plain BNS-aandeelrichting  \n- Bron: https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20035489.pdf\n\n**Signaal:** interessant om te volgen vanwege omvang en rollen van grote structured products, maar zwak als koop/verkoop-signaal op BNS-aandeel (XLE/SPX, managed). Risico: mislezen als bank-equity bet. Geen formeel advies / geen garantie; jij beslist."
+        },
+        {
+          "date": "2026-09-24T11:25+02:00",
+          "markdown": "**Advies:** HOUD / VOLG\n**Ticker:** HD (primair); V, MA, CTAS, BRK.B\n**Waarom (1-3 zinnen):** Trump juni-OGE: 8 Home Depot-aankopen cumulatief ≈ $2,3M–$7,6M bevestigd. American Express multi-miljoen niet in juni-top; waarschijnlijk verwarring met Visa/Mastercard ($1M–$5M bands). Cumulatief HD is een van de zwaarste koopclusters in die filing.\n**Let op:** White House claimt onafhankelijk beheer; bedragen zijn wettelijke ranges. Geen formeel advies, geen garantie; Mike beslist.\n\n**Donald Trump** — check op die “grote aankopen” (geen advies)\n\nWat Mike hoorde klopt deels, met één belangrijke nuance.\n\n**Home Depot (HD)** — bevestigd. In de juni-2026 OGE Form 278-T (ingediend ≈ 12 aug, openbaar ≈ 22 aug): **8 aankopen**, samen range **≈ $2,3M–$7,6M**. Grootste enkele lijn **$1M–$5M**; o.a. rond 22 jun ook een HD-koop in die band. Bron: https://capitolmarkets.org/news/trump-june-2026-trades · Fortune/OGE juni-filing.\n\n**American Express (AXP)** — **niet** als multi-miljoen-aankoop teruggevonden in de juni-top. Wel grote aankopen in **betaalkaarten**: **Mastercard (MA)** 3× samen **≈ $1,2M–$5,5M** en **Visa (V)** 2× **≈ $1,1M–$5,3M** (o.a. 18 jun, bands $1M–$5M). Waarschijnlijk is AXP verward met V/MA. Bron: zelfde Capitol Markets / Motley Fool / Fortune.\n\n**Andere grote juni-aankopen** (zelfde filing, 1.051 trades, totaalflow ≈ $78M–$263M):\n- **Cintas (CTAS)** — ≈ $1,05M–$5,1M (2 aankopen)\n- **Berkshire Hathaway (BRK.B)** — o.a. koop **$1M–$5M** (18 jun)\n- Plus o.a. Treasury-ETF $1M–$5M\n\nContext: White House zegt onafhankelijk beheerd; bedragen zijn wettelijke **ranges**, geen exacte fills. Juli-filing (al eerder naar je gestuurd) had vooral grote **verkopen** MSFT/AMZN, niet deze HD/V/MA-cluster."
+        }
+      ]
     }
   ]
 }

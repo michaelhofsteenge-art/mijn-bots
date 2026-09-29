@@ -1,16 +1,16 @@
 // ============================================================
-//  Mijn Bots — configuratie (dit is de ENIGE plek om aan te passen)
+//  Mijn Bots — configuratie (dit is de ENIGE plek voor defaults)
 // ============================================================
-//  PIN wijzigen:
-//    1. Kies een nieuwe 4-cijferige PIN, bv. 4821
-//    2. Bereken de SHA-256 hash:
-//         echo -n 4821 | sha256sum
-//       (of: python3 -c "import hashlib;print(hashlib.sha256(b'4821').hexdigest())")
-//    3. Plak de hash hieronder bij PIN_SHA256.
-//    4. Verhoog CONFIG_VERSION, dan moet iedereen opnieuw ontgrendelen.
+//  Standaard-PIN (eerste gebruik): 1234
+//  Na ontgrendelen kun je in de app zelf een nieuwe PIN instellen
+//  (⚙️ Pincode wijzigen). Die wordt als SHA-256 in localStorage
+//  bewaard (niet remote). Ontbreekt die, dan geldt PIN_SHA256 hier.
 //
-//  Huidige (tijdelijke) PIN: 1234
-//  LET OP: dit is lichte bescherming, geen echte beveiliging (zie README).
+//  Standaard-hash opnieuw zetten (bv. na reset):
+//    echo -n 1234 | sha256sum
+//  Verhoog CONFIG_VERSION om iedereen opnieuw te laten ontgrendelen.
+//
+//  LET OP: lichte bescherming, geen echte beveiliging (zie README).
 // ============================================================
 window.BOTS_CONFIG = {
   PIN_SHA256: "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
