@@ -45,7 +45,14 @@ def main() -> int:
     out = {"generated_at": datetime.now(TZ).isoformat(timespec="seconds"), "bots": []}
     for b in bots:
         folder = ROOT / "updates" / b["key"]
-        files = sorted(folder.glob("*.md"), key=parse_stamp, reverse=True) if folder.is_dir() else []
+        if folder.is_dir():
+            files = sorted(
+                (f for f in folder.glob("*.md") if NAME_RE.match(f.stem)),
+                key=parse_stamp,
+                reverse=True,
+            )
+        else:
+            files = []
         updates = []
         for f in files[: args.keep]:
             text = f.read_text(encoding="utf-8").strip()
