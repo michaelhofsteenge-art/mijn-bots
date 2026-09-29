@@ -3,5 +3,6 @@
   {"id": "fc8435d8-909f-4dd4-ad98-401ee7160a81", "key": "gv",        "name": "Geestelijk Verzorger Vacatures", "emoji": "🕊️", "color": "#7C5CE0", "subtitle": "Vacatures rond Vleuten / Utrecht"},
   {"id": "20f8c9d0-401e-4622-9ab1-5b4118baac32", "key": "blockchain","name": "Blockchain Update",              "emoji": "⛓️", "color": "#2F80ED", "subtitle": "Ontwikkelingen in blockchain"},
   {"id": "49692e76-c77b-46ae-9328-2144b4d7eb96", "key": "crypto",    "name": "Crypto Adviseur",                "emoji": "🪙", "color": "#F2994A", "subtitle": "Crypto-markt & advies"},
-  {"id": "80ec10c0-457b-46f7-b152-23e19cba262a", "key": "klimaat",   "name": "Klimaat Kritisch",               "emoji": "🌍", "color": "#27AE60", "subtitle": "Kritische blik op klimaatnieuws"}
+  {"id": "80ec10c0-457b-46f7-b152-23e19cba262a", "key": "klimaat",   "name": "Klimaat Kritisch",               "emoji": "🌍", "color": "#27AE60", "subtitle": "Kritische blik op klimaatnieuws"},
+  {"id": "a0738999-573e-47b3-8b79-8d39798a19a8", "key": "congres",   "name": "Congres Trades",                 "emoji": "🏛️", "color": "#C0392B", "subtitle": "Congres-aandelentransacties & advies"}
 ]
