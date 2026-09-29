@@ -3,7 +3,7 @@
 De app leest alleen `data.json`. Zo maak je een nieuwe versie:
 
 ## 1. Per bot de laatste berichten ophalen
-Voor elk van de 5 bots (zie `bots.json`):
+Voor elk van de bots (zie `bots.json`):
 
 | key | naam | agent id |
 |---|---|---|
@@ -12,6 +12,7 @@ Voor elk van de 5 bots (zie `bots.json`):
 | blockchain | Blockchain Update | 20f8c9d0-401e-4622-9ab1-5b4118baac32 |
 | crypto | Crypto Adviseur | 49692e76-c77b-46ae-9328-2144b4d7eb96 |
 | klimaat | Klimaat Kritisch | 80ec10c0-457b-46f7-b152-23e19cba262a |
+| congres | Congres Trades | a0738999-573e-47b3-8b79-8d39798a19a8 |
 
 1. Lees het gesprek van de bot met de tool **ReadTranscript** (dynamische namespace `cursor`,
    argument `agent_id`, bv. `limit: 50`; schema eerst ophalen met `GetDynamicTools`).
@@ -50,10 +51,12 @@ python3 build_data.py           # schrijft data.json
 python3 -m json.tool data.json > /dev/null && echo OK
 ```
 
-## 4. Publiceren (zodra GitHub Pages is ingericht)
-Alleen `data.json` hoeft opnieuw geüpload/gecommit te worden. De service worker haalt
-`data.json` altijd eerst van het netwerk, dus de iPhone ziet de nieuwe updates bij het openen
-(of met de ↻-knop). `sw.js` hoeft hiervoor niet aangepast te worden.
+## 4. Publiceren
+`./publish.sh` bouwt `data.json`, commit en pusht naar `origin/main` (GitHub Pages).
+Alleen `data.json` hoeft opnieuw geüpload/gecommit te worden bij nieuwe updates. De service
+worker haalt `data.json` altijd eerst van het netwerk (cache-bust met `?t=` + `no-store`),
+dus de iPhone ziet nieuwe updates bij openen, zichtbaar worden, ↻ / pull-to-refresh, of
+elke ~60s op het startscherm. `sw.js` hoeft hiervoor niet aangepast te worden.
 
 ## Formaat data.json
 ```json
