@@ -498,77 +498,145 @@
     if (b.id === KLIMAAT_BOT_ID) return true;
     return b.key === "klimaat" || /klimaat\s*kritisch/i.test(b.name || "");
   }
-  function shortTopicLabel(title, maxLen) {
-    maxLen = maxLen || 36;
-    var s = String(title || "").replace(/\s+/g, " ").trim();
-    if (s.length <= maxLen) return s;
-    var cut = s.slice(0, maxLen - 1);
-    var sp = cut.lastIndexOf(" ");
-    if (sp > 12) cut = cut.slice(0, sp);
-    return cut.replace(/[.,;:–—-]+$/, "") + "…";
-  }
-  /** Parse Klimaat digest: only present **BLOK N: title** sections (no Samenvatting chip). */
-  function parseKlimaatSections(md) {
+  /** Fixed Klimaat categories — always show all five, independent of today's markdown. */
+  var KLIMAAT_CATEGORIES = [
+    { n: 1, title: "Kritische of ambigue empirie" },
+    { n: 2, title: "Relativering en context" },
+    { n: 3, title: "NL-energievoorziening" },
+    { n: 4, title: "Elektrische auto's wereldwijd" },
+    { n: 5, title: "Accu's" }
+  ];
+  /** Parse **BLOK N: title** bodies from newest digest (no top-level Samenvatting). */
+  function parseKlimaatBlocks(md) {
     var text = String(md || "").replace(/\r\n/g, "\n");
     var lines = text.split("\n");
     var blokRe = /^\*\*BLOK\s+(\d+)\s*:\s*(.+?)\*\*\s*$/i;
-    var sections = [];
-    var cur = null;
-    var started = false;
+    var byNum = {};
+    var curNum = null;
+    var curLines = null;
     function pushCur() {
-      if (!cur) return;
-      sections.push({
-        id: cur.id,
-        title: cur.title,
-        label: shortTopicLabel(cur.title),
-        markdown: cur.lines.join("\n").trim()
-      });
-      cur = null;
+      if (curNum == null) return;
+      byNum[curNum] = curLines.join("\n").trim();
+      curNum = null;
+      curLines = null;
     }
     for (var i = 0; i < lines.length; i++) {
       var line = lines[i];
       var m = line.match(blokRe);
       if (m) {
         pushCur();
-        started = true;
-        cur = { id: "blok-" + m[1], title: String(m[2]).trim(), lines: [] };
+        curNum = parseInt(m[1], 10);
+        curLines = [];
         continue;
       }
-      if (started && cur) cur.lines.push(line);
+      if (curLines) curLines.push(line);
     }
     pushCur();
-    return sections;
+    return byNum;
   }
-  function klimaatTopicsHtml(sections, activeId) {
+  /**
+   * Split block body into summary + rest.
+   * Prefers a **Samenvatting** heading; else first paragraph before a blank line
+   * or before numbered papers (**N. …).
+   */
+  function splitKlimaatBlock(md) {
+    var text = String(md || "").replace(/\r\n/g, "\n").trim();
+    if (!text) return { summary: "", body: "" };
+    var lines = text.split("\n");
+    var samenvattingRe = /^\*\*Samenvatting\*\*\s*$/i;
+    var paperRe = /^\*\*\d+\.\s/;
+    var i, j;
+
+    for (i = 0; i < lines.length; i++) {
+      if (!samenvattingRe.test(lines[i].trim())) continue;
+      var sum = [];
+      j = i + 1;
+      while (j < lines.length) {
+        var t = lines[j].trim();
+        if (t === "" || paperRe.test(lines[j]) || /^\*\*BLOK\s+/i.test(lines[j])) break;
+        sum.push(lines[j]);
+        j++;
+      }
+      while (j < lines.length && lines[j].trim() === "") j++;
+      var restParts = lines.slice(0, i).concat(lines.slice(j));
+      return { summary: sum.join("\n").trim(), body: restParts.join("\n").trim() };
+    }
+
+    var summary = [];
+    var restStart = 0;
+    var started = false;
+    for (i = 0; i < lines.length; i++) {
+      if (paperRe.test(lines[i])) {
+        restStart = i;
+        break;
+      }
+      if (lines[i].trim() === "") {
+        if (started) {
+          restStart = i + 1;
+          while (restStart < lines.length && lines[restStart].trim() === "") restStart++;
+          break;
+        }
+        restStart = i + 1;
+        continue;
+      }
+      started = true;
+      summary.push(lines[i]);
+      restStart = i + 1;
+    }
+    if (!started) return { summary: "", body: text };
+    var sumText = summary.join("\n").trim();
+    if (!sumText) return { summary: "", body: text };
+    // Italic-only subsection headers (*…*) are not a summary — keep them in the body.
+    var onlyItalicHeads = sumText.split("\n").every(function (ln) {
+      var t = ln.trim();
+      return !t || /^\*[^*\n]+\*$/.test(t);
+    });
+    if (onlyItalicHeads) return { summary: "", body: text };
+    return { summary: sumText, body: lines.slice(restStart).join("\n").trim() };
+  }
+  function klimaatTopicsHtml(activeId) {
     return '<nav class="topic-nav" aria-label="Onderwerpen">' +
-      sections.map(function (s) {
-        var on = s.id === activeId;
+      KLIMAAT_CATEGORIES.map(function (c) {
+        var id = "blok-" + c.n;
+        var on = id === activeId;
+        var label = c.n + "  " + c.title;
         return '<button type="button" class="topic-chip' + (on ? " is-active" : "") +
-          '" data-topic="' + esc(s.id) + '"' + (on ? ' aria-current="true"' : "") +
-          ' title="' + esc(s.title) + '">' + esc(s.label) + "</button>";
+          '" data-topic="' + esc(id) + '"' + (on ? ' aria-current="true"' : "") +
+          ' title="' + esc(label) + '">' + esc(label) + "</button>";
       }).join("") + "</nav>";
   }
   function renderKlimaatLatest(u) {
-    var sections = parseKlimaatSections(u.markdown);
-    if (!sections.length) {
-      return '<article class="card latest"><div class="card-date">Laatste update · ' +
-        esc(fmtDate(u.date, true)) + '</div><div class="md">' +
-        window.renderMarkdown(u.markdown) + "</div></article>";
-    }
+    var byNum = parseKlimaatBlocks(u.markdown);
     var active = state.klimaatTopic;
-    if (!sections.some(function (s) { return s.id === active; })) active = null;
+    var valid = KLIMAAT_CATEGORIES.some(function (c) { return "blok-" + c.n === active; });
+    if (!valid) active = null;
     var h = '<div class="card klimaat-topics">' +
       '<div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
       '<p class="topic-hint">' + (active ? "Onderwerp" : "Kies een onderwerp") + "</p>" +
-      klimaatTopicsHtml(sections, active);
+      klimaatTopicsHtml(active);
     if (!active) {
       h += '<p class="topic-empty">Tik op een onderwerp om alleen dat blok te lezen.</p></div>';
       return h;
     }
-    var sec = sections.filter(function (s) { return s.id === active; })[0];
+    var n = parseInt(String(active).replace(/^blok-/, ""), 10);
+    var cat = KLIMAAT_CATEGORIES.filter(function (c) { return c.n === n; })[0];
+    var raw = (byNum[n] || "").trim();
     h += '<button type="button" class="topic-back" data-topic-back="1">‹ Alle onderwerpen</button>';
-    h += '<h2 class="topic-title">' + esc(sec.title) + "</h2>";
-    h += '<div class="md">' + window.renderMarkdown(sec.markdown || "_Geen inhoud._") + "</div></div>";
+    h += '<h2 class="topic-title">' + esc(n + ". " + cat.title) + "</h2>";
+    if (!raw) {
+      h += '<p class="topic-empty-cat">Nog niets in deze categorie vandaag.</p></div>';
+      return h;
+    }
+    var parts = splitKlimaatBlock(raw);
+    if (parts.summary) {
+      h += '<div class="topic-summary md">' + window.renderMarkdown(parts.summary) + "</div>";
+    }
+    if (parts.body) {
+      h += '<div class="md">' + window.renderMarkdown(parts.body) + "</div>";
+    } else if (!parts.summary) {
+      h += '<p class="topic-empty-cat">Nog niets in deze categorie vandaag.</p>';
+    }
+    h += "</div>";
     return h;
   }
 
