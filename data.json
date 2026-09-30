@@ -1,8 +1,9 @@
 {
-  "generated_at": "2026-09-30T15:24:35+02:00",
+  "generated_at": "2026-09-30T15:47:02+02:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
+      "key": "statines",
       "name": "Statines en Gezondheid",
       "emoji": "💊",
       "color": "#E0457B",
@@ -24,6 +25,7 @@
     },
     {
       "id": "fc8435d8-909f-4dd4-ad98-401ee7160a81",
+      "key": "gv",
       "name": "Geestelijk Verzorger Vacatures",
       "emoji": "🕊️",
       "color": "#7C5CE0",
@@ -45,6 +47,7 @@
     },
     {
       "id": "20f8c9d0-401e-4622-9ab1-5b4118baac32",
+      "key": "blockchain",
       "name": "Blockchain Update",
       "emoji": "⛓️",
       "color": "#2F80ED",
@@ -66,6 +69,7 @@
     },
     {
       "id": "49692e76-c77b-46ae-9328-2144b4d7eb96",
+      "key": "crypto",
       "name": "Crypto Adviseur",
       "emoji": "🪙",
       "color": "#F2994A",
@@ -87,6 +91,7 @@
     },
     {
       "id": "80ec10c0-457b-46f7-b152-23e19cba262a",
+      "key": "klimaat",
       "name": "Klimaat Kritisch",
       "emoji": "🌍",
       "color": "#27AE60",
@@ -108,6 +113,7 @@
     },
     {
       "id": "a0738999-573e-47b3-8b79-8d39798a19a8",
+      "key": "congres",
       "name": "Congres Trades",
       "emoji": "🏛️",
       "color": "#C0392B",
@@ -124,6 +130,20 @@
         {
           "date": "2026-09-24T11:25+02:00",
           "markdown": "**Advies:** HOUD / VOLG\n**Ticker:** HD (primair); V, MA, CTAS, BRK.B\n**Waarom (1-3 zinnen):** Trump juni-OGE: 8 Home Depot-aankopen cumulatief ≈ $2,3M–$7,6M bevestigd. American Express multi-miljoen niet in juni-top; waarschijnlijk verwarring met Visa/Mastercard ($1M–$5M bands). Cumulatief HD is een van de zwaarste koopclusters in die filing.\n**Let op:** White House claimt onafhankelijk beheer; bedragen zijn wettelijke ranges. Geen formeel advies, geen garantie; Mike beslist.\n\n**Donald Trump** — check op die “grote aankopen” (geen advies)\n\nWat Mike hoorde klopt deels, met één belangrijke nuance.\n\n**Home Depot (HD)** — bevestigd. In de juni-2026 OGE Form 278-T (ingediend ≈ 12 aug, openbaar ≈ 22 aug): **8 aankopen**, samen range **≈ $2,3M–$7,6M**. Grootste enkele lijn **$1M–$5M**; o.a. rond 22 jun ook een HD-koop in die band. Bron: https://capitolmarkets.org/news/trump-june-2026-trades · Fortune/OGE juni-filing.\n\n**American Express (AXP)** — **niet** als multi-miljoen-aankoop teruggevonden in de juni-top. Wel grote aankopen in **betaalkaarten**: **Mastercard (MA)** 3× samen **≈ $1,2M–$5,5M** en **Visa (V)** 2× **≈ $1,1M–$5,3M** (o.a. 18 jun, bands $1M–$5M). Waarschijnlijk is AXP verward met V/MA. Bron: zelfde Capitol Markets / Motley Fool / Fortune.\n\n**Andere grote juni-aankopen** (zelfde filing, 1.051 trades, totaalflow ≈ $78M–$263M):\n- **Cintas (CTAS)** — ≈ $1,05M–$5,1M (2 aankopen)\n- **Berkshire Hathaway (BRK.B)** — o.a. koop **$1M–$5M** (18 jun)\n- Plus o.a. Treasury-ETF $1M–$5M\n\nContext: White House zegt onafhankelijk beheerd; bedragen zijn wettelijke **ranges**, geen exacte fills. Juli-filing (al eerder naar je gestuurd) had vooral grote **verkopen** MSFT/AMZN, niet deze HD/V/MA-cluster."
+        }
+      ]
+    },
+    {
+      "id": "afa86a2a-0022-43ff-ac11-88663fbceb34",
+      "key": "email",
+      "name": "Email Reageren",
+      "emoji": "✉️",
+      "color": "#1B4F72",
+      "subtitle": "Mails waar je op moet reageren",
+      "updates": [
+        {
+          "date": "2026-09-30T08:13+02:00",
+          "markdown": "**Actie nodig**\n\n- **Quinten / YOEP** (Outlook + Gmail van Quinten) — documenten uploaden via de YOEP-link; deadline rond **1 oktober**. Mail staat nog ongelezen in Quinten’s inbox.\n- **Marktplaats** (Outlook) — advertentie *REVITT Blaze Motorhandschoenen (large)* verloopt; verlengen als hij nog te koop is, anders laten gaan. Verwijdering op **6 oktober**.\n- **FBTO** (Outlook) — woonverzekering verlengt automatisch op **1 november** (premie ca. €417,90). Alleen iets doen als je wilt aanpassen of opzeggen.\n\nOutlook en Gmail waren bereikbaar. iCloud komt via doorsturen naar Outlook binnen."
         }
       ]
     }

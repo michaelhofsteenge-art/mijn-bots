@@ -7,6 +7,8 @@
   var DATA_KEY = "mijnbots-data";
   var CRYPTO_TRADES_KEY = "mijnbots-crypto-trades";
   var CRYPTO_BOT_ID = "49692e76-c77b-46ae-9328-2144b4d7eb96";
+  var EMAIL_BOT_ID = "afa86a2a-0022-43ff-ac11-88663fbceb34";
+  var NO_ACTION_RE = /geen\s+actie|niets\s+te\s+doen|geen\s+mails?|stil|geen\s+reactie\s+nodig/i;
   var REFRESH_MS = 60000;
   var $ = function (id) { return document.getElementById(id); };
   var state = {
@@ -387,6 +389,24 @@
   }
 
   // ---------- Weergave ----------
+  function isEmailBot(b) {
+    if (!b) return false;
+    if (b.id === EMAIL_BOT_ID) return true;
+    return b.key === "email" || /email\s*reageren/i.test(b.name || "");
+  }
+  /** Email Reageren: pulse when newest update is today (Amsterdam) and not clearly "nothing to do". */
+  function emailNeedsAction(b) {
+    if (!isEmailBot(b)) return false;
+    var u = b.updates && b.updates[0];
+    if (!u || !u.date) return false;
+    var d = new Date(u.date);
+    if (isNaN(d)) return false;
+    if (dayKey(d) !== dayKey(new Date())) return false;
+    var md = String(u.markdown || "");
+    if (NO_ACTION_RE.test(md)) return false;
+    return true;
+  }
+
   function renderHome() {
     var d = state.data;
     var r = $("refreshed");
@@ -399,12 +419,16 @@
     r.textContent = "Laatst bijgewerkt: " + stamp + (state.fromCache ? " · offline" : "");
     $("botList").innerHTML = d.bots.map(function (b) {
       var u = b.updates && b.updates[0];
-      return '<button type="button" class="bot-btn" style="--c:' + esc(b.color || "#666") + '" data-id="' + esc(b.id) + '">' +
-        '<span class="bot-emoji">' + esc(b.emoji || "🤖") + "</span>" +
-        '<span class="bot-text"><span class="bot-name">' + esc(b.name) + "</span>" +
+      var needs = emailNeedsAction(b);
+      var cls = "bot-btn" + (needs ? " bot-btn--action" : "");
+      var badge = needs ? '<span class="bot-badge" aria-label="Actie nodig">Actie</span>' : "";
+      return '<button type="button" class="' + cls + '" style="--c:' + esc(b.color || "#666") + '" data-id="' + esc(b.id) + '"' +
+        (needs ? ' aria-description="Actie vandaag"' : "") + '>' +
+        '<span class="bot-emoji" aria-hidden="true">' + esc(b.emoji || "🤖") + "</span>" +
+        '<span class="bot-text"><span class="bot-name-row"><span class="bot-name">' + esc(b.name) + "</span>" + badge + "</span>" +
         '<span class="bot-sub">' + esc(b.subtitle || "") + "</span>" +
-        '<span class="bot-date">' + (u ? "🕒 " + esc(fmtDate(u.date)) : "Nog geen update beschikbaar") + "</span></span>" +
-        '<span class="bot-chev">›</span></button>';
+        '<span class="bot-date">' + (u ? esc(fmtDate(u.date)) : "Nog geen update") + "</span></span>" +
+        '<span class="bot-chev" aria-hidden="true">›</span></button>';
     }).join("");
     showChromeTips();
   }

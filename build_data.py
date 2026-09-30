@@ -58,7 +58,7 @@ def main() -> int:
             text = f.read_text(encoding="utf-8").strip()
             if text:
                 updates.append({"date": parse_stamp(f).isoformat(timespec="minutes"), "markdown": text})
-        out["bots"].append({k: b[k] for k in ("id", "name", "emoji", "color", "subtitle")} | {"updates": updates})
+        out["bots"].append({k: b[k] for k in ("id", "key", "name", "emoji", "color", "subtitle") if k in b} | {"updates": updates})
         print(f"{b['name']:34s} {len(updates)} update(s)" + (f", nieuwste {updates[0]['date']}" if updates else " -> 'Nog geen update beschikbaar'"))
 
     if args.check:
