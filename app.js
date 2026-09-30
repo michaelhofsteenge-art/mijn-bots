@@ -423,13 +423,12 @@
     if (sp > 12) cut = cut.slice(0, sp);
     return cut.replace(/[.,;:–—-]+$/, "") + "…";
   }
-  /** Parse Klimaat digest: Samenvatting + present **BLOK N: title** sections only. */
+  /** Parse Klimaat digest: only present **BLOK N: title** sections (no Samenvatting chip). */
   function parseKlimaatSections(md) {
     var text = String(md || "").replace(/\r\n/g, "\n");
     var lines = text.split("\n");
     var blokRe = /^\*\*BLOK\s+(\d+)\s*:\s*(.+?)\*\*\s*$/i;
     var sections = [];
-    var summary = [];
     var cur = null;
     var started = false;
     function pushCur() {
@@ -451,19 +450,9 @@
         cur = { id: "blok-" + m[1], title: String(m[2]).trim(), lines: [] };
         continue;
       }
-      if (!started) summary.push(line);
-      else if (cur) cur.lines.push(line);
+      if (started && cur) cur.lines.push(line);
     }
     pushCur();
-    var sumMd = summary.join("\n").trim();
-    if (sumMd) {
-      sections.unshift({
-        id: "summary",
-        title: "Samenvatting",
-        label: "Samenvatting",
-        markdown: sumMd
-      });
-    }
     return sections;
   }
   function klimaatTopicsHtml(sections, activeId) {
@@ -477,7 +466,7 @@
   }
   function renderKlimaatLatest(u) {
     var sections = parseKlimaatSections(u.markdown);
-    if (sections.length < 2) {
+    if (!sections.length) {
       return '<article class="card latest"><div class="card-date">Laatste update · ' +
         esc(fmtDate(u.date, true)) + '</div><div class="md">' +
         window.renderMarkdown(u.markdown) + "</div></article>";
@@ -509,7 +498,13 @@
     }
     var stamp = d.generated_at ? fmtDate(d.generated_at) : "onbekend";
     r.textContent = "Laatst bijgewerkt: " + stamp + (state.fromCache ? " · offline" : "");
-    $("botList").innerHTML = d.bots.map(function (b) {
+    // Email Reageren always first; preserve relative order of the rest.
+    var bots = d.bots.slice().sort(function (a, b) {
+      var ae = isEmailBot(a) ? 0 : 1;
+      var be = isEmailBot(b) ? 0 : 1;
+      return ae - be;
+    });
+    $("botList").innerHTML = bots.map(function (b) {
       var u = b.updates && b.updates[0];
       var needs = emailNeedsAction(b);
       var cls = "bot-btn" + (needs ? " bot-btn--action" : "");

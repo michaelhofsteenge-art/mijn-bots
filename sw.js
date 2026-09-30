@@ -1,7 +1,7 @@
 // Service worker voor Mijn Bots.
 // - App-bestanden: cache-first (verhoog VERSION na elke wijziging aan HTML/JS/CSS/iconen).
 // - data.json: network-first (altijd nieuwste updates), bij offline de laatst opgeslagen versie.
-const VERSION = "v5";
+const VERSION = "v6";
 const SHELL_CACHE = "mijnbots-shell-" + VERSION;
 const DATA_CACHE = "mijnbots-data";
 const SHELL = [
