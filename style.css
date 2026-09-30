@@ -386,15 +386,29 @@ details.hist[open] summary {
   margin: 0 0 10px; font-size: 17px; font-weight: 700;
   letter-spacing: -0.02em; line-height: 1.25;
 }
-.topic-summary {
+.topic-summary, .topic-conclusion {
   margin: 0 0 14px; padding: 12px 14px;
   border-radius: 12px;
+  font-size: 15px; line-height: 1.45;
+}
+.topic-summary {
   border: 1px solid color-mix(in srgb, var(--link) 22%, var(--line));
   background: color-mix(in srgb, var(--link) 8%, var(--card));
-  font-size: 15px; font-weight: 650; line-height: 1.45;
+  font-weight: 650;
 }
-.topic-summary.md > :first-child { margin-top: 0; }
-.topic-summary.md > :last-child { margin-bottom: 0; }
+.topic-conclusion {
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line));
+  background: color-mix(in srgb, var(--accent) 10%, var(--card));
+  font-weight: 600;
+}
+.topic-section-label {
+  margin: 0 0 6px; color: var(--fg);
+  font-size: 12px; font-weight: 800; letter-spacing: .02em;
+}
+.topic-summary .md > :first-child,
+.topic-conclusion .md > :first-child { margin-top: 0; }
+.topic-summary .md > :last-child,
+.topic-conclusion .md > :last-child { margin-bottom: 0; }
 .topic-empty-cat {
   margin: 8px 0 0; padding: 14px 12px;
   border-radius: 10px; background: var(--code);

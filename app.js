@@ -541,27 +541,56 @@
    */
   function splitKlimaatBlock(md) {
     var text = String(md || "").replace(/\r\n/g, "\n").trim();
-    if (!text) return { summary: "", body: "" };
+    if (!text) return { summary: "", conclusion: "", body: "" };
     var lines = text.split("\n");
-    var samenvattingRe = /^\*\*Samenvatting\*\*\s*$/i;
-    var paperRe = /^\*\*\d+\.\s/;
-    var i, j;
+    var paperRe = /^\s*\*\*\d+\.\s/;
+    var blockRe = /^\s*\*\*BLOK\b/i;
 
-    for (i = 0; i < lines.length; i++) {
-      if (!samenvattingRe.test(lines[i].trim())) continue;
-      var sum = [];
-      j = i + 1;
-      while (j < lines.length) {
-        var t = lines[j].trim();
-        if (t === "" || paperRe.test(lines[j]) || /^\*\*BLOK\s+/i.test(lines[j])) break;
-        sum.push(lines[j]);
-        j++;
-      }
-      while (j < lines.length && lines[j].trim() === "") j++;
-      var restParts = lines.slice(0, i).concat(lines.slice(j));
-      return { summary: sum.join("\n").trim(), body: restParts.join("\n").trim() };
+    // Accept both **Samenvatting** and **Samenvatting:** text forms.
+    function sectionHeading(line) {
+      var t = line.trim();
+      var m = t.match(/^\*\*(Samenvatting|Conclusie)\s*:\s*\*\*\s*(.*)$/i);
+      if (m) return { kind: m[1].toLowerCase(), inline: m[2] || "" };
+      m = t.match(/^\*\*(Samenvatting|Conclusie)\s*\*\*\s*:?\s*(.*)$/i);
+      if (m) return { kind: m[1].toLowerCase(), inline: m[2] || "" };
+      return null;
+    }
+    function isBoundary(line) {
+      return !!sectionHeading(line) || blockRe.test(line) || paperRe.test(line);
     }
 
+    // Extract all labeled sections first, so their display order is stable.
+    var sections = [];
+    for (var i = 0; i < lines.length; i++) {
+      var heading = sectionHeading(lines[i]);
+      if (!heading) continue;
+      var end = i + 1;
+      while (end < lines.length && !isBoundary(lines[end])) end++;
+      var sectionLines = [];
+      if (heading.inline) sectionLines.push(heading.inline);
+      for (var j = i + 1; j < end; j++) sectionLines.push(lines[j]);
+      sections.push({ kind: heading.kind, start: i, end: end, text: sectionLines.join("\n").trim() });
+      i = end - 1;
+    }
+    if (sections.length) {
+      var removed = {};
+      sections.forEach(function (section) {
+        for (var k = section.start; k < section.end; k++) removed[k] = true;
+      });
+      var bodyLines = [];
+      for (var b = 0; b < lines.length; b++) {
+        if (!removed[b]) bodyLines.push(lines[b]);
+      }
+      return {
+        summary: sections.filter(function (s) { return s.kind === "samenvatting"; })
+          .map(function (s) { return s.text; }).filter(Boolean).join("\n\n"),
+        conclusion: sections.filter(function (s) { return s.kind === "conclusie"; })
+          .map(function (s) { return s.text; }).filter(Boolean).join("\n\n"),
+        body: bodyLines.join("\n").trim()
+      };
+    }
+
+    // Legacy files may have an unlabeled introductory summary.
     var summary = [];
     var restStart = 0;
     var started = false;
@@ -583,16 +612,20 @@
       summary.push(lines[i]);
       restStart = i + 1;
     }
-    if (!started) return { summary: "", body: text };
+    if (!started) return { summary: "", conclusion: "", body: text };
     var sumText = summary.join("\n").trim();
-    if (!sumText) return { summary: "", body: text };
+    if (!sumText) return { summary: "", conclusion: "", body: text };
     // Italic-only subsection headers (*…*) are not a summary — keep them in the body.
     var onlyItalicHeads = sumText.split("\n").every(function (ln) {
       var t = ln.trim();
       return !t || /^\*[^*\n]+\*$/.test(t);
     });
-    if (onlyItalicHeads) return { summary: "", body: text };
-    return { summary: sumText, body: lines.slice(restStart).join("\n").trim() };
+    if (onlyItalicHeads) return { summary: "", conclusion: "", body: text };
+    return {
+      summary: sumText,
+      conclusion: "",
+      body: lines.slice(restStart).join("\n").trim()
+    };
   }
   function klimaatTopicsHtml(activeId) {
     return '<nav class="topic-nav" aria-label="Onderwerpen">' +
@@ -629,7 +662,10 @@
     }
     var parts = splitKlimaatBlock(raw);
     if (parts.summary) {
-      h += '<div class="topic-summary md">' + window.renderMarkdown(parts.summary) + "</div>";
+      h += '<div class="topic-summary"><div class="topic-section-label">Samenvatting</div><div class="md">' + window.renderMarkdown(parts.summary) + "</div></div>";
+    }
+    if (parts.conclusion) {
+      h += '<div class="topic-conclusion"><div class="topic-section-label">Conclusie</div><div class="md">' + window.renderMarkdown(parts.conclusion) + "</div></div>";
     }
     if (parts.body) {
       h += '<div class="md">' + window.renderMarkdown(parts.body) + "</div>";
