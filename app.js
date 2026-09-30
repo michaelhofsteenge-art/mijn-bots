@@ -669,7 +669,7 @@
     }
     if (parts.body) {
       h += '<div class="md">' + window.renderMarkdown(parts.body) + "</div>";
-    } else if (!parts.summary) {
+    } else if (!parts.summary && !parts.conclusion) {
       h += '<p class="topic-empty-cat">Nog niets in deze categorie vandaag.</p>';
     }
     h += "</div>";
