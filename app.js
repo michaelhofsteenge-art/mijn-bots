@@ -6,6 +6,7 @@
   var PIN_HASH_KEY = "mijnbots-pin-hash";
   var DATA_KEY = "mijnbots-data";
   var CRYPTO_TRADES_KEY = "mijnbots-crypto-trades";
+  var EMAIL_CHECKS_KEY = "mijnbots-email-checks";
   var CRYPTO_BOT_ID = "49692e76-c77b-46ae-9328-2144b4d7eb96";
   var EMAIL_BOT_ID = "afa86a2a-0022-43ff-ac11-88663fbceb34";
   var KLIMAAT_BOT_ID = "80ec10c0-457b-46f7-b152-23e19cba262a";
@@ -396,7 +397,85 @@
     if (b.id === EMAIL_BOT_ID) return true;
     return b.key === "email" || /email\s*reageren/i.test(b.name || "");
   }
-  /** Email Reageren: pulse when newest update is today (Amsterdam) and not clearly "nothing to do". */
+  /** Top-level markdown list items: lines starting with "- ". */
+  function parseEmailActionItems(md) {
+    var items = [];
+    String(md || "").replace(/\r\n/g, "\n").split("\n").forEach(function (line) {
+      var m = line.match(/^\s*-\s+(.+)$/);
+      if (m) items.push(m[1].replace(/\s+/g, " ").trim());
+    });
+    return items;
+  }
+  function hashItemText(s) {
+    var h = 5381, t = String(s || "");
+    for (var i = 0; i < t.length; i++) h = ((h << 5) + h) ^ t.charCodeAt(i);
+    return (h >>> 0).toString(36);
+  }
+  function emailCheckStorageKey(dateStr, itemText) {
+    return dateStr + "|" + hashItemText(itemText);
+  }
+  function loadEmailChecks() {
+    try { return JSON.parse(localStorage.getItem(EMAIL_CHECKS_KEY) || "{}") || {}; }
+    catch (e) { return {}; }
+  }
+  function saveEmailChecks(obj) {
+    try { localStorage.setItem(EMAIL_CHECKS_KEY, JSON.stringify(obj)); } catch (e) {}
+  }
+  function isEmailItemChecked(dateStr, itemText) {
+    return !!loadEmailChecks()[emailCheckStorageKey(dateStr, itemText)];
+  }
+  function setEmailItemChecked(dateStr, itemText, checked) {
+    var o = loadEmailChecks();
+    var k = emailCheckStorageKey(dateStr, itemText);
+    if (checked) o[k] = 1; else delete o[k];
+    saveEmailChecks(o);
+  }
+  function renderEmailChecklist(dateStr, items) {
+    return '<ul class="email-checklist" role="list">' + items.map(function (text) {
+      var on = isEmailItemChecked(dateStr, text);
+      var hash = hashItemText(text);
+      return '<li class="email-check-row' + (on ? " is-checked" : "") + '">' +
+        '<label class="email-check-label">' +
+        '<input type="checkbox" class="email-check" data-date="' + esc(dateStr) +
+        '" data-hash="' + esc(hash) + '" data-item="' + esc(text) + '"' +
+        (on ? " checked" : "") + ">" +
+        '<span class="email-check-text md">' + window.renderMarkdown(text) + "</span>" +
+        "</label></li>";
+    }).join("") + "</ul>";
+  }
+  /** Newest Email Reageren update: list items become tickable rows. */
+  function renderEmailLatest(u) {
+    var dateStr = dayKey(new Date(u.date));
+    var lines = String(u.markdown || "").replace(/\r\n/g, "\n").split("\n");
+    var parts = [], buf = [];
+    function flushBuf() {
+      if (!buf.length) return;
+      var chunk = buf.join("\n").trim();
+      buf = [];
+      if (chunk) parts.push('<div class="md">' + window.renderMarkdown(chunk) + "</div>");
+    }
+    for (var i = 0; i < lines.length; i++) {
+      if (/^\s*-\s+/.test(lines[i])) {
+        flushBuf();
+        var items = [];
+        while (i < lines.length) {
+          var m = lines[i].match(/^\s*-\s+(.+)$/);
+          if (!m) break;
+          items.push(m[1].replace(/\s+/g, " ").trim());
+          i++;
+        }
+        i--;
+        if (items.length) parts.push(renderEmailChecklist(dateStr, items));
+      } else {
+        buf.push(lines[i]);
+      }
+    }
+    flushBuf();
+    return '<article class="card latest"><div class="card-date">Laatste update · ' +
+      esc(fmtDate(u.date, true)) + "</div>" + parts.join("") + "</article>";
+  }
+  /** Email Reageren: pulse when newest update is today and still has unchecked list items
+   *  (or, with zero list items, when text is not clearly "nothing to do"). */
   function emailNeedsAction(b) {
     if (!isEmailBot(b)) return false;
     var u = b.updates && b.updates[0];
@@ -405,6 +484,11 @@
     if (isNaN(d)) return false;
     if (dayKey(d) !== dayKey(new Date())) return false;
     var md = String(u.markdown || "");
+    var items = parseEmailActionItems(md);
+    if (items.length > 0) {
+      var dk = dayKey(d);
+      return items.some(function (t) { return !isEmailItemChecked(dk, t); });
+    }
     if (NO_ACTION_RE.test(md)) return false;
     return true;
   }
@@ -534,6 +618,8 @@
     } else {
       if (klimaat) {
         h += renderKlimaatLatest(ups[0]);
+      } else if (isEmailBot(b)) {
+        h += renderEmailLatest(ups[0]);
       } else {
         h += '<article class="card latest"><div class="card-date">Laatste update · ' + esc(fmtDate(ups[0].date, true)) + '</div><div class="md">' + window.renderMarkdown(ups[0].markdown) + "</div></article>";
       }
@@ -594,6 +680,15 @@
       if (m2) renderDetail(decodeURIComponent(m2[1]));
       window.scrollTo(0, 0);
     }
+  });
+  $("detailBody").addEventListener("change", function (e) {
+    var cb = e.target.closest("input.email-check");
+    if (!cb) return;
+    var dateStr = cb.getAttribute("data-date") || "";
+    var itemText = cb.getAttribute("data-item") || "";
+    setEmailItemChecked(dateStr, itemText, cb.checked);
+    var row = cb.closest(".email-check-row");
+    if (row) row.classList.toggle("is-checked", cb.checked);
   });
 
   $("botList").addEventListener("click", function (e) {

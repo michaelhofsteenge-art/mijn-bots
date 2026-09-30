@@ -386,3 +386,51 @@ details.hist[open] summary {
   margin: 0 0 10px; font-size: 17px; font-weight: 700;
   letter-spacing: -0.02em; line-height: 1.25;
 }
+
+/* ---------- Email action checkboxes ---------- */
+.email-checklist {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.email-check-row {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--card) 92%, var(--bg));
+  transition: opacity .15s ease, border-color .15s ease;
+}
+.email-check-row.is-checked {
+  opacity: 0.52;
+  border-color: color-mix(in srgb, var(--line) 70%, transparent);
+}
+.email-check-row.is-checked .email-check-text {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.email-check-label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  cursor: pointer;
+  min-height: 44px;
+}
+.email-check {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 3px;
+  accent-color: var(--action);
+}
+.email-check-text {
+  flex: 1;
+  min-width: 0;
+  font-size: 15px;
+  line-height: 1.45;
+}
+.email-check-text p { margin: 0; }
+.email-check-text p + p { margin-top: 6px; }
