@@ -8,13 +8,15 @@
   var CRYPTO_TRADES_KEY = "mijnbots-crypto-trades";
   var CRYPTO_BOT_ID = "49692e76-c77b-46ae-9328-2144b4d7eb96";
   var EMAIL_BOT_ID = "afa86a2a-0022-43ff-ac11-88663fbceb34";
+  var KLIMAAT_BOT_ID = "80ec10c0-457b-46f7-b152-23e19cba262a";
   var NO_ACTION_RE = /geen\s+actie|niets\s+te\s+doen|geen\s+mails?|stil|geen\s+reactie\s+nodig/i;
   var REFRESH_MS = 60000;
   var $ = function (id) { return document.getElementById(id); };
   var state = {
     data: null, pin: "", fetchedAt: null, fromCache: false,
     pinFlow: null, // null | { step, current, firstNew }
-    refreshTimer: null
+    refreshTimer: null,
+    klimaatTopic: null
   };
 
   // ---------- SHA-256 (WebCrypto, met JS-fallback voor niet-HTTPS testen) ----------
@@ -407,6 +409,96 @@
     return true;
   }
 
+  function isKlimaatBot(b) {
+    if (!b) return false;
+    if (b.id === KLIMAAT_BOT_ID) return true;
+    return b.key === "klimaat" || /klimaat\s*kritisch/i.test(b.name || "");
+  }
+  function shortTopicLabel(title, maxLen) {
+    maxLen = maxLen || 36;
+    var s = String(title || "").replace(/\s+/g, " ").trim();
+    if (s.length <= maxLen) return s;
+    var cut = s.slice(0, maxLen - 1);
+    var sp = cut.lastIndexOf(" ");
+    if (sp > 12) cut = cut.slice(0, sp);
+    return cut.replace(/[.,;:–—-]+$/, "") + "…";
+  }
+  /** Parse Klimaat digest: Samenvatting + present **BLOK N: title** sections only. */
+  function parseKlimaatSections(md) {
+    var text = String(md || "").replace(/\r\n/g, "\n");
+    var lines = text.split("\n");
+    var blokRe = /^\*\*BLOK\s+(\d+)\s*:\s*(.+?)\*\*\s*$/i;
+    var sections = [];
+    var summary = [];
+    var cur = null;
+    var started = false;
+    function pushCur() {
+      if (!cur) return;
+      sections.push({
+        id: cur.id,
+        title: cur.title,
+        label: shortTopicLabel(cur.title),
+        markdown: cur.lines.join("\n").trim()
+      });
+      cur = null;
+    }
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      var m = line.match(blokRe);
+      if (m) {
+        pushCur();
+        started = true;
+        cur = { id: "blok-" + m[1], title: String(m[2]).trim(), lines: [] };
+        continue;
+      }
+      if (!started) summary.push(line);
+      else if (cur) cur.lines.push(line);
+    }
+    pushCur();
+    var sumMd = summary.join("\n").trim();
+    if (sumMd) {
+      sections.unshift({
+        id: "summary",
+        title: "Samenvatting",
+        label: "Samenvatting",
+        markdown: sumMd
+      });
+    }
+    return sections;
+  }
+  function klimaatTopicsHtml(sections, activeId) {
+    return '<nav class="topic-nav" aria-label="Onderwerpen">' +
+      sections.map(function (s) {
+        var on = s.id === activeId;
+        return '<button type="button" class="topic-chip' + (on ? " is-active" : "") +
+          '" data-topic="' + esc(s.id) + '"' + (on ? ' aria-current="true"' : "") +
+          ' title="' + esc(s.title) + '">' + esc(s.label) + "</button>";
+      }).join("") + "</nav>";
+  }
+  function renderKlimaatLatest(u) {
+    var sections = parseKlimaatSections(u.markdown);
+    if (sections.length < 2) {
+      return '<article class="card latest"><div class="card-date">Laatste update · ' +
+        esc(fmtDate(u.date, true)) + '</div><div class="md">' +
+        window.renderMarkdown(u.markdown) + "</div></article>";
+    }
+    var active = state.klimaatTopic;
+    if (!sections.some(function (s) { return s.id === active; })) active = null;
+    var h = '<div class="card klimaat-topics">' +
+      '<div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
+      '<p class="topic-hint">' + (active ? "Onderwerp" : "Kies een onderwerp") + "</p>" +
+      klimaatTopicsHtml(sections, active);
+    if (!active) {
+      h += '<p class="topic-empty">Tik op een onderwerp om alleen dat blok te lezen.</p></div>';
+      return h;
+    }
+    var sec = sections.filter(function (s) { return s.id === active; })[0];
+    h += '<button type="button" class="topic-back" data-topic-back="1">‹ Alle onderwerpen</button>';
+    h += '<h2 class="topic-title">' + esc(sec.title) + "</h2>";
+    h += '<div class="md">' + window.renderMarkdown(sec.markdown || "_Geen inhoud._") + "</div></div>";
+    return h;
+  }
+
   function renderHome() {
     var d = state.data;
     var r = $("refreshed");
@@ -439,11 +531,17 @@
     $("detailEmoji").textContent = b.emoji || "🤖";
     $("detailName").textContent = b.name;
     var ups = b.updates || [], h = "";
+    var klimaat = isKlimaatBot(b);
+    if (!klimaat) state.klimaatTopic = null;
     if (isCryptoBot(b)) h += cryptoPanelHtml();
     if (!ups.length) {
       h += '<div class="card empty-card"><p class="big-empty">Nog geen update beschikbaar</p><p>Deze bot heeft nog geen rapport gestuurd. Kom later terug.</p></div>';
     } else {
-      h += '<article class="card latest"><div class="card-date">Laatste update · ' + esc(fmtDate(ups[0].date, true)) + '</div><div class="md">' + window.renderMarkdown(ups[0].markdown) + "</div></article>";
+      if (klimaat) {
+        h += renderKlimaatLatest(ups[0]);
+      } else {
+        h += '<article class="card latest"><div class="card-date">Laatste update · ' + esc(fmtDate(ups[0].date, true)) + '</div><div class="md">' + window.renderMarkdown(ups[0].markdown) + "</div></article>";
+      }
       if (ups.length > 1) {
         h += '<h2 class="hist-title">Eerdere updates</h2>';
         h += ups.slice(1).map(function (u) {
@@ -467,16 +565,41 @@
     if (!isUnlocked()) { if ($("lock").hidden) showLock(); return; }
     var m = location.hash.match(/^#\/bot\/(.+)$/);
     if (m && state.data) {
-      renderDetail(decodeURIComponent(m[1]));
+      var botId = decodeURIComponent(m[1]);
+      if (state._detailBotId !== botId) {
+        state.klimaatTopic = null;
+        state._detailBotId = botId;
+      }
+      renderDetail(botId);
       $("home").hidden = true; $("detail").hidden = false; window.scrollTo(0, 0);
       stopHomeRefresh();
     } else {
+      state.klimaatTopic = null;
+      state._detailBotId = null;
       renderHome();
       $("detail").hidden = true; $("home").hidden = false;
       startHomeRefresh();
     }
   }
   function render() { route(); }
+
+  $("detailBody").addEventListener("click", function (e) {
+    var back = e.target.closest("[data-topic-back]");
+    if (back) {
+      state.klimaatTopic = null;
+      var m = location.hash.match(/^#\/bot\/(.+)$/);
+      if (m) renderDetail(decodeURIComponent(m[1]));
+      window.scrollTo(0, 0);
+      return;
+    }
+    var chip = e.target.closest(".topic-chip");
+    if (chip) {
+      state.klimaatTopic = chip.getAttribute("data-topic");
+      var m2 = location.hash.match(/^#\/bot\/(.+)$/);
+      if (m2) renderDetail(decodeURIComponent(m2[1]));
+      window.scrollTo(0, 0);
+    }
+  });
 
   $("botList").addEventListener("click", function (e) {
     var b = e.target.closest(".bot-btn"); if (b) location.hash = "#/bot/" + encodeURIComponent(b.getAttribute("data-id"));
