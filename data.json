@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T07:47:47+02:00",
+  "generated_at": "2026-10-01T08:14:22+02:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -141,6 +141,10 @@
       "color": "#1B4F72",
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
+        {
+          "date": "2026-10-01T08:12+02:00",
+          "markdown": "**Actie nodig**\n- Uyên/YOEP (Outlook + Quinten Gmail) — documenten Quinten; deadline vandaag; nagaan of hij aanlevert\n- Marktplaats (Outlook) — REVITT Blaze Motorhandschoenen verlengen of laten verlopen (6 okt)\n- FBTO (Outlook) — woonverzekering auto-verlenging 1 nov; alleen als je wilt aanpassen/opzeggen"
+        },
         {
           "date": "2026-09-30T08:13+02:00",
           "markdown": "**Actie nodig**\n\n- **Quinten / YOEP** (Outlook + Gmail van Quinten) — documenten uploaden via de YOEP-link; deadline rond **1 oktober**. Mail staat nog ongelezen in Quinten’s inbox.\n- **Marktplaats** (Outlook) — advertentie *REVITT Blaze Motorhandschoenen (large)* verloopt; verlengen als hij nog te koop is, anders laten gaan. Verwijdering op **6 oktober**.\n- **FBTO** (Outlook) — woonverzekering verlengt automatisch op **1 november** (premie ca. €417,90). Alleen iets doen als je wilt aanpassen of opzeggen.\n\nOutlook en Gmail waren bereikbaar. iCloud komt via doorsturen naar Outlook binnen."
