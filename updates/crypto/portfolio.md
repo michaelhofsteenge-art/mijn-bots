@@ -1,18 +1,18 @@
 # Portfolio Crypto Adviseur
 
-Laatst bijgewerkt: 2026-09-29 12:02 CEST (Europe/Amsterdam)
-Bron: Mike bevestigde op 28-09-2026 T1 en T2 voor BTC en XRP. Exacte uitvoeringskoersen nog niet doorgegeven.
+Laatst bijgewerkt: 2026-10-02 08:02 CEST (Europe/Amsterdam)
+Bron: Mike bevestigde op 28-09-2026 T1 en T2 voor BTC en XRP. Exacte uitvoeringskoersen nog niet doorgegeven. Piek BTC bijgewerkt na 24u-hoog Kraken.
 
 ## Openstaande posities
 
 ### BTC
 - Open: ~0,1199 BTC
 - Gemiddelde aankoop: ~€59.726
-- Bewaakte piek: €76.350,50
-- Trailing stop (90%): €68.715,45
+- Bewaakte piek: €77.167,50
+- Trailing stop (90%): €69.450,75
 - Scenario's:
-  - **Vasthouden** zolang prijs boven €68.715 blijft.
-  - **Verkoop rest** bij koers ≤ €68.715 (spoed).
+  - **Vasthouden** zolang prijs boven €69.450,75 blijft.
+  - **Verkoop rest** bij koers ≤ €69.450,75 (spoed).
   - **Herinstap overwegen** bij dip onder ~€59.726 (onder gemiddelde aankoop), met cash uit T1/T2 apart houden.
   - Bij nieuwe piek: stopdrempel herberekenen (90% van nieuwe piek).
 

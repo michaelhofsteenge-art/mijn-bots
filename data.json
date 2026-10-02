@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-02T07:49:25+02:00",
+  "generated_at": "2026-10-02T08:02:45+02:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -76,16 +76,16 @@
       "subtitle": "Crypto-markt & advies",
       "updates": [
         {
+          "date": "2026-10-02T08:02+02:00",
+          "markdown": "Nieuwe BTC-piek: €77.167,50 (24u-hoog Kraken). Trailing stop (90%) staat nu op €69.450,75 — vasthouden zolang daarboven; rest (~0,1199 BTC) verkopen bij koers ≤ die drempel. Cash apart houden voor herinstap.\n\nXRP ongewijzigd: piek €1,45000, stop €1,276. Geen spoed of koopdip.\n\n## Portfolio\n- **BTC:** ~0,1199 open · gem. ~€59.726 · piek €77.167,50 · stop €69.450,75\n- **XRP:** ~582,27 open · gem. ~€0,7424 · piek €1,45000 · stop €1,276"
+        },
+        {
           "date": "2026-09-28T23:33+02:00",
           "markdown": "Top, dan is de winstneming rond. De bewaking staat nu alleen nog op je restposities: ongeveer 0,1199 BTC en 582,27 XRP. Je krijgt geen T1/T2-herinneringen meer.\n\nIk stuur je alleen nog een bericht in deze gevallen:\n- **Spoed** als BTC onder €68.715 zakt of XRP onder €1,276. Dan is mijn advies om de rest van die munt te verkopen.\n- Een koopdip onder je gemiddelde aankoopprijs (BTC ongeveer €59.726, XRP ongeveer €0,742).\n- Een nieuwe piek, waarmee de stopdrempel omhoog schuift. Dat meld ik hooguit één keer per dag per munt.\n\nXRP staat trouwens nog maar een paar procent boven die €1,276. Dat is dus de drempel om in de gaten te houden. De checks die vanmiddag vastliepen heb ik opnieuw ingesteld. Ze starten morgen om 08:01 weer."
         },
         {
           "date": "2026-09-28T08:01+02:00",
           "markdown": "Goedemorgen Mike, dit is je wekelijkse herinnering. Je winstneming T1 en T2 staat nog open. BTC staat nu rond €73.046 en XRP rond €1,303.\n\nHet advies blijft om op Coinmerce **0,0981 BTC** te verkopen (T1 en T2 zijn elk 0,04905 BTC) en **643,56 XRP** (T1 is 337,10 en T2 is 306,46).\n\nXRP is sinds gisteravond gezakt en zit nu nog maar ongeveer 2% boven de trailing stop van €1,276. Als XRP daaronder komt, krijg je van mij een spoedmelding om de hele XRP-positie te verkopen. Nu T1/T2 uitvoeren zou je dus een deel van de winst vastzetten voordat het zover is. BTC zit nog ruim boven de trailing stop van €68.715.\n\nDe orders plaats je zelf. Laat het even weten als T1/T2 gedaan zijn."
-        },
-        {
-          "date": "2026-09-27T08:06+02:00",
-          "markdown": "Goedemorgen Mike. Je winstneming staat nog open. BTC staat rond €74.214 en XRP rond €1,335, dus je zit nog ruim in de plus. Het advies blijft om op Coinmerce **0,0981 BTC** en **643,56 XRP** te verkopen (T1 en T2 samen).\n\nJe hebt al een paar dagen niet gereageerd op deze herinnering, en ik wil je niet elke ochtend hetzelfde bericht sturen. Vanaf nu herinner ik je daarom alleen nog op **maandagochtend** aan T1/T2. Ook krijg je een melding als BTC of XRP boven de vorige piek uitkomt, want dan wordt winst nemen extra interessant.\n\nDe spoedmeldingen blijven gewoon aan. Die krijg je als een trailing stop geraakt wordt (BTC onder €68.715 of XRP onder €1,276), bij een koopdip onder je gemiddelde aankoopprijs of bij een grote beweging. Zeg het als je de dagelijkse herinnering terug wilt, of als je T1/T2 al hebt gedaan."
         }
       ]
     },
