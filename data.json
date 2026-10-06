@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-06T07:56:34+02:00",
+  "generated_at": "2026-10-06T08:17:32+02:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -142,16 +142,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-10-06T08:17+02:00",
+          "markdown": "**Actie nodig**\n\nGeen nieuwe actiemail vannacht. Nog open:\n\n**Vandaag**\n- Marktplaats (Outlook): advertentie 'REVITT Blaze Motorhandschoenen (large)' wordt vandaag (6 okt) automatisch verwijderd. Verlengen als hij nog te koop staat, anders laten verlopen.\n\n**Deze week**\n- OSB Academie (Outlook): nieuwe studentenomgeving activeren via avgu.eduframe.nl ('wachtwoord vergeten'). Volgende infosessie do 8 okt 14:00.\n- FBTO (Outlook): oude woonverzekering is per 1 okt gestopt; in MijnFBTO checken of de nieuwe dekking actief is (klantnr 6851981).\n\n**Voor Quinten (achterstallig)**\n- YOEP via Uyên (Quinten's Gmail, jij in CC): Quinten moest uiterlijk 1 okt documenten aanleveren voor de wachtlijst hulpverlening. Mail staat nog ongelezen; even bij Quinten nagaan.\n\nAlle mailboxen bereikbaar (Outlook, Quinten's Gmail, iCloud via doorsturen naar Outlook)."
+        },
+        {
           "date": "2026-10-05T08:21+02:00",
           "markdown": "**Actie nodig**\nGeen nieuwe actiemails sinds gisteravond. Nog open:\n- OSB/AVGU (Outlook) — Eduframe-Canvas studentenomgeving activeren (avgu.eduframe.nl, zo nodig \"wachtwoord vergeten\"); infosessie **vandaag 19:30** (ook do 8 okt 14:00)\n- Marktplaats (Outlook) — REVITT Blaze Motorhandschoenen verlengen of laten verlopen; wordt **morgen 6 okt** verwijderd\n- FBTO (Outlook) — oude woonpolis gestopt 1 okt; check in MijnFBTO of nieuwe dekking actief is (klantnr 6851981)\n- YOEP / Uyên (Quinten Gmail, nog ongelezen) — documenten voor Quinten; deadline 1 okt verstreken; navragen of hij heeft aangeleverd"
         },
         {
           "date": "2026-10-04T08:16+02:00",
           "markdown": "**Actie nodig**\n- YOEP / Uyên (Quinten Gmail, nog UNREAD) — documenten Quinten; deadline 1 okt verstreken; nagaan of hij aanlevert\n- FBTO (Outlook) — oude polis gestopt 1 okt; check of nieuwe woonverzekering actief is (MijnFBTO, klantnr 6851981)\n- OSB/AVGU (Outlook) — Eduframe-Canvas activeren (avgu.eduframe.nl); infosessie ma 5 okt 19:30\n- Marktplaats — REVITT Blaze Motorhandschoenen verlengen of laten verlopen (6 okt; herinneringsmail weg)"
-        },
-        {
-          "date": "2026-10-03T11:17+02:00",
-          "markdown": "**Actie nodig**\n- Academie voor Geesteswetenschappen / Eduframe (Outlook) — wachtwoord instellen voor michael.hofsteenge@outlook.com via de link in de mail van vannacht, daarna inloggen op avgu.eduframe.nl; infosessie ma 5 okt 19:30"
         }
       ]
     }
