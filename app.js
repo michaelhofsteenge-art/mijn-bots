@@ -6,7 +6,8 @@
   var PIN_HASH_KEY = "mijnbots-pin-hash";
   var DATA_KEY = "mijnbots-data";
   var CRYPTO_TRADES_KEY = "mijnbots-crypto-trades";
-  var EMAIL_CHECKS_KEY = "mijnbots-email-checks";
+  var EMAIL_CHECKS_KEY = "mijnbots-email-checks-v2";
+  var EMAIL_CHECKS_KEY_OLD = "mijnbots-email-checks";
   var CRYPTO_BOT_ID = "49692e76-c77b-46ae-9328-2144b4d7eb96";
   var EMAIL_BOT_ID = "afa86a2a-0022-43ff-ac11-88663fbceb34";
   var KLIMAAT_BOT_ID = "80ec10c0-457b-46f7-b152-23e19cba262a";
@@ -17,7 +18,8 @@
     data: null, pin: "", fetchedAt: null, fromCache: false,
     pinFlow: null, // null | { step, current, firstNew }
     refreshTimer: null,
-    klimaatTopic: null
+    klimaatTopic: null,
+    emailShowHidden: false
   };
 
   // ---------- SHA-256 (WebCrypto, met JS-fallback voor niet-HTTPS testen) ----------
@@ -406,75 +408,172 @@
     });
     return items;
   }
+  // ---- email-identity:start (pure helpers; also exercised by a node test) ----
   function hashItemText(s) {
     var h = 5381, t = String(s || "");
     for (var i = 0; i < t.length; i++) h = ((h << 5) + h) ^ t.charCodeAt(i);
     return (h >>> 0).toString(36);
   }
-  function emailCheckStorageKey(dateStr, itemText) {
-    return dateStr + "|" + hashItemText(itemText);
+  /** Lowercase, strip accents/punctuation, collapse whitespace. */
+  function normalizeEmailLabel(s) {
+    var t = String(s || "");
+    if (t.normalize) t = t.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    return t.toLowerCase().replace(/[^a-z0-9]+/g, " ").replace(/\s+/g, " ").trim();
   }
+  var EMAIL_ID_TAG_RE = /\s*\[id:\s*([^\]]+?)\s*\]\s*/i;
+  /**
+   * Stable identity for one email action line (not date-bound):
+   *  - "[id:slug]" tag → slug (tag is removed from the display text);
+   *  - else normalized label before the first " (" or ":".
+   * legacyHash = old-style djb2 hash of the exact raw text (secondary match).
+   */
+  function emailItemInfo(rawText) {
+    var raw = String(rawText || "").replace(/\s+/g, " ").trim();
+    var display = raw, ident = "";
+    var m = raw.match(EMAIL_ID_TAG_RE);
+    if (m) {
+      ident = m[1].trim().toLowerCase();
+      display = raw.replace(EMAIL_ID_TAG_RE, " ").replace(/\s+/g, " ").trim();
+    }
+    if (!ident) {
+      var cut = display.length;
+      var p = display.indexOf(" ("), c = display.indexOf(":");
+      if (p >= 0 && p < cut) cut = p;
+      if (c >= 0 && c < cut) cut = c;
+      ident = normalizeEmailLabel(display.slice(0, cut));
+      if (!ident) ident = "#" + hashItemText(normalizeEmailLabel(display));
+    }
+    return { raw: raw, display: display, ident: ident, legacyHash: hashItemText(raw) };
+  }
+  // ---- email-identity:end ----
+  /** v2 store: { identity: { checkedOn: "YYYY-MM-DD" } }; legacy hashes stored as "h:<hash>". */
   function loadEmailChecks() {
-    try { return JSON.parse(localStorage.getItem(EMAIL_CHECKS_KEY) || "{}") || {}; }
-    catch (e) { return {}; }
+    try {
+      var o = JSON.parse(localStorage.getItem(EMAIL_CHECKS_KEY) || "{}");
+      return (o && typeof o === "object" && !Array.isArray(o)) ? o : {};
+    } catch (e) { return {}; }
   }
   function saveEmailChecks(obj) {
     try { localStorage.setItem(EMAIL_CHECKS_KEY, JSON.stringify(obj)); } catch (e) {}
   }
-  function isEmailItemChecked(dateStr, itemText) {
-    return !!loadEmailChecks()[emailCheckStorageKey(dateStr, itemText)];
+  function emailCheckedOn(store, rec) {
+    if (!rec || typeof rec !== "object") return "";
+    var d = rec.checkedOn;
+    return (typeof d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d)) ? d : "";
   }
-  function setEmailItemChecked(dateStr, itemText, checked) {
+  /** Drop checks older than 30 days; carry over recent old-style checks as legacy-hash matches. */
+  function cleanupEmailChecks() {
+    var cutoff = dayKey(new Date(Date.now() - 30 * 864e5));
+    var store = loadEmailChecks(), out = {};
+    Object.keys(store).forEach(function (k) {
+      var d = emailCheckedOn(store, store[k]);
+      if (d && d >= cutoff) out[k] = { checkedOn: d };
+    });
+    try {
+      if (localStorage.getItem(EMAIL_CHECKS_KEY) == null) {
+        var old = JSON.parse(localStorage.getItem(EMAIL_CHECKS_KEY_OLD) || "{}");
+        if (old && typeof old === "object") {
+          Object.keys(old).forEach(function (k) {
+            var m = /^(\d{4}-\d{2}-\d{2})\|([0-9a-z]+)$/.exec(k);
+            if (m && old[k] && m[1] >= cutoff) {
+              var hk = "h:" + m[2];
+              if (!out[hk] || out[hk].checkedOn < m[1]) out[hk] = { checkedOn: m[1] };
+            }
+          });
+        }
+      }
+    } catch (e) {}
+    saveEmailChecks(out);
+  }
+  /** "open" | "today" (checked today, still shown) | "done" (checked earlier, hidden). */
+  function emailItemStatus(info, store, today) {
+    store = store || loadEmailChecks();
+    today = today || dayKey(new Date());
+    var a = emailCheckedOn(store, store[info.ident]);
+    var b = emailCheckedOn(store, store["h:" + info.legacyHash]);
+    var d = a > b ? a : b;
+    if (!d) return "open";
+    return d >= today ? "today" : "done";
+  }
+  function setEmailItemChecked(ident, legacyHash, checked) {
     var o = loadEmailChecks();
-    var k = emailCheckStorageKey(dateStr, itemText);
-    if (checked) o[k] = 1; else delete o[k];
+    if (checked) {
+      var rec = { checkedOn: dayKey(new Date()) };
+      if (ident) o[ident] = rec;
+      if (legacyHash) o["h:" + legacyHash] = { checkedOn: rec.checkedOn };
+    } else {
+      if (ident) delete o[ident];
+      if (legacyHash) delete o["h:" + legacyHash];
+    }
     saveEmailChecks(o);
   }
-  function renderEmailChecklist(dateStr, items) {
-    return '<ul class="email-checklist" role="list">' + items.map(function (text) {
-      var on = isEmailItemChecked(dateStr, text);
-      var hash = hashItemText(text);
+  function renderEmailChecklist(entries) {
+    return '<ul class="email-checklist" role="list">' + entries.map(function (en) {
+      var on = en.status !== "open";
       return '<li class="email-check-row' + (on ? " is-checked" : "") + '">' +
         '<label class="email-check-label">' +
-        '<input type="checkbox" class="email-check" data-date="' + esc(dateStr) +
-        '" data-hash="' + esc(hash) + '" data-item="' + esc(text) + '"' +
+        '<input type="checkbox" class="email-check" data-ident="' + esc(en.info.ident) +
+        '" data-hash="' + esc(en.info.legacyHash) + '"' +
         (on ? " checked" : "") + ">" +
-        '<span class="email-check-text md">' + window.renderMarkdown(text) + "</span>" +
+        '<span class="email-check-text md">' + window.renderMarkdown(en.info.display) + "</span>" +
         "</label></li>";
     }).join("") + "</ul>";
   }
-  /** Newest Email Reageren update: list items become tickable rows. */
+  var EMAIL_HEADER_RE = /^\s*\*\*[^*]+\*\*\s*:?\s*$/;
+  /** Newest Email Reageren update: list items become tickable rows; items done on earlier days are hidden. */
   function renderEmailLatest(u) {
-    var dateStr = dayKey(new Date(u.date));
+    var store = loadEmailChecks(), today = dayKey(new Date());
+    var showHidden = !!state.emailShowHidden;
     var lines = String(u.markdown || "").replace(/\r\n/g, "\n").split("\n");
-    var parts = [], buf = [];
+    var parts = [], buf = [], hiddenCount = 0, hintIdx = -1;
     function flushBuf() {
       if (!buf.length) return;
       var chunk = buf.join("\n").trim();
       buf = [];
       if (chunk) parts.push('<div class="md">' + window.renderMarkdown(chunk) + "</div>");
     }
+    function dropTrailingHeader() {
+      var j = buf.length - 1;
+      while (j >= 0 && !buf[j].trim()) j--;
+      if (j >= 0 && EMAIL_HEADER_RE.test(buf[j])) buf.splice(j);
+    }
     for (var i = 0; i < lines.length; i++) {
       if (/^\s*-\s+/.test(lines[i])) {
-        flushBuf();
-        var items = [];
+        var entries = [];
         while (i < lines.length) {
           var m = lines[i].match(/^\s*-\s+(.+)$/);
           if (!m) break;
-          items.push(m[1].replace(/\s+/g, " ").trim());
+          var info = emailItemInfo(m[1]);
+          entries.push({ info: info, status: emailItemStatus(info, store, today) });
           i++;
         }
         i--;
-        if (items.length) parts.push(renderEmailChecklist(dateStr, items));
+        var visible = entries.filter(function (en) {
+          if (en.status !== "done") return true;
+          hiddenCount++;
+          return showHidden;
+        });
+        if (!visible.length) dropTrailingHeader();
+        flushBuf();
+        if (visible.length) parts.push(renderEmailChecklist(visible));
+        hintIdx = parts.length;
       } else {
         buf.push(lines[i]);
       }
     }
     flushBuf();
+    if (hiddenCount > 0 && hintIdx >= 0) {
+      var label = showHidden
+        ? (hiddenCount === 1 ? "1 eerder afgevinkte actie getoond" : hiddenCount + " eerder afgevinkte acties getoond")
+        : (hiddenCount === 1 ? "1 afgevinkte actie verborgen" : hiddenCount + " afgevinkte acties verborgen");
+      parts.splice(hintIdx, 0, '<p class="email-hidden-note">' + esc(label) +
+        ' · <button type="button" class="email-hidden-toggle" data-email-toggle-hidden>' +
+        (showHidden ? "Verberg" : "Toon") + "</button></p>");
+    }
     return '<article class="card latest"><div class="card-date">Laatste update · ' +
       esc(fmtDate(u.date, true)) + "</div>" + parts.join("") + "</article>";
   }
-  /** Email Reageren: pulse when newest update is today and still has unchecked list items
+  /** Email Reageren: pulse when newest update is today and still has visible unchecked list items
    *  (or, with zero list items, when text is not clearly "nothing to do"). */
   function emailNeedsAction(b) {
     if (!isEmailBot(b)) return false;
@@ -482,12 +581,13 @@
     if (!u || !u.date) return false;
     var d = new Date(u.date);
     if (isNaN(d)) return false;
-    if (dayKey(d) !== dayKey(new Date())) return false;
+    var today = dayKey(new Date());
+    if (dayKey(d) !== today) return false;
     var md = String(u.markdown || "");
     var items = parseEmailActionItems(md);
     if (items.length > 0) {
-      var dk = dayKey(d);
-      return items.some(function (t) { return !isEmailItemChecked(dk, t); });
+      var store = loadEmailChecks();
+      return items.some(function (t) { return emailItemStatus(emailItemInfo(t), store, today) === "open"; });
     }
     if (NO_ACTION_RE.test(md)) return false;
     return true;
@@ -754,6 +854,7 @@
       if (state._detailBotId !== botId) {
         state.klimaatTopic = null;
         state._detailBotId = botId;
+        state.emailShowHidden = false;
       }
       renderDetail(botId);
       $("home").hidden = true; $("detail").hidden = false; window.scrollTo(0, 0);
@@ -761,6 +862,7 @@
     } else {
       state.klimaatTopic = null;
       state._detailBotId = null;
+      state.emailShowHidden = false;
       renderHome();
       $("detail").hidden = true; $("home").hidden = false;
       startHomeRefresh();
@@ -769,6 +871,14 @@
   function render() { route(); }
 
   $("detailBody").addEventListener("click", function (e) {
+    var hidTog = e.target.closest("[data-email-toggle-hidden]");
+    if (hidTog) {
+      e.preventDefault();
+      state.emailShowHidden = !state.emailShowHidden;
+      var mh = location.hash.match(/^#\/bot\/(.+)$/);
+      if (mh) renderDetail(decodeURIComponent(mh[1]));
+      return;
+    }
     var back = e.target.closest("[data-topic-back]");
     if (back) {
       state.klimaatTopic = null;
@@ -788,9 +898,7 @@
   $("detailBody").addEventListener("change", function (e) {
     var cb = e.target.closest("input.email-check");
     if (!cb) return;
-    var dateStr = cb.getAttribute("data-date") || "";
-    var itemText = cb.getAttribute("data-item") || "";
-    setEmailItemChecked(dateStr, itemText, cb.checked);
+    setEmailItemChecked(cb.getAttribute("data-ident") || "", cb.getAttribute("data-hash") || "", cb.checked);
     var row = cb.closest(".email-check-row");
     if (row) row.classList.toggle("is-checked", cb.checked);
   });
@@ -837,6 +945,7 @@
   }
 
   // Start
+  try { cleanupEmailChecks(); } catch (e) {}
   try {
     var c = JSON.parse(localStorage.getItem(DATA_KEY) || "null");
     if (c && c.data) { state.data = c.data; state.fetchedAt = new Date(c.fetchedAt); state.fromCache = true; }
