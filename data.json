@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T07:47:39+02:00",
+  "generated_at": "2026-10-07T08:10:15+02:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -76,16 +76,16 @@
       "subtitle": "Crypto-markt & advies",
       "updates": [
         {
+          "date": "2026-10-07T08:10+02:00",
+          "markdown": "# SPOED XRP: trailing stop vannacht geraakt\n\n**Actie: verkoop de resterende ~582,27 XRP op Coinmerce** (nu ~€1,312 bij Kraken, samen ongeveer €764). Dat is wat je plan voorschrijft, want de stop is geraakt.\n\nRond 04:00–05:00 uur (Amsterdamse tijd) zakte XRP kort naar **€1,27356**, net onder je trailing stop van **€1,276** (88% van de piek €1,45000). Daarna herstelde de koers naar ~€1,312, maar dat is maar 2,8% boven de stop. Op Coinmerce kan de koers iets afwijken van Kraken.\n\n**Scenario's XRP**\n- **Verkopen (advies):** verkoop alle 582,27 XRP nu. Zet de opbrengst apart als cash om later in te stappen onder ~€0,742 (je gemiddelde aankoopprijs).\n- **Toch vasthouden (bewuste keuze):** als je de korte duik van vannacht als ruis ziet, hou dan een harde grens aan. Zakt XRP opnieuw tot €1,276 of lager, dan verkoop je alles zonder twijfel.\n- **Wachten op herstel:** pas boven ~€1,35 komt er weer wat ruimte tussen de koers en de stop.\n\n**BTC:** geen actie nodig. De koers is €75.110, dat is 7,7% boven je stop van €69.768,81. Blijf vasthouden.\n\n## Portfolio-overzicht\n- **BTC** ~0,1199 | gem. ~€59.726 | piek €77.520,90 | stop €69.768,81 | nu ~€75.110 (≈ €9.006)\n- **XRP** ~582,27 | gem. ~€0,7424 | piek €1,45000 | stop €1,276 (vannacht geraakt, laagste koers €1,27356) | nu ~€1,312 (≈ €764)"
+        },
+        {
           "date": "2026-10-02T14:34+02:00",
           "markdown": "Nieuwe BTC-piek: **€77.520,90** (24u-hoog Kraken). Trailing stop (90%) nu **€69.768,81**.\n\nBlijf vasthouden zolang BTC boven €69.768,81 blijft. Bij koers ≤ €69.768,81: verkoop de rest (~0,1199 BTC) op Coinmerce; cash apart voor herinstap.\n\n**XRP:** geen nieuwe piek (bewaakt €1,45000; stop €1,276). Koers nu ~€1,375.\n\n## Portfolio\n- **BTC** ~0,1199 | gem. ~€59.726 | piek €77.520,90 | stop €69.768,81\n- **XRP** ~582,27 | gem. ~€0,7424 | piek €1,45000 | stop €1,276\n\n---\n\n## Portfolio-overzicht\n- **BTC** ~0,1199 | gem. ~€59.726 | piek €77.520,90 | stop €69.768,81\n- **XRP** ~582,27 | gem. ~€0,7424 | piek €1,45000 | stop €1,276"
         },
         {
           "date": "2026-10-02T08:02+02:00",
           "markdown": "Nieuwe BTC-piek: €77.167,50 (24u-hoog Kraken). Trailing stop (90%) staat nu op €69.450,75 — vasthouden zolang daarboven; rest (~0,1199 BTC) verkopen bij koers ≤ die drempel. Cash apart houden voor herinstap.\n\nXRP ongewijzigd: piek €1,45000, stop €1,276. Geen spoed of koopdip.\n\n## Portfolio\n- **BTC:** ~0,1199 open · gem. ~€59.726 · piek €77.167,50 · stop €69.450,75\n- **XRP:** ~582,27 open · gem. ~€0,7424 · piek €1,45000 · stop €1,276"
-        },
-        {
-          "date": "2026-09-28T23:33+02:00",
-          "markdown": "Top, dan is de winstneming rond. De bewaking staat nu alleen nog op je restposities: ongeveer 0,1199 BTC en 582,27 XRP. Je krijgt geen T1/T2-herinneringen meer.\n\nIk stuur je alleen nog een bericht in deze gevallen:\n- **Spoed** als BTC onder €68.715 zakt of XRP onder €1,276. Dan is mijn advies om de rest van die munt te verkopen.\n- Een koopdip onder je gemiddelde aankoopprijs (BTC ongeveer €59.726, XRP ongeveer €0,742).\n- Een nieuwe piek, waarmee de stopdrempel omhoog schuift. Dat meld ik hooguit één keer per dag per munt.\n\nXRP staat trouwens nog maar een paar procent boven die €1,276. Dat is dus de drempel om in de gaten te houden. De checks die vanmiddag vastliepen heb ik opnieuw ingesteld. Ze starten morgen om 08:01 weer."
         }
       ]
     },
