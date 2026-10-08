@@ -1,6 +1,6 @@
 # Portfolio Crypto Adviseur
 
-Laatst bijgewerkt: 2026-10-08 08:04 CEST (Europe/Amsterdam)
+Laatst bijgewerkt: 2026-10-08 08:03 CEST (Europe/Amsterdam)
 Bron: Mike bevestigde op 28-09-2026 T1 en T2 voor BTC en XRP. Exacte uitvoeringskoersen nog niet doorgegeven. Piek BTC bijgewerkt na 24u-hoog Kraken (€77.520,90).
 
 ## Openstaande posities
@@ -10,7 +10,7 @@ Bron: Mike bevestigde op 28-09-2026 T1 en T2 voor BTC en XRP. Exacte uitvoerings
 - Gemiddelde aankoop: ~€59.726
 - Bewaakte piek: €77.520,90
 - Trailing stop (90%): €69.768,81
-- Koers 08-10-2026 08:04: ~€73.870 (5,9% boven stop)
+- Koers 08-10-2026 08:03: ~€73.870 (5,9% boven stop)
 - Scenario's:
   - **Vasthouden** zolang prijs boven €69.768,81 blijft.
   - **Verkoop rest** bij koers ≤ €69.768,81 (spoed).
@@ -22,7 +22,7 @@ Bron: Mike bevestigde op 28-09-2026 T1 en T2 voor BTC en XRP. Exacte uitvoerings
 - Gemiddelde aankoop: ~€0,7424
 - Bewaakte piek: €1,45000
 - Trailing stop (88%): €1,276
-- **Status 07/08-10-2026:** stop vannacht rond 04:00–05:00 geraakt (laagste koers Kraken €1,27356) en om 15:39 opnieuw doorbroken (laagste €1,27483); op 08-10 rond 06:15 verder gezakt tot €1,2396 (onder ondergrens €1,25), om 08:04 ~€1,250. Advies: verkoop de rest (582,27 XRP), wachten op Mike's bevestiging.
+- **Status 07/08-10-2026:** stop vannacht rond 04:00–05:00 geraakt (laagste koers Kraken €1,27356) en om 15:39 opnieuw doorbroken (laagste €1,27483); op 08-10 rond 06:15 verder gezakt tot €1,2396 (onder ondergrens €1,25), om 08:03 ~€1,250. Advies: verkoop de rest (582,27 XRP), wachten op Mike's bevestiging.
 - Scenario's:
   - **Vasthouden** zolang prijs boven €1,276 blijft.
   - **Verkoop rest** bij koers ≤ €1,276 (spoed).
