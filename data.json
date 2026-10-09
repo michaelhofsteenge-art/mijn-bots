@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-09T08:17:01+02:00",
+  "generated_at": "2026-10-09T08:23:39+02:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -142,16 +142,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-10-09T08:23+02:00",
+          "markdown": "**Actie nodig**\n\nLijst opnieuw opgebouwd uit wat nu in je Inbox staat. Sinds gisteravond geen nieuwe actiemail, alleen nieuwsbrieven en promoties.\n\n**Deze week**\n- Anne Robijn, Johannes Hospitium Vleuten (Outlook): aanmelden bij rinske@hospitiumvleuten.nl voor de scholing 'Rust rondom het sterfbed' in het Raadhuis Vleuten. Kies do 14, vr 15, di 19 of wo 20 jan 2027; max. ca. 15 deelnemers, op volgorde van aanmelding, dus liefst snel. [id:hospitium-scholing-jan2027]\n\n**Voor Quinten (achterstallig)**\n- YOEP via Uyên (Quinten's Gmail + jouw Outlook, jij in CC): Quinten moest uiterlijk 1 okt documenten aanleveren voor de wachtlijst hulpverlening. De mail staat in zijn Gmail nog ongelezen; even bij Quinten nagaan. [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Loge De Stichtse Broederschap (Outlook): uitnodiging ALV di 27 okt 20:00, Maliebaan 70A Utrecht; stukken in de bijlage. Geen aanmelding nodig, wel in je agenda zetten. [id:dsb-alv-27okt]\n- Nationale-Nederlanden (Outlook): berichten over je Pensioen Beleggingsverzekeringen (polissen eindigend op 73682 en 73794) staan klaar in mijn.nn of de NN-app. Even inzien, geen deadline. [id:nn-pensioenberichten]\n\nAlle mailboxen bereikbaar (Outlook, Quinten's Gmail, iCloud via doorsturen naar Outlook)."
+        },
+        {
           "date": "2026-10-08T21:00+02:00",
           "markdown": "**Actie nodig**\n\nNieuw sinds de middagcheck:\n\n- Anne Robijn, Johannes Hospitium Vleuten (Outlook): aanmelden voor de 1-daagse scholing 'Rust rondom het sterfbed' (Manon Lodder) in het Raadhuis Vleuten. Kies do 14, vr 15, di 19 of wo 20 januari 2027 en mail je voorkeursdatum naar rinske@hospitiumvleuten.nl. Max. ca. 15 per training, indeling op volgorde van aanmelding, dus liefst snel. Info in de bijlage. [id:hospitium-scholing-jan2027]"
         },
         {
           "date": "2026-10-08T08:21+02:00",
           "markdown": "**Actie nodig**\n\nGeen nieuwe actiemail sinds gisterochtend. Lijst opnieuw opgebouwd uit wat nu in je Inbox staat; zelfde drie punten als gisteren.\n\n**Voor Quinten (achterstallig)**\n- YOEP via Uyên (Quinten's Gmail + jouw Outlook, jij in CC): Quinten moest uiterlijk 1 okt documenten aanleveren voor de wachtlijst hulpverlening. De mails staan in zijn Gmail nog ongelezen; even bij Quinten nagaan. [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Loge De Stichtse Broederschap (Outlook): uitnodiging ALV di 27 okt 20:00, Maliebaan 70A Utrecht; stukken in de bijlage. Geen aanmelding nodig, wel in je agenda zetten. [id:dsb-alv-27okt]\n- Nationale-Nederlanden (Outlook): berichten over je Pensioen Beleggingsverzekeringen (polissen eindigend op 73682 en 73794) staan klaar in mijn.nn of de NN-app. Even inzien, geen deadline. [id:nn-pensioenberichten]\n\nAlle mailboxen bereikbaar (Outlook, Quinten's Gmail, iCloud via doorsturen naar Outlook)."
-        },
-        {
-          "date": "2026-10-07T08:12+02:00",
-          "markdown": "**Actie nodig**\n\nGeen nieuwe actiemail vannacht. Lijst opnieuw opgebouwd uit wat nu in je Inbox staat (Marktplaats, OSB en FBTO-stopmail zijn weg, dus van de lijst).\n\n**Voor Quinten (achterstallig)**\n- YOEP via Uyên (Quinten's Gmail, jij in CC): Quinten moest uiterlijk 1 okt documenten aanleveren voor de wachtlijst hulpverlening. Mails staan nog ongelezen; even bij Quinten nagaan. [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Loge De Stichtse Broederschap (Outlook): uitnodiging ALV di 27 okt 20:00, Maliebaan 70A Utrecht; stukken in de bijlage. Geen aanmelding nodig, wel in je agenda zetten. [id:dsb-alv-27okt]\n- Nationale-Nederlanden (Outlook): vier berichten over je Pensioen Beleggingsverzekeringen (polissen eindigend op 73682 en 73794, o.a. Uniform Pensioenoverzicht) staan klaar in mijn.nn of de NN-app. Even inzien, geen deadline. [id:nn-pensioenberichten]\n\nAlle mailboxen bereikbaar (Outlook, Quinten's Gmail, iCloud via doorsturen naar Outlook)."
         }
       ]
     }
