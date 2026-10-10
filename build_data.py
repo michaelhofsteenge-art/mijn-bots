@@ -61,6 +61,13 @@ def main() -> int:
         out["bots"].append({k: b[k] for k in ("id", "key", "name", "emoji", "color", "subtitle") if k in b} | {"updates": updates})
         print(f"{b['name']:34s} {len(updates)} update(s)" + (f", nieuwste {updates[0]['date']}" if updates else " -> 'Nog geen update beschikbaar'"))
 
+    try:
+        rem = json.loads((ROOT / "reminders.json").read_text(encoding="utf-8"))
+        out["reminders"] = rem if isinstance(rem, list) else []
+    except (FileNotFoundError, ValueError):
+        out["reminders"] = []
+    print(f"Herinneringen: {len(out['reminders'])}")
+
     if args.check:
         return 0
     (ROOT / "data.json").write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "peter-operatie",
+    "text": "Peter even een appje sturen: hij wordt 13 oktober geopereerd",
+    "due": "2026-10-12T12:00",
+    "created": "2026-10-10T19:55:20+02:00",
+    "status": "gepland",
+    "remindedAt": null
+  },
+  {
+    "id": "uitslag-donderdag",
+    "text": "Even een appje sturen over de uitslag (wel of geen kanker) en hoe het gaat",
+    "due": "2026-10-15T12:00",
+    "created": "2026-10-10T19:55:20+02:00",
+    "status": "gepland",
+    "remindedAt": null
+  }
+]

@@ -479,3 +479,23 @@ details.hist[open] summary {
   color: var(--link);
   cursor: pointer;
 }
+
+/* Herinneringen */
+.rem-form { display: grid; gap: 10px; }
+.rem-lbl { display: grid; gap: 4px; font-size: 13px; font-weight: 600; color: inherit; }
+.rem-lbl input { font: inherit; font-size: 16px; font-weight: 400; padding: 9px 10px; border-radius: 10px; border: 1px solid rgba(127,127,127,.35); background: transparent; color: inherit; width: 100%; box-sizing: border-box; }
+.rem-dt { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rem-submit { font: inherit; font-weight: 600; padding: 11px; border: 0; border-radius: 10px; background: #C2410C; color: #fff; }
+.rem-note { margin: 0; font-size: 13px; opacity: .8; }
+.rem-list { list-style: none; margin: 0 0 12px; padding: 0; }
+.card.rem-list { padding: 4px 14px; }
+.rem-row { padding: 10px 0; border-bottom: 1px solid rgba(127,127,127,.18); }
+.rem-row:last-child { border-bottom: 0; }
+.rem-when { font-size: 12px; opacity: .7; text-transform: capitalize; }
+.rem-text { font-size: 15px; margin: 2px 0 4px; }
+.rem-meta { font-size: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.rem-status { padding: 1px 7px; border-radius: 999px; background: rgba(127,127,127,.15); }
+.rem-status--gepland { background: rgba(194,65,12,.15); color: #C2410C; }
+.rem-del { font: inherit; font-size: 12px; background: none; border: 0; color: #b91c1c; padding: 0; }
+.rem-resend { color: #C2410C; }
+.rem-count { margin-left: 6px; font-size: 12px; font-weight: 700; min-width: 20px; text-align: center; padding: 1px 6px; border-radius: 999px; background: #C2410C; color: #fff; }

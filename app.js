@@ -776,6 +776,89 @@
     return h;
   }
 
+
+  // ---- reminders:start ----
+  var REM_KEY = "mijnbots-reminders";
+  var REM_TO = "michael.hofsteenge@outlook.com";
+  var REM_ID = "__herinneringen";
+  function remPad(n) { return ("0" + n).slice(-2); }
+  function remSubject(text, due) { return "[HERINNERING] " + due.replace("T", " ") + " | " + text; }
+  function remWhen(due) {
+    var p = due.split(/[-T:]/).map(Number);
+    var d = new Date(Date.UTC(p[0], p[1] - 1, p[2], 12));
+    var wd = new Intl.DateTimeFormat("nl-NL", { weekday: "long", timeZone: "UTC" }).format(d);
+    var mo = new Intl.DateTimeFormat("nl-NL", { month: "long", timeZone: "UTC" }).format(d);
+    return wd + " " + p[2] + " " + mo + " " + p[0] + " " + remPad(p[3]) + ":" + remPad(p[4]);
+  }
+  function remMailto(text, due) {
+    var body = "Herinnering: " + text + "\nWanneer: " + remWhen(due) + " (Amsterdam)\nAangemaakt via Mijn Bots.";
+    return "mailto:" + REM_TO + "?subject=" + encodeURIComponent(remSubject(text, due)) + "&body=" + encodeURIComponent(body);
+  }
+  function loadLocalRems() { try { var a = JSON.parse(localStorage.getItem(REM_KEY) || "[]"); return Array.isArray(a) ? a : []; } catch (e) { return []; } }
+  function saveLocalRems(a) { try { localStorage.setItem(REM_KEY, JSON.stringify(a)); } catch (e) {} }
+  function remKey(r) { return String(r.text || "").trim().toLowerCase().replace(/\s+/g, " ") + "|" + String(r.due || "").slice(0, 16); }
+  function nowAmsLocal() {
+    var d = new Date();
+    return dayKey(d) + "T" + new Intl.DateTimeFormat("en-GB", { timeZone: TZ, hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(d);
+  }
+  function allReminders() {
+    var server = (state.data && Array.isArray(state.data.reminders)) ? state.data.reminders : [];
+    var seen = {}, out = [];
+    server.forEach(function (r) { if (r && r.due) { seen[remKey(r)] = 1; out.push({ id: r.id, text: r.text, due: String(r.due).slice(0, 16), status: r.status || "gepland", server: true }); } });
+    loadLocalRems().forEach(function (r) { if (!seen[remKey(r)]) out.push({ id: r.id, text: r.text, due: r.due, status: "verstuurd?", local: true, created: r.created }); });
+    out.sort(function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : 0; });
+    return out;
+  }
+  function isRemDone(r, now) { return r.status === "herinnerd" && r.due < now; }
+  function upcomingReminders() { var now = nowAmsLocal(); return allReminders().filter(function (r) { return !isRemDone(r, now) && r.status !== "herinnerd"; }); }
+  function remDueTodayPending() { var now = nowAmsLocal(), t = now.slice(0, 10); return upcomingReminders().some(function (r) { return r.due.slice(0, 10) === t && r.due >= now; }); }
+  function tomorrowKey() { var d = new Date(Date.now() + 864e5); return dayKey(d); }
+  function remRowHtml(r, now) {
+    var st = r.local ? "Verstuurd?" : (r.status === "herinnerd" ? "Herinnerd" : "Gepland");
+    var extra = "";
+    if (r.local) {
+      var old = r.created && (Date.now() - new Date(r.created).getTime() > 864e5);
+      if (old) extra += ' <a class="rem-resend" href="' + esc(remMailto(r.text, r.due)) + '">Niet ontvangen — opnieuw versturen</a>';
+      extra += ' <button type="button" class="rem-del" data-rem-del="' + esc(r.id) + '">Verwijderen</button>';
+    }
+    return '<li class="rem-row"><div class="rem-when">' + esc(remWhen(r.due)) + '</div><div class="rem-text">' + esc(r.text) +
+      '</div><div class="rem-meta"><span class="rem-status rem-status--' + (r.local ? "local" : esc(r.status)) + '">' + st + "</span>" + extra + "</div></li>";
+  }
+  function renderRemindersDetail() {
+    $("detailBar").style.setProperty("--c", "#C2410C");
+    $("detailEmoji").textContent = "⏰";
+    $("detailName").textContent = "Herinneringen";
+    var tm = tomorrowKey();
+    var h = '<form class="card rem-form" id="remForm"><label class="rem-lbl">Wat moet je doen?<input type="text" id="remText" required placeholder="Bijv. Peter een appje sturen"></label>' +
+      '<div class="rem-dt"><label class="rem-lbl">Datum<input type="date" id="remDate" required value="' + tm + '"></label>' +
+      '<label class="rem-lbl">Tijd<input type="time" id="remTime" required value="12:00"></label></div>' +
+      '<button type="submit" class="rem-submit">Herinnering aanmaken</button>' +
+      '<p class="rem-note" id="remNote"' + (state.remNote ? "" : " hidden") + '>Tik in je mail-app op Verzenden. Daarna pak ik hem op.</p></form>';
+    var now = nowAmsLocal(), all = allReminders();
+    var open = all.filter(function (r) { return !isRemDone(r, now); });
+    var done = all.filter(function (r) { return isRemDone(r, now); });
+    h += '<h2 class="hist-title">Gepland</h2>';
+    h += open.length ? '<ul class="card rem-list">' + open.map(function (r) { return remRowHtml(r, now); }).join("") + "</ul>" : '<p class="topic-empty-cat">Geen geplande herinneringen.</p>';
+    if (done.length) h += '<details class="card hist"><summary>Afgerond (' + done.length + ')</summary><ul class="rem-list">' + done.map(function (r) { return remRowHtml(r, now); }).join("") + "</ul></details>";
+    $("detailBody").innerHTML = h;
+  }
+  function emailRemindersHtml() {
+    var t = nowAmsLocal().slice(0, 10), tm = tomorrowKey(), now = nowAmsLocal();
+    var list = allReminders().filter(function (r) { var d = r.due.slice(0, 10); return (d === t || d === tm) && !isRemDone(r, now); });
+    if (!list.length) return "";
+    return '<h2 class="hist-title">Herinneringen</h2><ul class="card rem-list">' + list.map(function (r) { return remRowHtml(r, now); }).join("") + "</ul>";
+  }
+  function remHomeButtonHtml() {
+    var n = upcomingReminders().length, today = remDueTodayPending();
+    var badge = today ? '<span class="bot-badge" aria-label="Vandaag">Vandaag</span>' : (n ? '<span class="rem-count">' + n + "</span>" : "");
+    return '<button type="button" class="bot-btn' + (today ? " bot-btn--action" : "") + '" style="--c:#C2410C" data-id="' + REM_ID + '">' +
+      '<span class="bot-emoji" aria-hidden="true">⏰</span><span class="bot-text"><span class="bot-name-row"><span class="bot-name">Herinneringen</span>' + badge + "</span>" +
+      '<span class="bot-sub">Actiepunt aanmaken · ik herinner je</span>' +
+      '<span class="bot-date">' + (n ? n + " gepland" : "Niets gepland") + "</span></span>" +
+      '<span class="bot-chev" aria-hidden="true">›</span></button>';
+  }
+  // ---- reminders:end ----
+
   function renderHome() {
     var d = state.data;
     var r = $("refreshed");
@@ -792,7 +875,16 @@
       var be = isEmailBot(b) ? 0 : 1;
       return ae - be;
     });
+    var remInserted = false;
     $("botList").innerHTML = bots.map(function (b) {
+      var html = botBtnHtml(b);
+      if (!remInserted && isEmailBot(b)) { remInserted = true; html += remHomeButtonHtml(); }
+      return html;
+    }).join("") + (remInserted ? "" : remHomeButtonHtml());
+    showChromeTips();
+  }
+  function botBtnHtml(b) {
+    return (function (b) {
       var u = b.updates && b.updates[0];
       var needs = emailNeedsAction(b);
       var cls = "bot-btn" + (needs ? " bot-btn--action" : "");
@@ -804,10 +896,10 @@
         '<span class="bot-sub">' + esc(b.subtitle || "") + "</span>" +
         '<span class="bot-date">' + (u ? esc(fmtDate(u.date)) : "Nog geen update") + "</span></span>" +
         '<span class="bot-chev" aria-hidden="true">›</span></button>';
-    }).join("");
-    showChromeTips();
+    })(b);
   }
   function renderDetail(id) {
+    if (id === REM_ID) { renderRemindersDetail(); return; }
     var b = findBot(id);
     if (!b) { location.hash = ""; return; }
     $("detailBar").style.setProperty("--c", b.color || "#666");
@@ -823,7 +915,7 @@
       if (klimaat) {
         h += renderKlimaatLatest(ups[0]);
       } else if (isEmailBot(b)) {
-        h += renderEmailLatest(ups[0]);
+        h += emailRemindersHtml() + renderEmailLatest(ups[0]);
       } else {
         h += '<article class="card latest"><div class="card-date">Laatste update · ' + esc(fmtDate(ups[0].date, true)) + '</div><div class="md">' + window.renderMarkdown(ups[0].markdown) + "</div></article>";
       }
@@ -855,6 +947,7 @@
         state.klimaatTopic = null;
         state._detailBotId = botId;
         state.emailShowHidden = false;
+        state.remNote = false;
       }
       renderDetail(botId);
       $("home").hidden = true; $("detail").hidden = false; window.scrollTo(0, 0);
@@ -871,6 +964,13 @@
   function render() { route(); }
 
   $("detailBody").addEventListener("click", function (e) {
+    var rdel = e.target.closest("[data-rem-del]");
+    if (rdel) {
+      var rid = rdel.getAttribute("data-rem-del");
+      saveLocalRems(loadLocalRems().filter(function (r) { return r.id !== rid; }));
+      renderRemindersDetail();
+      return;
+    }
     var hidTog = e.target.closest("[data-email-toggle-hidden]");
     if (hidTog) {
       e.preventDefault();
@@ -894,6 +994,20 @@
       if (m2) renderDetail(decodeURIComponent(m2[1]));
       window.scrollTo(0, 0);
     }
+  });
+  $("detailBody").addEventListener("submit", function (e) {
+    if (e.target.id !== "remForm") return;
+    e.preventDefault();
+    var text = $("remText").value.trim().replace(/\s+/g, " ").replace(/\|/g, "/");
+    var date = $("remDate").value, time = $("remTime").value || "12:00";
+    if (!text || !date) return;
+    var due = date + "T" + time.slice(0, 5);
+    var list = loadLocalRems();
+    list.push({ id: "l" + Date.now().toString(36), text: text, due: due, created: new Date().toISOString(), status: "verstuurd?" });
+    saveLocalRems(list);
+    state.remNote = true;
+    renderRemindersDetail();
+    window.location.href = remMailto(text, due);
   });
   $("detailBody").addEventListener("change", function (e) {
     var cb = e.target.closest("input.email-check");
