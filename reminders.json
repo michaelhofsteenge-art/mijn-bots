@@ -4,17 +4,18 @@
     "text": "Quinten weekplan maken en boek uitzoeken",
     "due": "2026-10-11T09:00",
     "created": "2026-10-11T09:52:00+02:00",
-    "status": "herinnerd",
+    "status": "afgerond",
     "remindedAt": "2026-10-11T09:55:58",
-    "reopenedAt": "2026-10-11T10:18:45"
+    "doneAt": "2026-10-11T17:22:53"
   },
   {
     "id": "ouders-volkert-jan",
     "text": "Ouders Volkert jan bellen",
     "due": "2026-10-11T12:00",
     "created": "2026-10-11T09:52:00+02:00",
-    "status": "herinnerd",
-    "remindedAt": "2026-10-11T12:14:21"
+    "status": "afgerond",
+    "remindedAt": "2026-10-11T12:14:21",
+    "doneAt": "2026-10-11T17:49:44"
   },
   {
     "id": "peter-operatie",
@@ -26,7 +27,7 @@
   },
   {
     "id": "uitslag-donderdag",
-    "text": "Even een appje sturen over de uitslag (wel of geen kanker) en hoe het gaat",
+    "text": "Goos even een appje sturen over de uitslag (wel of geen kanker) en hoe het gaat",
     "due": "2026-10-15T12:00",
     "created": "2026-10-10T19:55:20+02:00",
     "status": "gepland",
