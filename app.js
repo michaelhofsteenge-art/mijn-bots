@@ -247,6 +247,7 @@
         } catch (e) {}
         toast(state.data ? "Offline – laatst opgeslagen gegevens" : "Kan gegevens niet laden");
       })
+      .then(function () { return remLoad(); })
       .then(render);
   }
   function findBot(id) { return state.data && state.data.bots.filter(function (b) { return b.id === id; })[0]; }
@@ -778,11 +779,10 @@
 
 
   // ---- reminders:start ----
-  var REM_KEY = "mijnbots-reminders";
-  var REM_TO = "michael.hofsteenge@outlook.com";
+  // Herinneringen staan centraal in de Mijn Bots-API (Vercel). data.json is alleen terugval.
+  var REM_KEY = "mijnbots-reminders"; // oude lokale opslag (mailto-tijdperk), wordt eenmalig gemigreerd
   var REM_ID = "__herinneringen";
   function remPad(n) { return ("0" + n).slice(-2); }
-  function remSubject(text, due) { return "[HERINNERING] " + due.replace("T", " ") + " | " + text; }
   function remWhen(due) {
     var p = due.split(/[-T:]/).map(Number);
     var d = new Date(Date.UTC(p[0], p[1] - 1, p[2], 12));
@@ -790,45 +790,67 @@
     var mo = new Intl.DateTimeFormat("nl-NL", { month: "long", timeZone: "UTC" }).format(d);
     return wd + " " + p[2] + " " + mo + " " + p[0] + " " + remPad(p[3]) + ":" + remPad(p[4]);
   }
-  function remMailto(text, due) {
-    var body = "Herinnering: " + text + "\nWanneer: " + remWhen(due) + " (Amsterdam)\nAangemaakt via Mijn Bots.";
-    return "mailto:" + REM_TO + "?subject=" + encodeURIComponent(remSubject(text, due)) + "&body=" + encodeURIComponent(body);
-  }
   function loadLocalRems() { try { var a = JSON.parse(localStorage.getItem(REM_KEY) || "[]"); return Array.isArray(a) ? a : []; } catch (e) { return []; } }
-  function saveLocalRems(a) { try { localStorage.setItem(REM_KEY, JSON.stringify(a)); } catch (e) {} }
   function remKey(r) { return String(r.text || "").trim().toLowerCase().replace(/\s+/g, " ") + "|" + String(r.due || "").slice(0, 16); }
   function nowAmsLocal() {
     var d = new Date();
     return dayKey(d) + "T" + new Intl.DateTimeFormat("en-GB", { timeZone: TZ, hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(d);
   }
-  function allReminders() {
-    var server = (state.data && Array.isArray(state.data.reminders)) ? state.data.reminders : [];
-    var seen = {}, out = [];
-    server.forEach(function (r) { if (r && r.due) { seen[remKey(r)] = 1; out.push({ id: r.id, text: r.text, due: String(r.due).slice(0, 16), status: r.status || "gepland", server: true }); } });
+  function remApi(method, path, body) {
+    if (!CFG.REM_API) return Promise.reject(new Error("geen API"));
+    var opt = { method: method, headers: { "X-Mijnbots-Key": CFG.REM_KEY || "" }, cache: "no-store" };
+    if (body) { opt.headers["Content-Type"] = "application/json"; opt.body = JSON.stringify(body); }
+    return fetch(CFG.REM_API + (path || ""), opt).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    });
+  }
+  // Oude lokale herinneringen die nooit verstuurd zijn: één keer naar de server, daarna wissen.
+  function remMigrateLocal(server) {
     var locals = loadLocalRems();
-    if (server.length) {
-      var kept = locals.filter(function (r) { return !seen[remKey(r)]; });
-      if (kept.length !== locals.length) { saveLocalRems(kept); locals = kept; }
-    }
-    locals.forEach(function (r) { if (!seen[remKey(r)]) out.push({ id: r.id, text: r.text, due: r.due, status: "verstuurd?", local: true, created: r.created }); });
+    if (!locals.length) return Promise.resolve(false);
+    var seen = {};
+    server.forEach(function (r) { seen[remKey(r)] = 1; });
+    var todo = locals.filter(function (r) { return r && r.text && r.due && !seen[remKey(r)]; });
+    return Promise.all(todo.map(function (r) { return remApi("POST", "", { text: r.text, due: String(r.due).slice(0, 16) }); }))
+      .then(function () { try { localStorage.removeItem(REM_KEY); } catch (e) {} return todo.length > 0; });
+  }
+  function remLoad() {
+    return remApi("GET").then(function (list) {
+      return remMigrateLocal(list).then(function (added) { return added ? remApi("GET") : list; }, function () { return list; });
+    }).then(function (list) {
+      state.rems = Array.isArray(list) ? list : []; state.remsOffline = false;
+    }, function () { state.remsOffline = true; });
+  }
+  function remRefreshView() {
+    return remLoad().then(function () {
+      render();
+      if (state.remDraft && $("remText")) { $("remText").value = state.remDraft.text; $("remDate").value = state.remDraft.date; $("remTime").value = state.remDraft.time; }
+      state.remDraft = null;
+    });
+  }
+  function allReminders() {
+    var src = (!state.remsOffline && Array.isArray(state.rems)) ? state.rems
+      : ((state.data && Array.isArray(state.data.reminders)) ? state.data.reminders : []);
+    var out = [];
+    src.forEach(function (r) { if (r && r.due) out.push({ id: r.id, text: r.text, due: String(r.due).slice(0, 16), status: r.status || "gepland" }); });
     out.sort(function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : 0; });
     return out;
   }
-  function isRemDone(r, now) { return r.status === "herinnerd" && r.due < now; }
+  function isRemDone(r, now) { return r.status === "afgerond" || (r.status === "herinnerd" && r.due < now); }
   function upcomingReminders() { var now = nowAmsLocal(); return allReminders().filter(function (r) { return !isRemDone(r, now) && r.status !== "herinnerd"; }); }
   function remDueTodayPending() { var now = nowAmsLocal(), t = now.slice(0, 10); return upcomingReminders().some(function (r) { return r.due.slice(0, 10) === t && r.due >= now; }); }
   function tomorrowKey() { var d = new Date(Date.now() + 864e5); return dayKey(d); }
+  function remOnline() { return !state.remsOffline && Array.isArray(state.rems); }
   function remRowHtml(r, now) {
-    var st = r.local ? "Nog niet bij mij binnen" : (r.status === "herinnerd" ? "Herinnerd" : "Gepland");
+    var st = r.status === "afgerond" ? "Afgerond" : (r.status === "herinnerd" ? "Herinnerd" : "Gepland");
     var extra = "";
-    if (r.local) {
-      extra += ' <a class="rem-send" href="' + esc(remMailto(r.text, r.due)) + '">Verstuur naar Mijn Bots</a>';
-      extra += ' <button type="button" class="rem-copy" data-rem-copy="' + esc(remSubject(r.text, r.due)) + '">Kopieer</button>';
-      extra += '<span class="rem-hint">Of plak dit in een chat met App Overzicht.</span>';
+    if (remOnline()) {
+      extra += ' <label class="rem-donelbl"><input type="checkbox" class="rem-done" data-rem-done="' + esc(r.id) + '"' + (r.status === "afgerond" ? " checked" : "") + "> Afgerond</label>";
       extra += ' <button type="button" class="rem-del" data-rem-del="' + esc(r.id) + '">Verwijderen</button>';
     }
     return '<li class="rem-row"><div class="rem-when">' + esc(remWhen(r.due)) + '</div><div class="rem-text">' + esc(r.text) +
-      '</div><div class="rem-meta"><span class="rem-status rem-status--' + (r.local ? "local" : esc(r.status)) + '">' + st + "</span>" + extra + "</div></li>";
+      '</div><div class="rem-meta"><span class="rem-status rem-status--' + esc(r.status) + '">' + st + "</span>" + extra + "</div></li>";
   }
   function renderRemindersDetail() {
     $("detailBar").style.setProperty("--c", "#C2410C");
@@ -838,17 +860,10 @@
     var h = '<form class="card rem-form" id="remForm"><label class="rem-lbl">Wat moet je doen?<input type="text" id="remText" required placeholder="Bijv. Peter een appje sturen"></label>' +
       '<div class="rem-dt"><label class="rem-lbl">Datum<input type="date" id="remDate" required value="' + tm + '"></label>' +
       '<label class="rem-lbl">Tijd<input type="time" id="remTime" required value="12:00"></label></div>' +
-      '<button type="submit" class="rem-submit">Herinnering aanmaken</button>' +
+      '<button type="submit" class="rem-submit"' + (state.remBusy ? " disabled" : "") + ">" + (state.remBusy ? "Opslaan…" : "Herinnering aanmaken") + "</button>" +
       "</form>";
-    if (state.remPending) {
-      var pr = state.remPending;
-      h += '<div class="card rem-sheet"><p class="rem-sheet-title">Nog één stap: verstuur hem naar mij</p>' +
-        '<a class="rem-open" href="' + esc(remMailto(pr.text, pr.due)) + '">Open mail en verstuur</a>' +
-        '<p class="rem-note">Tik in je mail-app op Verzenden. Daarna pak ik hem op.</p>' +
-        '<div class="rem-meta"><button type="button" class="rem-copy" data-rem-copy="' + esc(remSubject(pr.text, pr.due)) + '">Kopieer</button>' +
-        '<span class="rem-hint">Of plak dit in een chat met App Overzicht.</span>' +
-        '<button type="button" class="rem-del" data-rem-sheet-close>Sluiten</button></div></div>';
-    }
+    if (state.remsOffline) h += '<p class="rem-note">Offline: je ziet de laatst bekende lijst. Aanmaken en wijzigen kan weer zodra er verbinding is.</p>';
+    else if (!Array.isArray(state.rems)) h += '<p class="rem-note">Laden…</p>';
     var now = nowAmsLocal(), all = allReminders();
     var open = all.filter(function (r) { return !isRemDone(r, now); });
     var done = all.filter(function (r) { return isRemDone(r, now); });
@@ -979,20 +994,12 @@
   function render() { route(); }
 
   $("detailBody").addEventListener("click", function (e) {
-    var rcopy = e.target.closest("[data-rem-copy]");
-    if (rcopy) {
-      var txt = rcopy.getAttribute("data-rem-copy");
-      var done = function () { rcopy.textContent = "Gekopieerd ✓"; };
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, function () { window.prompt("Kopieer deze regel:", txt); });
-      else window.prompt("Kopieer deze regel:", txt);
-      return;
-    }
-    if (e.target.closest("[data-rem-sheet-close]")) { state.remPending = null; renderRemindersDetail(); return; }
     var rdel = e.target.closest("[data-rem-del]");
     if (rdel) {
       var rid = rdel.getAttribute("data-rem-del");
-      saveLocalRems(loadLocalRems().filter(function (r) { return r.id !== rid; }));
-      renderRemindersDetail();
+      if (!window.confirm("Deze herinnering verwijderen?")) return;
+      rdel.disabled = true;
+      remApi("DELETE", "/" + encodeURIComponent(rid)).then(function () { toast("Verwijderd ✓"); }, function () { toast("Verwijderen mislukt – probeer opnieuw"); }).then(remRefreshView);
       return;
     }
     var hidTog = e.target.closest("[data-email-toggle-hidden]");
@@ -1026,15 +1033,22 @@
     var date = $("remDate").value, time = $("remTime").value || "12:00";
     if (!text || !date) return;
     var due = date + "T" + time.slice(0, 5);
-    var list = loadLocalRems();
-    list.push({ id: "l" + Date.now().toString(36), text: text, due: due, created: new Date().toISOString(), status: "verstuurd?" });
-    saveLocalRems(list);
-    state.remPending = { text: text, due: due };
-    renderRemindersDetail();
-    var sheet = document.querySelector(".rem-sheet");
-    if (sheet) sheet.scrollIntoView({ behavior: "smooth", block: "center" });
+    state.remBusy = true; renderRemindersDetail();
+    remApi("POST", "", { text: text, due: due }).then(function () {
+      state.remBusy = false; toast("Herinnering opgeslagen ✓");
+    }, function () {
+      state.remBusy = false; state.remDraft = { text: text, date: date, time: time };
+      window.alert("Opslaan mislukt (geen verbinding?). Probeer het zo opnieuw.");
+    }).then(remRefreshView);
   });
   $("detailBody").addEventListener("change", function (e) {
+    var rd = e.target.closest("input.rem-done");
+    if (rd) {
+      rd.disabled = true;
+      remApi("PATCH", "/" + encodeURIComponent(rd.getAttribute("data-rem-done")), { status: rd.checked ? "afgerond" : "gepland" })
+        .then(null, function () { toast("Opslaan mislukt – probeer opnieuw"); }).then(remRefreshView);
+      return;
+    }
     var cb = e.target.closest("input.email-check");
     if (!cb) return;
     setEmailItemChecked(cb.getAttribute("data-ident") || "", cb.getAttribute("data-hash") || "", cb.checked);

@@ -16,5 +16,8 @@ window.BOTS_CONFIG = {
   PIN_SHA256: "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
   PIN_LENGTH: 4,
   CONFIG_VERSION: 1,
-  DATA_URL: "data.json"
+  DATA_URL: "data.json",
+  // Herinneringen-API (Vercel). Sleutel = lichte bescherming, net als de PIN.
+  REM_API: "https://mijnbots-api.vercel.app/api/reminders",
+  REM_KEY: "PCLJJ0u_Nj8tfu329n6M2foc_pizDLFS"
 };

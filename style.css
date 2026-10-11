@@ -506,3 +506,7 @@ details.hist[open] summary {
 .rem-hint { font-size: 12px; opacity: .7; flex-basis: 100%; }
 .rem-sheet { display: grid; gap: 10px; border: 2px solid #F97316; }
 .rem-sheet-title { margin: 0; font-weight: 700; }
+.rem-donelbl { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; }
+.rem-donelbl input { width: 16px; height: 16px; margin: 0; }
+.rem-status--afgerond { background: rgba(22,163,74,.15); color: #15803d; }
+.rem-status--herinnerd { background: rgba(37,99,235,.12); color: #1d4ed8; }
