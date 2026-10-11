@@ -829,24 +829,48 @@
       state.remDraft = null;
     });
   }
+  function remFind(id) { return (state.rems || []).filter(function (x) { return x.id === id; })[0]; }
+  // Optimistisch bijwerken; bij fout terugzetten + melding.
+  function remOptimistic(id, patch, apply) {
+    var it = remFind(id); if (!it) return;
+    var backup = JSON.parse(JSON.stringify(it));
+    apply(it); renderRemindersDetail();
+    remApi("PATCH", "/" + encodeURIComponent(id), patch).then(function (srv) {
+      var cur = remFind(id); if (cur && srv && srv.id) { Object.keys(cur).forEach(function (k) { delete cur[k]; }); Object.assign(cur, srv); }
+      if (location.hash.indexOf(REM_ID) >= 0 && !state.remEditId) renderRemindersDetail();
+    }, function () {
+      var cur = remFind(id); if (cur) { Object.keys(cur).forEach(function (k) { delete cur[k]; }); Object.assign(cur, backup); }
+      renderRemindersDetail(); toast("Opslaan mislukt – wijziging teruggezet");
+    });
+  }
   function allReminders() {
     var src = (!state.remsOffline && Array.isArray(state.rems)) ? state.rems
       : ((state.data && Array.isArray(state.data.reminders)) ? state.data.reminders : []);
     var out = [];
-    src.forEach(function (r) { if (r && r.due) out.push({ id: r.id, text: r.text, due: String(r.due).slice(0, 16), status: r.status || "gepland" }); });
+    src.forEach(function (r) { if (r && r.due) out.push({ id: r.id, text: r.text, due: String(r.due).slice(0, 16), status: r.status || "gepland", reopenedAt: r.reopenedAt || null }); });
     out.sort(function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : 0; });
     return out;
   }
-  function isRemDone(r, now) { return r.status === "afgerond" || (r.status === "herinnerd" && r.due < now); }
+  function isRemDone(r, now) { return r.status === "afgerond" || (r.status === "herinnerd" && r.due < now && !r.reopenedAt); }
   function upcomingReminders() { var now = nowAmsLocal(); return allReminders().filter(function (r) { return !isRemDone(r, now) && r.status !== "herinnerd"; }); }
   function remDueTodayPending() { var now = nowAmsLocal(), t = now.slice(0, 10); return upcomingReminders().some(function (r) { return r.due.slice(0, 10) === t && r.due >= now; }); }
   function tomorrowKey() { var d = new Date(Date.now() + 864e5); return dayKey(d); }
   function remOnline() { return !state.remsOffline && Array.isArray(state.rems); }
   function remRowHtml(r, now) {
+    if (state.remEditId === r.id && remOnline()) {
+      var dd = r.due.slice(0, 10), tt = r.due.slice(11, 16);
+      return '<li class="rem-row"><form class="rem-form rem-editform" data-rem-editform="' + esc(r.id) + '">' +
+        '<label class="rem-lbl">Wat moet je doen?<input type="text" name="text" required value="' + esc(r.text) + '"></label>' +
+        '<div class="rem-dt"><label class="rem-lbl">Datum<input type="date" name="date" required value="' + dd + '"></label>' +
+        '<label class="rem-lbl">Tijd<input type="time" name="time" required value="' + tt + '"></label></div>' +
+        '<div class="rem-editbtns"><button type="submit" class="rem-submit">Opslaan</button><button type="button" class="rem-cancel" data-rem-cancel="1">Annuleren</button></div>' +
+        "</form></li>";
+    }
     var st = r.status === "afgerond" ? "Afgerond" : (r.status === "herinnerd" ? "Herinnerd" : "Gepland");
     var extra = "";
     if (remOnline()) {
       extra += ' <label class="rem-donelbl"><input type="checkbox" class="rem-done" data-rem-done="' + esc(r.id) + '"' + (r.status === "afgerond" ? " checked" : "") + "> Afgerond</label>";
+      extra += ' <button type="button" class="rem-edit" data-rem-edit="' + esc(r.id) + '">Wijzigen</button>';
       extra += ' <button type="button" class="rem-del" data-rem-del="' + esc(r.id) + '">Verwijderen</button>';
     }
     return '<li class="rem-row"><div class="rem-when">' + esc(remWhen(r.due)) + '</div><div class="rem-text">' + esc(r.text) +
@@ -869,7 +893,7 @@
     var done = all.filter(function (r) { return isRemDone(r, now); });
     h += '<h2 class="hist-title">Gepland</h2>';
     h += open.length ? '<ul class="card rem-list">' + open.map(function (r) { return remRowHtml(r, now); }).join("") + "</ul>" : '<p class="topic-empty-cat">Geen geplande herinneringen.</p>';
-    if (done.length) h += '<details class="card hist"><summary>Afgerond (' + done.length + ')</summary><ul class="rem-list">' + done.map(function (r) { return remRowHtml(r, now); }).join("") + "</ul></details>";
+    if (done.length) h += '<details class="card hist"' + (state.remDoneOpen ? " open" : "") + ' id="remDoneDetails"><summary>Afgerond (' + done.length + ')</summary><ul class="rem-list">' + done.map(function (r) { return remRowHtml(r, now); }).join("") + "</ul></details>";
     $("detailBody").innerHTML = h;
   }
   function emailRemindersHtml() {
@@ -993,7 +1017,13 @@
   }
   function render() { route(); }
 
+  $("detailBody").addEventListener("toggle", function (e) {
+    if (e.target && e.target.id === "remDoneDetails") state.remDoneOpen = e.target.open;
+  }, true);
   $("detailBody").addEventListener("click", function (e) {
+    var redit = e.target.closest("[data-rem-edit]");
+    if (redit) { state.remEditId = redit.getAttribute("data-rem-edit"); renderRemindersDetail(); return; }
+    if (e.target.closest("[data-rem-cancel]")) { state.remEditId = null; renderRemindersDetail(); return; }
     var rdel = e.target.closest("[data-rem-del]");
     if (rdel) {
       var rid = rdel.getAttribute("data-rem-del");
@@ -1027,6 +1057,22 @@
     }
   });
   $("detailBody").addEventListener("submit", function (e) {
+    var ef = e.target.closest && e.target.closest("form.rem-editform");
+    if (ef) {
+      e.preventDefault();
+      var eid = ef.getAttribute("data-rem-editform");
+      var et = ef.elements.text.value.trim().replace(/\s+/g, " ").replace(/\|/g, "/");
+      var edt = ef.elements.date.value, etm = (ef.elements.time.value || "12:00").slice(0, 5);
+      if (!et || !edt) return;
+      var edue = edt + "T" + etm, enow = nowAmsLocal();
+      state.remEditId = null;
+      remOptimistic(eid, { text: et, due: edue }, function (it) {
+        var changed = it.due !== edue;
+        it.text = et; it.due = edue;
+        if (changed && edue > enow) { it.status = "gepland"; it.remindedAt = null; delete it.reopenedAt; delete it.doneAt; }
+      });
+      return;
+    }
     if (e.target.id !== "remForm") return;
     e.preventDefault();
     var text = $("remText").value.trim().replace(/\s+/g, " ").replace(/\|/g, "/");
@@ -1044,9 +1090,12 @@
   $("detailBody").addEventListener("change", function (e) {
     var rd = e.target.closest("input.rem-done");
     if (rd) {
-      rd.disabled = true;
-      remApi("PATCH", "/" + encodeURIComponent(rd.getAttribute("data-rem-done")), { status: rd.checked ? "afgerond" : "gepland" })
-        .then(null, function () { toast("Opslaan mislukt – probeer opnieuw"); }).then(remRefreshView);
+      var did = rd.getAttribute("data-rem-done"), on = rd.checked, nw = nowAmsLocal();
+      var dz = $("remDoneDetails"); if (dz) state.remDoneOpen = dz.open;
+      remOptimistic(did, { status: on ? "afgerond" : "gepland" }, function (it) {
+        if (on) { it.status = "afgerond"; delete it.reopenedAt; }
+        else { it.status = (it.due < nw && it.remindedAt) ? "herinnerd" : "gepland"; it.reopenedAt = nw; delete it.doneAt; }
+      });
       return;
     }
     var cb = e.target.closest("input.email-check");

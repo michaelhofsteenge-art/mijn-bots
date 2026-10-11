@@ -510,3 +510,7 @@ details.hist[open] summary {
 .rem-donelbl input { width: 16px; height: 16px; margin: 0; }
 .rem-status--afgerond { background: rgba(22,163,74,.15); color: #15803d; }
 .rem-status--herinnerd { background: rgba(37,99,235,.12); color: #1d4ed8; }
+.rem-edit { font: inherit; font-size: 12px; background: none; border: 0; color: #C2410C; padding: 0; font-weight: 600; }
+.rem-editform { padding: 4px 0; }
+.rem-editbtns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rem-cancel { font: inherit; font-weight: 600; padding: 11px; border-radius: 10px; border: 1px solid rgba(127,127,127,.4); background: transparent; color: inherit; }
