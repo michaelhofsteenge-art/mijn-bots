@@ -1,42 +1,14 @@
 # Portfolio Crypto Adviseur
 
-Laatst bijgewerkt: 2026-10-08 08:03 CEST (Europe/Amsterdam)
-Bron: Mike bevestigde op 28-09-2026 T1 en T2 voor BTC en XRP. Exacte uitvoeringskoersen nog niet doorgegeven. Piek BTC bijgewerkt na 24u-hoog Kraken (€77.520,90).
+Laatst bijgewerkt: 2026-10-11 12:47 CEST
 
-## Openstaande posities
+## Openstaand (bewust vastgehouden, lange termijn)
+- **BTC:** ~0,1199 BTC, gem. aankoop ~€59.726, piek €77.520,90
+- **XRP:** ~582,27 XRP, gem. aankoop ~€0,7424 (geen meldingen meer)
 
-### BTC
-- Open: ~0,1199 BTC
-- Gemiddelde aankoop: ~€59.726
-- Bewaakte piek: €77.520,90
-- Trailing stop (90%): €69.768,81
-- Koers 08-10-2026 08:03: ~€73.870 (5,9% boven stop)
-- Scenario's:
-  - **Vasthouden** zolang prijs boven €69.768,81 blijft.
-  - **Verkoop rest** bij koers ≤ €69.768,81 (spoed).
-  - **Herinstap overwegen** bij dip onder ~€59.726 (onder gemiddelde aankoop), met cash uit T1/T2 apart houden.
-  - Bij nieuwe piek: stopdrempel herberekenen (90% van nieuwe piek).
+## Afgerond
+- T1 + T2 verkocht op 28-09-2026 (BTC ~0,0981, XRP ~643,56)
 
-### XRP
-- Open: ~582,27 XRP
-- Gemiddelde aankoop: ~€0,7424
-- Bewaakte piek: €1,45000
-- Trailing stop (88%): €1,276
-- **Status 07/08-10-2026:** stop vannacht rond 04:00–05:00 geraakt (laagste koers Kraken €1,27356) en om 15:39 opnieuw doorbroken (laagste €1,27483); op 08-10 rond 06:15 verder gezakt tot €1,2396 (onder ondergrens €1,25), om 08:03 ~€1,250. Advies: verkoop de rest (582,27 XRP), wachten op Mike's bevestiging.
-- Scenario's:
-  - **Vasthouden** zolang prijs boven €1,276 blijft.
-  - **Verkoop rest** bij koers ≤ €1,276 (spoed).
-  - **Herinstap overwegen** bij dip onder ~€0,742, met cash uit T1/T2 apart houden.
-  - Bij nieuwe piek: stopdrempel herberekenen (88% van nieuwe piek).
-
-## Afgeronde winstneming (28-09-2026)
-- BTC T1 + T2: 2 × ~0,04905 BTC (samen ~0,0981 BTC) — uitgevoerd
-- XRP T1: ~337,10 XRP; T2: ~306,46 XRP (samen ~643,56 XRP) — uitgevoerd
-- Exacte verkoopprijzen: nog niet door Mike doorgegeven
-
-## Cash / herinstap
-- Opbrengst van T1/T2 is bedoeld als buffer voor herinstap bij dips onder gemiddelde aankoop of als winst veiligstellen.
-- Geen automatische orders: Mike handelt zelf op Coinmerce.
-
-## Open vragen aan Mike (alleen bij behoefte)
-- Exacte hoeveelheden en prijzen van de T1/T2-orders, als die afwijken van bovenstaande schatting.
+## Meldingen alleen bij
+- **BTC-crash:** onder €62.000, of 12% of meer daling binnen 24 uur
+- **BTC extreme piek:** boven €95.000, of 20% of meer stijging binnen een week naar een nieuw record. Dan een deel winst nemen (15–25%).
