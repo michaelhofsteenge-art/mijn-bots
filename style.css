@@ -491,7 +491,7 @@ details.hist[open] summary {
 .card.rem-list { padding: 4px 14px; }
 .rem-row { padding: 10px 0; border-bottom: 1px solid rgba(127,127,127,.18); }
 .rem-row:last-child { border-bottom: 0; }
-.rem-when { font-size: 12px; opacity: .7; text-transform: capitalize; }
+.rem-when { font-size: 12px; opacity: .7; }
 .rem-text { font-size: 15px; margin: 2px 0 4px; }
 .rem-meta { font-size: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .rem-status { padding: 1px 7px; border-radius: 999px; background: rgba(127,127,127,.15); }
@@ -499,3 +499,10 @@ details.hist[open] summary {
 .rem-del { font: inherit; font-size: 12px; background: none; border: 0; color: #b91c1c; padding: 0; }
 .rem-resend { color: #C2410C; }
 .rem-count { margin-left: 6px; font-size: 12px; font-weight: 700; min-width: 20px; text-align: center; padding: 1px 6px; border-radius: 999px; background: #C2410C; color: #fff; }
+.rem-status--local { background: #F97316; color: #fff; font-weight: 600; }
+.rem-send, .rem-open { display: inline-block; font-weight: 700; padding: 8px 12px; border-radius: 10px; background: #C2410C; color: #fff; text-decoration: none; }
+.rem-open { display: block; text-align: center; font-size: 17px; padding: 14px; }
+.rem-copy { font: inherit; font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 10px; border: 1px solid #C2410C; background: transparent; color: #C2410C; }
+.rem-hint { font-size: 12px; opacity: .7; flex-basis: 100%; }
+.rem-sheet { display: grid; gap: 10px; border: 2px solid #F97316; }
+.rem-sheet-title { margin: 0; font-weight: 700; }
