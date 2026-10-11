@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-11T09:25:37+02:00",
+  "generated_at": "2026-10-11T09:51:53+02:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -170,6 +170,22 @@
       "text": "Even een appje sturen over de uitslag (wel of geen kanker) en hoe het gaat",
       "due": "2026-10-15T12:00",
       "created": "2026-10-10T19:55:20+02:00",
+      "status": "gepland",
+      "remindedAt": null
+    },
+    {
+      "id": "quinten-weekplan",
+      "text": "Quinten weekplan maken",
+      "due": "2026-10-11T09:00",
+      "created": "2026-10-11T09:52:00+02:00",
+      "status": "gepland",
+      "remindedAt": null
+    },
+    {
+      "id": "ouders-volkert-jan",
+      "text": "Ouders Volkert jan bellen",
+      "due": "2026-10-11T12:00",
+      "created": "2026-10-11T09:52:00+02:00",
       "status": "gepland",
       "remindedAt": null
     }
