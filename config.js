@@ -19,5 +19,6 @@ window.BOTS_CONFIG = {
   DATA_URL: "data.json",
   // Herinneringen-API (Vercel). Sleutel = lichte bescherming, net als de PIN.
   REM_API: "https://mijnbots-api.vercel.app/api/reminders",
+  MAIL_API: "https://mijnbots-api.vercel.app/api/mailacties",
   REM_KEY: "PCLJJ0u_Nj8tfu329n6M2foc_pizDLFS"
 };

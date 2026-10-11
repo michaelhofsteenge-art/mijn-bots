@@ -18,10 +18,10 @@
     "doneAt": "2026-10-11T17:49:44"
   },
   {
-    "id": "peter-operatie",
-    "text": "Peter even een appje sturen: hij wordt 13 oktober geopereerd",
+    "id": "r-6b2a844ee8",
+    "text": "Peter een appje sturen ivm operatie 13 okt",
     "due": "2026-10-12T12:00",
-    "created": "2026-10-10T19:55:20+02:00",
+    "created": "2026-10-11T22:20:09",
     "status": "gepland",
     "remindedAt": null
   },

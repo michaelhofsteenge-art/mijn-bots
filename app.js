@@ -248,6 +248,7 @@
         toast(state.data ? "Offline – laatst opgeslagen gegevens" : "Kan gegevens niet laden");
       })
       .then(function () { return remLoad(); })
+      .then(function () { return mailLoad(); })
       .then(render);
   }
   function findBot(id) { return state.data && state.data.bots.filter(function (b) { return b.id === id; })[0]; }
@@ -578,6 +579,7 @@
    *  (or, with zero list items, when text is not clearly "nothing to do"). */
   function emailNeedsAction(b) {
     if (!isEmailBot(b)) return false;
+    if (mailOnline()) return mailOpenItems().length > 0;
     var u = b.updates && b.updates[0];
     if (!u || !u.date) return false;
     var d = new Date(u.date);
@@ -913,6 +915,101 @@
   }
   // ---- reminders:end ----
 
+  // ---- mailacties:start ----
+  // Openstaande mails staan centraal in de Mijn Bots-API (/api/mailacties); de markdown is alleen terugval.
+  var MAIL_MIGRATED_KEY = "mijnbots-email-checks-migrated";
+  function mailApi(method, path, body) {
+    if (!CFG.MAIL_API) return Promise.reject(new Error("geen API"));
+    var opt = { method: method, headers: { "X-Mijnbots-Key": CFG.REM_KEY || "" }, cache: "no-store" };
+    if (body) { opt.headers["Content-Type"] = "application/json"; opt.body = JSON.stringify(body); }
+    return fetch(CFG.MAIL_API + (path || ""), opt).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    });
+  }
+  // Eenmalig: vinkjes uit de oude telefoonopslag als 'done' naar de server, daarna die sleutel niet meer gebruiken.
+  function mailMigrateChecks(list) {
+    try { if (localStorage.getItem(MAIL_MIGRATED_KEY)) return Promise.resolve(false); } catch (e) { return Promise.resolve(false); }
+    var store = loadEmailChecks();
+    var todo = list.filter(function (it) {
+      if (it.status !== "open") return false;
+      var keys = [it.id, String(it.id).replace(/-/g, " "), normalizeEmailLabel(it.sender || "")];
+      return keys.some(function (k) { return k && emailCheckedOn(store, store[k]); });
+    });
+    return Promise.all(todo.map(function (it) { return mailApi("PATCH", "/" + encodeURIComponent(it.id), { status: "done" }); }))
+      .then(function () {
+        try { localStorage.setItem(MAIL_MIGRATED_KEY, new Date().toISOString()); localStorage.removeItem(EMAIL_CHECKS_KEY); localStorage.removeItem(EMAIL_CHECKS_KEY_OLD); } catch (e) {}
+        return todo.length > 0;
+      });
+  }
+  function mailLoad() {
+    return mailApi("GET").then(function (list) {
+      list = Array.isArray(list) ? list : [];
+      return mailMigrateChecks(list).then(function (ch) { return ch ? mailApi("GET") : list; }, function () { return list; });
+    }).then(function (list) { state.mail = Array.isArray(list) ? list : []; state.mailOffline = false; },
+      function () { state.mailOffline = true; });
+  }
+  function mailOnline() { return !state.mailOffline && Array.isArray(state.mail); }
+  function mailCmp(a, b) { var x = String(a.firstSeen || ""), y = String(b.firstSeen || ""); return x < y ? -1 : x > y ? 1 : 0; }
+  function mailOpenItems() { return (state.mail || []).filter(function (it) { return it.status === "open"; }).sort(mailCmp); }
+  function mailArchItems() {
+    return (state.mail || []).filter(function (it) { return it.status === "done" || it.status === "weg"; })
+      .sort(function (a, b) { var x = a.doneAt || a.goneAt || "", y = b.doneAt || b.goneAt || ""; return x < y ? 1 : x > y ? -1 : 0; });
+  }
+  function mailShortDate(ts) {
+    var p = String(ts || "").split(/[-T:]/).map(Number);
+    if (!p[0] || !p[2]) return "";
+    var d = new Date(Date.UTC(p[0], p[1] - 1, p[2], 12));
+    var wd = new Intl.DateTimeFormat("nl-NL", { weekday: "short", timeZone: "UTC" }).format(d).replace(".", "");
+    var mo = new Intl.DateTimeFormat("nl-NL", { month: "short", timeZone: "UTC" }).format(d).replace(".", "");
+    return wd + " " + p[2] + " " + mo;
+  }
+  function mailRowHtml(it) {
+    var on = it.status !== "open", meta;
+    if (it.status === "done") meta = "afgevinkt " + mailShortDate(it.doneAt);
+    else if (it.status === "weg") meta = "niet meer in Outlook · " + mailShortDate(it.goneAt);
+    else meta = "sinds " + mailShortDate(it.firstSeen);
+    if (it.deadline) meta += " · deadline " + it.deadline;
+    var who = (it.sender || "") + (it.mailbox ? " (" + it.mailbox + ")" : "");
+    return '<li class="email-check-row' + (on ? " is-checked" : "") + '"><label class="email-check-label">' +
+      '<input type="checkbox" class="email-check mail-check" data-mail-id="' + esc(it.id) + '"' + (on ? " checked" : "") + ">" +
+      '<span class="email-check-text"><strong>' + esc(who) + "</strong> " + esc(it.text) +
+      '<br><span class="mail-meta">' + esc(meta) + "</span></span></label></li>";
+  }
+  function mailListHtml() {
+    var open = mailOpenItems(), arch = mailArchItems();
+    var h = '<h2 class="hist-title">Openstaand (' + open.length + ")</h2>";
+    h += open.length ? '<ul class="card email-checklist" role="list">' + open.map(mailRowHtml).join("") + "</ul>"
+      : '<p class="topic-empty-cat">Geen openstaande mails 🎉</p>';
+    if (arch.length) {
+      h += '<details class="card hist" id="mailArchDetails"' + (state.mailArchOpen ? " open" : "") + "><summary>Archief (" + arch.length + ")</summary>" +
+        '<p class="email-hidden-note">Wordt na 7 dagen verwijderd. Vinkje weghalen zet een mail terug.</p>' +
+        '<ul class="email-checklist" role="list">' + arch.map(mailRowHtml).join("") + "</ul></details>";
+    }
+    return h;
+  }
+  function mailDigestHtml(u) {
+    if (!u) return "";
+    return '<details class="card hist" id="mailDigestDetails"' + (state.mailDigestOpen ? " open" : "") + "><summary>Laatste mailupdate · " + esc(fmtDate(u.date, true)) +
+      '</summary><div class="md">' + window.renderMarkdown(u.markdown) + "</div></details>";
+  }
+  function mailOfflineNote() { if (!state.mailOffline) return ""; return '<p class="rem-note">Offline: lijst kon niet worden geladen. Je ziet de laatste mailupdate; vinkjes worden alleen op dit toestel bewaard.</p>'; }
+  function mailRerender() { var m = location.hash.match(/^#\/bot\/(.+)$/); if (m) renderDetail(decodeURIComponent(m[1])); }
+  function mailToggle(id, checked) {
+    var it = (state.mail || []).filter(function (x) { return x.id === id; })[0]; if (!it) return;
+    var backup = JSON.parse(JSON.stringify(it)), now = nowAmsLocal();
+    var dz = $("mailArchDetails"); if (dz) state.mailArchOpen = dz.open;
+    if (checked) { it.status = "done"; it.doneAt = now; delete it.goneAt; } else { it.status = "open"; delete it.doneAt; delete it.goneAt; }
+    setTimeout(mailRerender, 250);
+    mailApi("PATCH", "/" + encodeURIComponent(id), { status: checked ? "done" : "open" }).then(function (srv) {
+      if (srv && srv.id) { Object.keys(it).forEach(function (k) { delete it[k]; }); Object.assign(it, srv); }
+    }, function () {
+      Object.keys(it).forEach(function (k) { delete it[k]; }); Object.assign(it, backup);
+      mailRerender(); toast("Opslaan mislukt – vinkje teruggezet");
+    });
+  }
+  // ---- mailacties:end ----
+
   function renderHome() {
     var d = state.data;
     var r = $("refreshed");
@@ -963,13 +1060,15 @@
     var klimaat = isKlimaatBot(b);
     if (!klimaat) state.klimaatTopic = null;
     if (isCryptoBot(b)) h += cryptoPanelHtml();
-    if (!ups.length) {
+    if (!ups.length && isEmailBot(b) && mailOnline()) {
+      h += emailRemindersHtml() + mailListHtml();
+    } else if (!ups.length) {
       h += '<div class="card empty-card"><p class="big-empty">Nog geen update beschikbaar</p><p>Deze bot heeft nog geen rapport gestuurd. Kom later terug.</p></div>';
     } else {
       if (klimaat) {
         h += renderKlimaatLatest(ups[0]);
       } else if (isEmailBot(b)) {
-        h += emailRemindersHtml() + renderEmailLatest(ups[0]);
+        h += emailRemindersHtml() + (mailOnline() ? mailListHtml() + mailDigestHtml(ups[0]) : mailOfflineNote() + renderEmailLatest(ups[0]));
       } else {
         h += '<article class="card latest"><div class="card-date">Laatste update · ' + esc(fmtDate(ups[0].date, true)) + '</div><div class="md">' + window.renderMarkdown(ups[0].markdown) + "</div></article>";
       }
@@ -1019,6 +1118,8 @@
 
   $("detailBody").addEventListener("toggle", function (e) {
     if (e.target && e.target.id === "remDoneDetails") state.remDoneOpen = e.target.open;
+    if (e.target && e.target.id === "mailArchDetails") state.mailArchOpen = e.target.open;
+    if (e.target && e.target.id === "mailDigestDetails") state.mailDigestOpen = e.target.open;
   }, true);
   $("detailBody").addEventListener("click", function (e) {
     var redit = e.target.closest("[data-rem-edit]");
@@ -1098,6 +1199,8 @@
       });
       return;
     }
+    var mc = e.target.closest("input.mail-check");
+    if (mc) { mailToggle(mc.getAttribute("data-mail-id"), mc.checked); return; }
     var cb = e.target.closest("input.email-check");
     if (!cb) return;
     setEmailItemChecked(cb.getAttribute("data-ident") || "", cb.getAttribute("data-hash") || "", cb.checked);
@@ -1147,7 +1250,7 @@
   }
 
   // Start
-  try { cleanupEmailChecks(); } catch (e) {}
+  try { if (!localStorage.getItem(MAIL_MIGRATED_KEY)) cleanupEmailChecks(); } catch (e) {}
   try {
     var c = JSON.parse(localStorage.getItem(DATA_KEY) || "null");
     if (c && c.data) { state.data = c.data; state.fetchedAt = new Date(c.fetchedAt); state.fromCache = true; }
