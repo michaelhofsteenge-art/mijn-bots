@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-11T11:20:17+02:00",
+  "generated_at": "2026-10-11T12:14:23+02:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -171,8 +171,8 @@
       "text": "Ouders Volkert jan bellen",
       "due": "2026-10-11T12:00",
       "created": "2026-10-11T09:52:00+02:00",
-      "status": "gepland",
-      "remindedAt": null
+      "status": "herinnerd",
+      "remindedAt": "2026-10-11T12:14:21"
     },
     {
       "id": "peter-operatie",
