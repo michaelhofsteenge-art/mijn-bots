@@ -32,5 +32,13 @@
     "created": "2026-10-10T19:55:20+02:00",
     "status": "gepland",
     "remindedAt": null
+  },
+  {
+    "id": "r-10164e388c",
+    "text": "Greetje en Jan e-mail sturen met meer informatie over 27 oktober bezoek Loge",
+    "due": "2026-10-23T12:00",
+    "created": "2026-10-12T10:18:33",
+    "status": "gepland",
+    "remindedAt": null
   }
 ]
