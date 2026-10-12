@@ -22,8 +22,8 @@
     "text": "Peter een appje sturen ivm operatie 13 okt",
     "due": "2026-10-12T12:00",
     "created": "2026-10-11T22:20:09",
-    "status": "gepland",
-    "remindedAt": null
+    "status": "herinnerd",
+    "remindedAt": "2026-10-12T12:08:47"
   },
   {
     "id": "uitslag-donderdag",
