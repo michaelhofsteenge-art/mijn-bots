@@ -11,6 +11,15 @@ for f in /workspace/gv-vacatures-*.md; do
   rm -f updates/gv/"${d%%T*}"T*.md
   cp "$f" "updates/gv/$d.md"
 done
+# Parkinson-bot schrijft wekelijks /workspace/parkinson/report-<datum>.md
+mkdir -p updates/parkinson
+for f in /workspace/parkinson/report-*.md; do
+  [ -e "$f" ] || continue
+  d=$(basename "$f" .md); d=${d#report-}
+  ls updates/parkinson/"$d"*.md >/dev/null 2>&1 && cmp -s "$f" updates/parkinson/"$d"*.md && continue
+  rm -f updates/parkinson/"$d"*.md
+  cp "$f" "updates/parkinson/${d}T$(date -r "$f" +%H-%M).md"
+done
 python3 build_data.py >/dev/null
 python3 -m json.tool data.json >/dev/null
 git add -A

@@ -54,5 +54,13 @@
     "emoji": "✉️",
     "color": "#1B4F72",
     "subtitle": "Mails waar je op moet reageren"
+  },
+  {
+    "id": "d64e5089-39e4-467a-a78f-1f3cccf64e19",
+    "key": "parkinson",
+    "name": "Parkinson-onderzoek",
+    "emoji": "🧠",
+    "color": "#0FA3A3",
+    "subtitle": "Wereldwijd, Nederland & DBS"
   }
 ]

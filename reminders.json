@@ -4,9 +4,9 @@
     "text": "Quinten weekplan maken en boek uitzoeken",
     "due": "2026-10-11T09:00",
     "created": "2026-10-11T09:52:00+02:00",
-    "status": "afgerond",
+    "status": "herinnerd",
     "remindedAt": "2026-10-11T09:55:58",
-    "doneAt": "2026-10-11T17:22:53"
+    "reopenedAt": "2026-10-12T12:47:59"
   },
   {
     "id": "ouders-volkert-jan",
@@ -38,7 +38,8 @@
     "text": "Greetje en Jan e-mail sturen met meer informatie over 27 oktober bezoek Loge",
     "due": "2026-10-23T12:00",
     "created": "2026-10-12T10:18:33",
-    "status": "gepland",
-    "remindedAt": null
+    "status": "afgerond",
+    "remindedAt": null,
+    "doneAt": "2026-10-12T12:18:19"
   }
 ]

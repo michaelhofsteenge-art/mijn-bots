@@ -730,6 +730,43 @@
       body: lines.slice(restStart).join("\n").trim()
     };
   }
+
+  function isParkinsonBot(b) { return !!b && (b.key === "parkinson" || /parkinson/i.test(b.name || "")); }
+  function parseParkinson(md) {
+    var lines = String(md || "").replace(/\r\n/g, "\n").split("\n"), blocks = [], cur = null, sec = null;
+    for (var i = 0; i < lines.length; i++) {
+      var l = lines[i], m = l.match(/^##\s+(?:\d+\.\s*)?(.+?)\s*$/);
+      if (m && !/^###/.test(l)) { cur = { title: m[1], secs: {}, order: [], intro: [] }; blocks.push(cur); sec = null; continue; }
+      if (!cur) continue;
+      var s = l.match(/^###\s+(.+?)\s*$/);
+      if (s) { sec = s[1]; cur.order.push(sec); cur.secs[sec] = []; continue; }
+      (sec ? cur.secs[sec] : cur.intro).push(l);
+    }
+    return blocks;
+  }
+  function renderParkinsonLatest(u) {
+    var blocks = parseParkinson(u.markdown);
+    if (!blocks.length) return '<article class="card latest"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + '</div><div class="md">' + window.renderMarkdown(u.markdown) + "</div></article>";
+    var active = state.klimaatTopic, idx = active ? parseInt(String(active).replace(/^blok-/, ""), 10) - 1 : -1;
+    if (!(idx >= 0 && idx < blocks.length)) idx = -1;
+    var nav = '<nav class="topic-nav" aria-label="Onderwerpen">' + blocks.map(function (bl, i) {
+      var id = "blok-" + (i + 1), on = i === idx, label = (i + 1) + "  " + bl.title;
+      return '<button type="button" class="topic-chip' + (on ? " is-active" : "") + '" data-topic="' + id + '"' + (on ? ' aria-current="true"' : "") + ' title="' + esc(label) + '">' + esc(label) + "</button>";
+    }).join("") + "</nav>";
+    var h = '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
+      '<p class="topic-hint">' + (idx >= 0 ? "Onderwerp" : "Kies een onderwerp") + "</p>" + nav;
+    if (idx < 0) return h + '<p class="topic-empty">Tik op een onderwerp om alleen dat blok te lezen.</p></div>';
+    var bl = blocks[idx];
+    h += '<button type="button" class="topic-back" data-topic-back="1">‹ Alle onderwerpen</button><h2 class="topic-title">' + esc((idx + 1) + ". " + bl.title) + "</h2>";
+    var intro = bl.intro.join("\n").trim();
+    if (intro) h += '<div class="md">' + window.renderMarkdown(intro) + "</div>";
+    bl.order.forEach(function (name) {
+      var t = bl.secs[name].join("\n").trim(); if (!t) return;
+      var cls = /samenvatting/i.test(name) ? "topic-summary" : /conclusie/i.test(name) ? "topic-conclusion" : "topic-section";
+      h += '<div class="' + cls + '"><div class="topic-section-label">' + esc(name) + '</div><div class="md">' + window.renderMarkdown(t) + "</div></div>";
+    });
+    return h + "</div>";
+  }
   function klimaatTopicsHtml(activeId) {
     return '<nav class="topic-nav" aria-label="Onderwerpen">' +
       KLIMAAT_CATEGORIES.map(function (c) {
@@ -1058,7 +1095,8 @@
     $("detailName").textContent = b.name;
     var ups = b.updates || [], h = "";
     var klimaat = isKlimaatBot(b);
-    if (!klimaat) state.klimaatTopic = null;
+    var parkinson = isParkinsonBot(b);
+    if (!klimaat && !parkinson) state.klimaatTopic = null;
     if (isCryptoBot(b)) h += cryptoPanelHtml();
     if (!ups.length && isEmailBot(b) && mailOnline()) {
       h += emailRemindersHtml() + mailListHtml();
@@ -1067,6 +1105,8 @@
     } else {
       if (klimaat) {
         h += renderKlimaatLatest(ups[0]);
+      } else if (parkinson) {
+        h += renderParkinsonLatest(ups[0]);
       } else if (isEmailBot(b)) {
         h += emailRemindersHtml() + (mailOnline() ? mailListHtml() + mailDigestHtml(ups[0]) : mailOfflineNote() + renderEmailLatest(ups[0]));
       } else {
