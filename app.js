@@ -753,7 +753,7 @@
       var id = "blok-" + (i + 1), on = i === idx, label = (i + 1) + "  " + bl.title;
       return '<button type="button" class="topic-chip' + (on ? " is-active" : "") + '" data-topic="' + id + '"' + (on ? ' aria-current="true"' : "") + ' title="' + esc(label) + '">' + esc(label) + "</button>";
     }).join("") + "</nav>";
-    var h = '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
+    var h = (idx >= 0 ? '<button type="button" class="topic-back topic-back-top" data-topic-back="1">‹ Onderwerpen</button>' : '') + '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
       '<p class="topic-hint">' + (idx >= 0 ? "Onderwerp" : "Kies een onderwerp") + "</p>" + nav;
     if (idx < 0) return h + '<p class="topic-empty">Tik op een onderwerp om alleen dat blok te lezen.</p></div>';
     var bl = blocks[idx];
@@ -783,7 +783,7 @@
     var active = state.klimaatTopic;
     var valid = KLIMAAT_CATEGORIES.some(function (c) { return "blok-" + c.n === active; });
     if (!valid) active = null;
-    var h = '<div class="card klimaat-topics">' +
+    var h = (active ? '<button type="button" class="topic-back topic-back-top" data-topic-back="1">‹ Onderwerpen</button>' : '') + '<div class="card klimaat-topics">' +
       '<div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
       '<p class="topic-hint">' + (active ? "Onderwerp" : "Kies een onderwerp") + "</p>" +
       klimaatTopicsHtml(active);
@@ -1133,7 +1133,7 @@
   }
   function route() {
     if (!isUnlocked()) { if ($("lock").hidden) showLock(); return; }
-    var m = location.hash.match(/^#\/bot\/(.+)$/);
+    var m = location.hash.match(/^#\/bot\/([^\/]+)(?:\/(blok-\d+))?$/);
     if (m && state.data) {
       var botId = decodeURIComponent(m[1]);
       if (state._detailBotId !== botId) {
@@ -1142,6 +1142,7 @@
         state.emailShowHidden = false;
         state.remNote = false;
       }
+      state.klimaatTopic = m[2] || null;
       renderDetail(botId);
       $("home").hidden = true; $("detail").hidden = false; window.scrollTo(0, 0);
       stopHomeRefresh();
@@ -1183,18 +1184,22 @@
     }
     var back = e.target.closest("[data-topic-back]");
     if (back) {
-      state.klimaatTopic = null;
-      var m = location.hash.match(/^#\/bot\/(.+)$/);
-      if (m) renderDetail(decodeURIComponent(m[1]));
-      window.scrollTo(0, 0);
+      var m = location.hash.match(/^#\/bot\/([^\/]+)/);
+      if (m) {
+        if (history.state && history.state.topicFrom === m[1]) history.back();
+        else location.hash = "#/bot/" + m[1];
+      }
       return;
     }
     var chip = e.target.closest(".topic-chip");
     if (chip) {
-      state.klimaatTopic = chip.getAttribute("data-topic");
-      var m2 = location.hash.match(/^#\/bot\/(.+)$/);
-      if (m2) renderDetail(decodeURIComponent(m2[1]));
-      window.scrollTo(0, 0);
+      var m2 = location.hash.match(/^#\/bot\/([^\/]+)/);
+      if (m2) {
+        var nh = "#/bot/" + m2[1] + "/" + chip.getAttribute("data-topic");
+        if (state.klimaatTopic) history.replaceState({ topicFrom: m2[1] }, "", nh);
+        else history.pushState({ topicFrom: m2[1] }, "", nh);
+        route();
+      }
     }
   });
   $("detailBody").addEventListener("submit", function (e) {
