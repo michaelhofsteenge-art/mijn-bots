@@ -1,7 +1,7 @@
 // Service worker voor Mijn Bots.
 // - App-bestanden: cache-first (verhoog VERSION na elke wijziging aan HTML/JS/CSS/iconen).
 // - data.json: network-first (altijd nieuwste updates), bij offline de laatst opgeslagen versie.
-const VERSION = "v18";
+const VERSION = "v19";
 const SHELL_CACHE = "mijnbots-shell-" + VERSION;
 const DATA_CACHE = "mijnbots-data";
 const SHELL = [
@@ -10,7 +10,7 @@ const SHELL = [
 ];
 
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(SHELL_CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(SHELL_CACHE).then((c) => c.addAll(SHELL.map((u) => new Request(u, { cache: "reload" })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", (e) => {
@@ -42,6 +42,16 @@ self.addEventListener("fetch", (e) => {
             (hit) => hit || new Response(JSON.stringify({ offline: true, bots: [] }), { headers: { "Content-Type": "application/json" } })
           )
         )
+    );
+    return;
+  }
+
+  // Pagina zelf (HTML): network-first, zodat een nieuwe versie direct binnenkomt.
+  if (req.mode === "navigate") {
+    e.respondWith(
+      fetch(req, { cache: "no-store" })
+        .then((res) => { if (res.ok) { const c = res.clone(); caches.open(SHELL_CACHE).then((x) => x.put("index.html", c)); } return res; })
+        .catch(() => caches.match("index.html").then((h) => h || caches.match("./")))
     );
     return;
   }

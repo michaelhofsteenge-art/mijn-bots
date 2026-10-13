@@ -934,7 +934,6 @@
     h += open.length ? '<ul class="card rem-list">' + open.map(function (r) { return remRowHtml(r, now); }).join("") + "</ul>" : '<p class="topic-empty-cat">Geen geplande herinneringen.</p>';
     if (done.length) h += '<details class="card hist"' + (state.remDoneOpen ? " open" : "") + ' id="remDoneDetails"><summary>Afgerond (' + done.length + ')</summary><ul class="rem-list">' + done.map(function (r) { return remRowHtml(r, now); }).join("") + "</ul></details>";
     $("detailBody").innerHTML = h;
-    $("topicsBtn").hidden = !((klimaat || parkinson) && state.klimaatTopic && ups.length);
   }
   function emailRemindersHtml() {
     var t = nowAmsLocal().slice(0, 10), tm = tomorrowKey(), now = nowAmsLocal();
@@ -1121,6 +1120,7 @@
       }
     }
     $("detailBody").innerHTML = h;
+    $("topicsBtn").hidden = !((klimaat || parkinson) && state.klimaatTopic && ups.length);
     if (isCryptoBot(b)) wireCryptoPanel();
   }
   function startHomeRefresh() {
@@ -1298,7 +1298,17 @@
   })();
 
   if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+    var hadController = !!navigator.serviceWorker.controller, reloaded = false;
+    navigator.serviceWorker.addEventListener("controllerchange", function () {
+      if (!hadController || reloaded) { hadController = true; return; }
+      reloaded = true; location.reload();
+    });
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then(function (reg) {
+        reg.update();
+        document.addEventListener("visibilitychange", function () { if (!document.hidden) reg.update(); });
+      }).catch(function () {});
+    });
   }
 
   // Start
