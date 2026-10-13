@@ -753,7 +753,7 @@
       var id = "blok-" + (i + 1), on = i === idx, label = (i + 1) + "  " + bl.title;
       return '<button type="button" class="topic-chip' + (on ? " is-active" : "") + '" data-topic="' + id + '"' + (on ? ' aria-current="true"' : "") + ' title="' + esc(label) + '">' + esc(label) + "</button>";
     }).join("") + "</nav>";
-    var h = (idx >= 0 ? '<button type="button" class="topic-back topic-back-top" data-topic-back="1">‹ Onderwerpen</button>' : '') + '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
+    var h = '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
       '<p class="topic-hint">' + (idx >= 0 ? "Onderwerp" : "Kies een onderwerp") + "</p>" + nav;
     if (idx < 0) return h + '<p class="topic-empty">Tik op een onderwerp om alleen dat blok te lezen.</p></div>';
     var bl = blocks[idx];
@@ -783,7 +783,7 @@
     var active = state.klimaatTopic;
     var valid = KLIMAAT_CATEGORIES.some(function (c) { return "blok-" + c.n === active; });
     if (!valid) active = null;
-    var h = (active ? '<button type="button" class="topic-back topic-back-top" data-topic-back="1">‹ Onderwerpen</button>' : '') + '<div class="card klimaat-topics">' +
+    var h = '<div class="card klimaat-topics">' +
       '<div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
       '<p class="topic-hint">' + (active ? "Onderwerp" : "Kies een onderwerp") + "</p>" +
       klimaatTopicsHtml(active);
@@ -934,6 +934,7 @@
     h += open.length ? '<ul class="card rem-list">' + open.map(function (r) { return remRowHtml(r, now); }).join("") + "</ul>" : '<p class="topic-empty-cat">Geen geplande herinneringen.</p>';
     if (done.length) h += '<details class="card hist"' + (state.remDoneOpen ? " open" : "") + ' id="remDoneDetails"><summary>Afgerond (' + done.length + ')</summary><ul class="rem-list">' + done.map(function (r) { return remRowHtml(r, now); }).join("") + "</ul></details>";
     $("detailBody").innerHTML = h;
+    $("topicsBtn").hidden = !((klimaat || parkinson) && state.klimaatTopic && ups.length);
   }
   function emailRemindersHtml() {
     var t = nowAmsLocal().slice(0, 10), tm = tomorrowKey(), now = nowAmsLocal();
@@ -1162,6 +1163,12 @@
     if (e.target && e.target.id === "mailArchDetails") state.mailArchOpen = e.target.open;
     if (e.target && e.target.id === "mailDigestDetails") state.mailDigestOpen = e.target.open;
   }, true);
+  $("topicsBtn").addEventListener("click", function () {
+    var m = location.hash.match(/^#\/bot\/([^\/]+)/);
+    if (!m) return;
+    if (history.state && history.state.topicFrom === m[1]) history.back();
+    else location.hash = "#/bot/" + m[1];
+  });
   $("detailBody").addEventListener("click", function (e) {
     var redit = e.target.closest("[data-rem-edit]");
     if (redit) { state.remEditId = redit.getAttribute("data-rem-edit"); renderRemindersDetail(); return; }
