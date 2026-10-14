@@ -62,5 +62,13 @@
     "emoji": "🧠",
     "color": "#0FA3A3",
     "subtitle": "Wereldwijd, Nederland & DBS"
+  },
+  {
+    "id": "417f2da4-a3e7-47eb-9bbd-7ba30280277d",
+    "key": "covid",
+    "name": "Covid",
+    "emoji": "🦠",
+    "color": "#D9822B",
+    "subtitle": "Onderzoek & nieuws over covid"
   }
 ]

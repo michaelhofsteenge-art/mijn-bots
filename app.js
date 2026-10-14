@@ -731,7 +731,7 @@
     };
   }
 
-  function isParkinsonBot(b) { return !!b && (b.key === "parkinson" || /parkinson/i.test(b.name || "")); }
+  function isParkinsonBot(b) { return !!b && (b.key === "parkinson" || b.key === "covid" || /parkinson|covid/i.test(b.name || "")); }
   function parseParkinson(md) {
     var lines = String(md || "").replace(/\r\n/g, "\n").split("\n"), blocks = [], cur = null, sec = null;
     for (var i = 0; i < lines.length; i++) {
