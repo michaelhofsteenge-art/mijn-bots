@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T19:27:32+02:00",
+  "generated_at": "2026-10-15T20:04:33+02:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -142,16 +142,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-10-15T20:08+02:00",
+          "markdown": "**Actie nodig**\n\n- Datumprikker (Outlook): Muziekavond morgen vr 16 okt 19:00–23:30, Zilverschoonlaan 6 Vleuten [id:datumprikker-muziekavond-16okt]\n- Erik Hessel, DSB (Outlook): Verdiepingsavond ma 20 okt voorbereiden, gedachte over ‘zaad en aarde’ meenemen [id:dsb-verdiepingsavond-20okt]\n- Rooster Hospitium (Outlook): beschikbaarheid december opgeven vóór za 24 okt [id:hospitium-beschikbaarheid-dec]\n- Erik Hessel, DSB (Outlook): ALV di 27 okt 20:00, Maliebaan 70A Utrecht [id:dsb-alv-27okt]\n- Toyota Kooijman Maarssen (Outlook): onderhoudsbeurt Lexus GS inplannen [id:lexus-onderhoud]\n- Nationale-Nederlanden (Outlook): berichten Pensioen Beleggingsverzekering bekijken in mijn.nn [id:nn-pensioenberichten]\n- Uyên / YOEP (Gmail Quinten): Quinten moet YOEP-documenten nog aanleveren, deadline 1 okt verstreken [id:yoep-quinten]"
+        },
+        {
           "date": "2026-10-15T17:10+02:00",
           "markdown": "**Actie nodig**\n\nDeze week\n- Rooster Johannes Hospitium Vleuten (Outlook): beschikbaarheid voor december opgeven via ons.rooster.nl of de Mijn Inplanning-app, uiterlijk za 24 okt [id:hospitium-beschikbaarheid-dec]\n- Loge De Stichtse Broederschap (Outlook): Verdiepingsavond ma 20 okt voorbereiden — ervaring/gedachte over ‘zaad en aarde’ formuleren en meenemen (parabel van de zaaier) [id:dsb-verdiepingsavond-20okt]\n\nVoor Quinten\n- YOEP via Uyên (Gmail Quinten, voor Quinten): Quinten moest documenten aanleveren voor de wachtlijst hulpverlening; deadline 1 okt is verstreken en de mail is nog ongelezen. Even nagaan of Quinten dit heeft gedaan [id:yoep-quinten]\n\nWanneer het uitkomt\n- Toyota Kooijman Maarssen (Outlook): onderhoudsbeurt voor de Lexus GS (NH-660-G) inplannen, eventueel samen met de winterbandenwissel [id:lexus-onderhoud]\n- Nationale-Nederlanden (Outlook): er staan meerdere berichten klaar over je Pensioen Beleggingsverzekering; bekijken in mijn.nn [id:nn-pensioenberichten]\n- Loge De Stichtse Broederschap (Outlook): Algemene Ledenvergadering di 27 okt 20:00, Maliebaan 70A Utrecht; in je agenda zetten, stukken zitten in de bijlage [id:dsb-alv-27okt]"
         },
         {
           "date": "2026-10-15T08:03+02:00",
           "markdown": "**Actie nodig**\n\nDeze week\n- Rooster Johannes Hospitium Vleuten (Outlook): beschikbaarheid voor december opgeven via ons.rooster.nl of de Mijn Inplanning-app, uiterlijk za 24 okt [id:hospitium-beschikbaarheid-dec]\n\nVoor Quinten\n- YOEP via Uyên (Gmail Quinten, voor Quinten): Quinten moest documenten aanleveren voor de wachtlijst hulpverlening; deadline 1 okt is verstreken en de mail is nog ongelezen. Even nagaan of Quinten dit heeft gedaan [id:yoep-quinten]\n\nWanneer het uitkomt\n- Toyota Kooijman Maarssen (Outlook): onderhoudsbeurt voor de Lexus GS (NH-660-G) inplannen, eventueel samen met de winterbandenwissel [id:lexus-onderhoud]\n- Nationale-Nederlanden (Outlook): er staan meerdere berichten klaar over je Pensioen Beleggingsverzekering; bekijken in mijn.nn [id:nn-pensioenberichten]\n- Loge De Stichtse Broederschap (Outlook): Algemene Ledenvergadering di 27 okt 20:00, Maliebaan 70A Utrecht; in je agenda zetten, stukken zitten in de bijlage [id:dsb-alv-27okt]"
-        },
-        {
-          "date": "2026-10-14T17:05+02:00",
-          "markdown": "**Actie nodig**\n- Rooster Johannes Hospitium Vleuten (Outlook): Beschikbaarheid december opgeven via ons.rooster.nl of de Mijn Inplanning-app (deadline za 24 okt) [id:hospitium-beschikbaarheid-dec]\n- YOEP via Uyên Hérault-Huynh (Gmail Quinten): Voor Quinten – documenten aanleveren voor wachtlijst hulpverlening (deadline 1 okt verstreken); nagaan bij Quinten [id:yoep-quinten]\n- Toyota Kooijman Maarssen (Outlook): Onderhoudsbeurt Lexus GS (NH-660-G) inplannen; eventueel winterbandenwissel [id:lexus-onderhoud]\n- Nationale-Nederlanden (Outlook): Berichten over Pensioen Beleggingsverzekering bekijken in mijn.nn [id:nn-pensioenberichten]\n- Loge De Stichtse Broederschap (Outlook): ALV di 27 okt 20:00 Maliebaan 70A Utrecht in agenda; stukken in bijlage; punt sociale betrokkenheid wordt bij vaststellen agenda toegevoegd [id:dsb-alv-27okt]"
         }
       ]
     },
