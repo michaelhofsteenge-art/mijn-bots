@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T14:21:52+02:00",
+  "generated_at": "2026-10-17T15:29:32+02:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -227,6 +227,14 @@
       "status": "afgerond",
       "remindedAt": null,
       "doneAt": "2026-10-12T12:18:19"
+    },
+    {
+      "id": "r-dde043bf86",
+      "text": "Mark al naar ziekenhuis geweest voor katheresatie",
+      "due": "2026-10-24T12:00",
+      "created": "2026-10-17T14:46:07",
+      "status": "gepland",
+      "remindedAt": null
     }
   ]
 }

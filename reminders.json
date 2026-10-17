@@ -41,5 +41,13 @@
     "status": "afgerond",
     "remindedAt": null,
     "doneAt": "2026-10-12T12:18:19"
+  },
+  {
+    "id": "r-dde043bf86",
+    "text": "Mark al naar ziekenhuis geweest voor katheresatie",
+    "due": "2026-10-24T12:00",
+    "created": "2026-10-17T14:46:07",
+    "status": "gepland",
+    "remindedAt": null
   }
 ]
