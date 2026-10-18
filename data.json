@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T11:20:57+02:00",
+  "generated_at": "2026-10-18T12:10:47+02:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -224,8 +224,8 @@
       "text": "Sportschool Quinten oozeggen onderzoeken",
       "due": "2026-10-18T12:00",
       "created": "2026-10-17T17:15:09",
-      "status": "gepland",
-      "remindedAt": null
+      "status": "herinnerd",
+      "remindedAt": "2026-10-18T12:10:46"
     },
     {
       "id": "r-10164e388c",
