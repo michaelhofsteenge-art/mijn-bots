@@ -29,9 +29,16 @@ for f in /workspace/Quantum-*-20[0-9][0-9]-[0-9][0-9]-[0-9][0-9].md; do
   [ -e "$f" ] || continue
   case "$(basename "$f")" in Quantum-scorecard-*) continue;; esac
   d=$(basename "$f" .md); d=${d: -10}
-  ls updates/quantum/"$d"*.md >/dev/null 2>&1 && cmp -s "$f" updates/quantum/"$d"*.md && continue
+  tmp=$(mktemp); cp "$f" "$tmp"
+  # nulmeting: scorecard van dezelfde datum als extra sub-knop toevoegen
+  sc=/workspace/Quantum-scorecard-$d.md
+  if [ -e "$sc" ]; then
+    n=$(grep -c '^## ' "$f" || true)
+    { printf '\n\n## %s. Scorecard nulmeting (20 bedrijven)\n\n' "$n"; tail -n +2 "$sc"; } >> "$tmp"
+  fi
+  ls updates/quantum/"$d"*.md >/dev/null 2>&1 && cmp -s "$tmp" updates/quantum/"$d"*.md && { rm -f "$tmp"; continue; }
   rm -f updates/quantum/"$d"*.md
-  cp "$f" "updates/quantum/${d}T$(date -r "$f" +%H-%M).md"
+  mv "$tmp" "updates/quantum/${d}T$(date -r "$f" +%H-%M).md"
 done
 python3 build_data.py >/dev/null
 python3 -m json.tool data.json >/dev/null
