@@ -521,3 +521,11 @@ details.hist[open] summary {
 #detailBar .topics-btn{background:rgba(255,255,255,.32)}
 #detailBar .topics-btn[hidden]{display:none}
 #detailBar .detail-title{flex:1 1 auto;min-width:0}
+
+/* ---- app-split: keuzescherm op de oude root-URL ---- */
+a.bot-btn { text-decoration: none; color: inherit; }
+.launch-btn { min-height: 120px; padding-top: 18px; padding-bottom: 18px; }
+.launch-btn .bot-emoji { font-size: 34px; }
+.launch-btn .bot-name { font-size: 1.2rem; }
+.launch-btn .bot-date { white-space: normal; line-height: 1.35; }
+.launch-intro { margin: 2px 4px 4px; color: var(--muted, #6b7280); font-size: .92rem; line-height: 1.4; }

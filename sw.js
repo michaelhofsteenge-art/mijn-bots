@@ -1,7 +1,7 @@
 // Service worker voor Mijn Bots.
 // - App-bestanden: cache-first (verhoog VERSION na elke wijziging aan HTML/JS/CSS/iconen).
 // - data.json: network-first (altijd nieuwste updates), bij offline de laatst opgeslagen versie.
-const VERSION = "v21";
+const VERSION = "v22";
 const SHELL_CACHE = "mijnbots-shell-" + VERSION;
 const DATA_CACHE = "mijnbots-data";
 const SHELL = [
@@ -26,6 +26,8 @@ self.addEventListener("fetch", (e) => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
+  // /acties/ en /onderzoek/ hebben een eigen service worker: daar niets mee doen.
+  if (/^\/(acties|onderzoek)\//.test(url.pathname.slice(new URL(self.registration.scope).pathname.length - 1))) return;
 
   if (url.pathname.endsWith("/data.json")) {
     e.respondWith(

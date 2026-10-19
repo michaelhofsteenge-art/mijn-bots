@@ -13,6 +13,14 @@
   var KLIMAAT_BOT_ID = "80ec10c0-457b-46f7-b152-23e19cba262a";
   var NO_ACTION_RE = /geen\s+actie|niets\s+te\s+doen|geen\s+mails?|stil|geen\s+reactie\s+nodig/i;
   var REFRESH_MS = 60000;
+  // ---- app-split: één codebase, twee apps (acties/ en onderzoek/); root = keuzescherm ----
+  var APP = window.APP_VARIANT || "root";           // "acties" | "onderzoek" | "root"
+  var APP_BASE = window.APP_BASE || "";              // pad naar de gedeelde bestanden ("../" in submappen)
+  var ACTIES_KEYS = ["email", "gv", "crypto"];       // + Herinneringen; al het andere = Onderzoek
+  function appForBot(b) { return b && ACTIES_KEYS.indexOf(b.key) >= 0 ? "acties" : "onderzoek"; }
+  function botInApp(b) { return APP === "root" || appForBot(b) === APP; }
+  function appUrl(app) { return (APP === "root" ? "" : "../") + app + "/"; }
+  var DATA_URL = APP_BASE + CFG.DATA_URL;
   var $ = function (id) { return document.getElementById(id); };
   var state = {
     data: null, pin: "", fetchedAt: null, fromCache: false,
@@ -231,7 +239,7 @@
     clearTimeout(toast._t); toast._t = setTimeout(function () { t.hidden = true; }, 2600);
   }
   function loadData(manual) {
-    var url = CFG.DATA_URL + (CFG.DATA_URL.indexOf("?") >= 0 ? "&" : "?") + "t=" + Date.now();
+    var url = DATA_URL + (DATA_URL.indexOf("?") >= 0 ? "&" : "?") + "t=" + Date.now();
     return fetch(url, { cache: "no-store", credentials: "same-origin" })
       .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
       .then(function (d) {
@@ -1065,8 +1073,9 @@
     }
     var stamp = d.generated_at ? fmtDate(d.generated_at) : "onbekend";
     r.textContent = "Laatst bijgewerkt: " + stamp + (state.fromCache ? " · offline" : "");
+    if (APP === "root") { $("botList").innerHTML = launcherHtml(d); showChromeTips(); return; }
     // Email Reageren always first; preserve relative order of the rest.
-    var bots = d.bots.slice().sort(function (a, b) {
+    var bots = d.bots.filter(botInApp).sort(function (a, b) {
       var ae = isEmailBot(a) ? 0 : 1;
       var be = isEmailBot(b) ? 0 : 1;
       return ae - be;
@@ -1076,8 +1085,26 @@
       var html = botBtnHtml(b);
       if (!remInserted && isEmailBot(b)) { remInserted = true; html += remHomeButtonHtml(); }
       return html;
-    }).join("") + (remInserted ? "" : remHomeButtonHtml());
+    }).join("") + (remInserted || APP !== "acties" ? "" : remHomeButtonHtml());
     showChromeTips();
+  }
+  function launcherHtml(d) {
+    var acties = d.bots.filter(function (b) { return appForBot(b) === "acties"; });
+    var onderzoek = d.bots.filter(function (b) { return appForBot(b) === "onderzoek"; });
+    var needs = acties.some(emailNeedsAction) || remDueTodayPending();
+    function btn(app, cls, emoji, name, sub, list, flag) {
+      return '<a class="bot-btn launch-btn' + (flag ? " bot-btn--action" : "") + '" style="--c:' + cls + '" href="' + appUrl(app) + '">' +
+        '<span class="bot-emoji" aria-hidden="true">' + emoji + '</span><span class="bot-text"><span class="bot-name-row"><span class="bot-name">' + esc(name) + "</span>" +
+        (flag ? '<span class="bot-badge" aria-label="Actie nodig">Actie</span>' : "") + "</span>" +
+        '<span class="bot-sub">' + esc(sub) + '</span><span class="bot-date">' + esc(list) + "</span></span>" +
+        '<span class="bot-chev" aria-hidden="true">›</span></a>';
+    }
+    return '<p class="launch-intro">Mijn Bots is opgesplitst in twee apps. Kies er één (en zet hem eventueel op je beginscherm):</p>' +
+      btn("acties", "#C2410C", "✅", "Acties Michael", "Mails, herinneringen, vacatures & crypto",
+        acties.sort(function (a, b) { return ACTIES_KEYS.indexOf(a.key) - ACTIES_KEYS.indexOf(b.key); })
+          .map(function (b) { return b.name; }).reduce(function (o, n, i) { return i === 0 ? [n, "Herinneringen"] : o.concat([n]); }, []).join(" · "), needs) +
+      btn("onderzoek", "#1F6FB2", "🔬", "Onderzoek", "Alle onderzoeks- en nieuwsbots",
+        onderzoek.map(function (b) { return b.name; }).join(" · "), false);
   }
   function botBtnHtml(b) {
     return (function (b) {
@@ -1145,6 +1172,9 @@
     var m = location.hash.match(/^#\/bot\/([^\/]+)(?:\/(blok-\d+))?$/);
     if (m && state.data) {
       var botId = decodeURIComponent(m[1]);
+      // Link naar een bot die in de andere app (of op het keuzescherm) hoort: daarheen doorsturen.
+      var target = botId === REM_ID ? "acties" : (findBot(botId) ? appForBot(findBot(botId)) : null);
+      if (target && target !== APP) { location.replace(appUrl(target) + location.hash); return; }
       if (state._detailBotId !== botId) {
         state.klimaatTopic = null;
         state._detailBotId = botId;
@@ -1269,7 +1299,7 @@
   });
 
   $("botList").addEventListener("click", function (e) {
-    var b = e.target.closest(".bot-btn"); if (b) location.hash = "#/bot/" + encodeURIComponent(b.getAttribute("data-id"));
+    var b = e.target.closest(".bot-btn[data-id]"); if (b) location.hash = "#/bot/" + encodeURIComponent(b.getAttribute("data-id"));
   });
   $("backBtn").addEventListener("click", function () {
     if (history.length > 1 && /^#\/bot\//.test(location.hash)) history.back(); else location.hash = "";

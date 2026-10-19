@@ -56,3 +56,10 @@ Daarna: `./publish.sh` (of commit + push naar `main`).
 ## Gebruik op de iPhone
 - **Chrome-tab:** open de URL gewoon; alles werkt (PIN, updates, pull-to-refresh / ↻).
 - **Beginscherm-icoon:** open in **Safari** → Deel → **Zet op beginscherm** → Voeg toe.
+
+## Twee apps (sinds 19-10-2026)
+- `acties/` = **App Acties Michael** (Email Reageren, Herinneringen, GV-vacatures, Crypto Adviseur)
+- `onderzoek/` = **App Onderzoek** (alle andere bots, ook nieuwe bots uit bots.json)
+- Root `./` = keuzescherm met twee knoppen; oude deep links (`#/bot/<id>`) sturen door naar de juiste app.
+- Eén codebase: `acties/index.html` en `onderzoek/index.html` zetten `APP_VARIANT` en laden `../app.js`; de indeling staat in `ACTIES_KEYS` in app.js.
+- Eigen manifest, iconen (`make_app_icons.py`) en service worker per app. **Na een wijziging aan app.js/style.css/md.js: verhoog VERSION in alle drie sw.js-bestanden.**

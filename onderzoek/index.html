@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Onderzoek</title>
+  <meta name="description" content="Laatste updates van Mike's Grok Bot-assistenten">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- iOS: installeren via 'Zet op beginscherm' (Safari); werkt ook als tab in Chrome -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Onderzoek">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#F7F8FB" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0B0D14" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <!-- PIN-scherm -->
+  <section id="lock" class="lock" hidden>
+    <div class="lock-inner">
+      <img class="lock-logo" src="icons/icon-192.png" alt="" width="84" height="84">
+      <h1>Onderzoek</h1>
+      <p class="lock-hint" id="lockHint">Voer je pincode in</p>
+      <div class="pin-dots" id="pinDots" aria-live="polite"></div>
+      <div class="keypad" id="keypad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button>
+        <button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button>
+        <button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button>
+        <span></span><button type="button" data-k="0">0</button><button type="button" data-k="del" aria-label="Wissen">⌫</button>
+      </div>
+      <button type="button" class="link-btn lock-pin-change" id="lockPinChangeBtn">⚙️ Pincode wijzigen</button>
+      <p class="chrome-tip" id="lockChromeTip" hidden>
+        Chrome op iPhone opent deze site gewoon. Voor een icoon op het beginscherm werkt Safari (Deel → Zet op beginscherm) het best.
+      </p>
+    </div>
+  </section>
+
+  <!-- Startscherm -->
+  <section id="home" class="view" hidden>
+    <header class="topbar">
+      <div>
+        <h1>Onderzoek</h1>
+        <p class="refreshed" id="refreshed">Laden…</p>
+      </div>
+      <button type="button" class="icon-btn" id="refreshBtn" aria-label="Vernieuwen">↻</button>
+    </header>
+    <p class="chrome-tip home-tip" id="homeChromeTip" hidden>
+      Tip: in Chrome werkt alles prima als tab. Voor een beginscherm-icoon: open de site in Safari → Deel → Zet op beginscherm.
+    </p>
+    <main id="botList" class="bot-list"></main>
+    <footer class="foot">
+      <button type="button" class="pin-change-btn" id="pinChangeBtn">⚙️ Pincode wijzigen</button>
+      <button type="button" class="link-btn" id="lockBtn">🔒 Vergrendelen</button>
+    </footer>
+  </section>
+
+  <!-- Detailscherm -->
+  <section id="detail" class="view" hidden>
+    <header class="topbar detail-bar" id="detailBar">
+      <button type="button" class="back-btn" id="backBtn" aria-label="Terug">‹ Terug</button>
+      <button type="button" class="back-btn topics-btn" id="topicsBtn" data-topic-back="1" hidden>‹ Onderwerpen</button>
+      <div class="detail-title">
+        <span class="detail-emoji" id="detailEmoji"></span>
+        <h1 id="detailName"></h1>
+      </div>
+    </header>
+    <main class="detail-body" id="detailBody"></main>
+  </section>
+
+  <!-- PIN wijzigen -->
+  <section id="pinModal" class="modal" hidden>
+    <div class="modal-card" role="dialog" aria-labelledby="pinModalTitle">
+      <h2 id="pinModalTitle">Pincode wijzigen</h2>
+      <p class="modal-hint" id="pinModalHint">Voer je huidige pincode in</p>
+      <div class="pin-dots" id="pinModalDots" aria-live="polite"></div>
+      <div class="keypad" id="pinModalKeypad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button>
+        <button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button>
+        <button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button>
+        <span></span><button type="button" data-k="0">0</button><button type="button" data-k="del" aria-label="Wissen">⌫</button>
+      </div>
+      <button type="button" class="link-btn modal-cancel" id="pinModalCancel">Annuleren</button>
+    </div>
+  </section>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="../config.js"></script>
+  <script src="../md.js"></script>
+  <script>window.APP_VARIANT = "onderzoek"; window.APP_BASE = "../";</script>
+  <script src="../app.js"></script>
+</body>
+</html>
