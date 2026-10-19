@@ -70,5 +70,13 @@
     "emoji": "🦠",
     "color": "#D9822B",
     "subtitle": "Onderzoek & nieuws over covid"
+  },
+  {
+    "id": "f5a071b2-73db-41ea-b5ca-026b5f87a1a2",
+    "key": "quantum",
+    "name": "Quantum Computing",
+    "emoji": "⚛️",
+    "color": "#5B4BDB",
+    "subtitle": "Wekelijkse quantum-update"
   }
 ]

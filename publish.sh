@@ -22,6 +22,15 @@ for key in parkinson covid; do
     cp "$f" "updates/$key/${d}T$(date -r "$f" +%H-%M).md"
   done
 done
+# Quantum-bot schrijft wekelijks /workspace/quantum-updates/<datum>.md
+mkdir -p updates/quantum
+for f in /workspace/quantum-updates/*.md; do
+  [ -e "$f" ] || continue
+  d=$(basename "$f" .md)
+  ls updates/quantum/"$d"*.md >/dev/null 2>&1 && cmp -s "$f" updates/quantum/"$d"*.md && continue
+  rm -f updates/quantum/"$d"*.md
+  cp "$f" "updates/quantum/${d}T$(date -r "$f" +%H-%M).md"
+done
 python3 build_data.py >/dev/null
 python3 -m json.tool data.json >/dev/null
 git add -A

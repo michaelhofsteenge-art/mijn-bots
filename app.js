@@ -731,7 +731,7 @@
     };
   }
 
-  function isParkinsonBot(b) { return !!b && (b.key === "parkinson" || b.key === "covid" || /parkinson|covid/i.test(b.name || "")); }
+  function isParkinsonBot(b) { return !!b && (b.key === "parkinson" || b.key === "covid" || b.key === "quantum" || /parkinson|covid|quantum/i.test(b.name || "")); }
   function parseParkinson(md) {
     var lines = String(md || "").replace(/\r\n/g, "\n").split("\n"), blocks = [], cur = null, sec = null;
     for (var i = 0; i < lines.length; i++) {
@@ -745,7 +745,15 @@
     return blocks;
   }
   function renderParkinsonLatest(u) {
-    var blocks = parseParkinson(u.markdown);
+    var all = parseParkinson(u.markdown), top = "", blocks = all.filter(function (bl) {
+      if (/^(samenvatting|conclusie van de week)$/i.test(bl.title)) {
+        var t = bl.intro.join("\n").trim();
+        if (t) top += '<div class="' + (/conclusie/i.test(bl.title) ? "topic-conclusion" : "topic-summary") + '"><div class="topic-section-label">' + esc(bl.title) + '</div><div class="md">' + window.renderMarkdown(t) + "</div></div>";
+        return false;
+      }
+      return true;
+    });
+    if (top) top = '<div class="card">' + top + "</div>";
     if (!blocks.length) return '<article class="card latest"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + '</div><div class="md">' + window.renderMarkdown(u.markdown) + "</div></article>";
     var active = state.klimaatTopic, idx = active ? parseInt(String(active).replace(/^blok-/, ""), 10) - 1 : -1;
     if (!(idx >= 0 && idx < blocks.length)) idx = -1;
@@ -753,7 +761,7 @@
       var id = "blok-" + (i + 1), on = i === idx, label = (i + 1) + "  " + bl.title;
       return '<button type="button" class="topic-chip' + (on ? " is-active" : "") + '" data-topic="' + id + '"' + (on ? ' aria-current="true"' : "") + ' title="' + esc(label) + '">' + esc(label) + "</button>";
     }).join("") + "</nav>";
-    var h = '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
+    var h = (idx < 0 ? top : "") + '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
       '<p class="topic-hint">' + (idx >= 0 ? "Onderwerp" : "Kies een onderwerp") + "</p>" + nav;
     if (idx < 0) return h + '<p class="topic-empty">Tik op een onderwerp om alleen dat blok te lezen.</p></div>';
     var bl = blocks[idx];
