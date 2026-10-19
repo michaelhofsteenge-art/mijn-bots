@@ -1048,13 +1048,15 @@
     if (it.mailbox || when) h += '<p class="mail-view-meta">' + esc([it.mailbox, when].filter(Boolean).join(" · ")) + "</p>";
     h += "<h3>" + esc(it.text || "(geen onderwerp)") + "</h3>";
     h += '<p class="mail-meta">' + esc(meta) + "</p>";
-    if (it.body) h += '<div class="mail-view-body">' + esc(it.body) + "</div>";
-    else h += '<p class="mail-view-note">De volledige mailtekst staat niet in deze app. Open de mail in Outlook om hem helemaal te lezen.</p>';
+    if (it.body) h += '<div class="mail-view-body">' + esc(it.body) + "</div>" +
+      '<p class="mail-view-note">Dit is het begin van de mail. Open in Outlook voor de volledige tekst en bijlagen.</p>';
+    else h += '<p class="mail-view-note">De mailtekst is (nog) niet beschikbaar in de app. Open de mail in Outlook om hem te lezen.</p>';
     // Altijd een knop: opgeslagen link, anders zoeken op afzender in Outlook web.
     var q = String(it.sender || "").replace(/\s*\([^)]*\)\s*/g, " ").trim();
     var url = link || ("https://outlook.live.com/mail/0/" + (q ? "search?q=" + encodeURIComponent(q) : "inbox"));
     h += '<a class="mail-view-outlook" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">Openen in Outlook</a>';
     if (!link) h += '<p class="mail-view-note">Geen directe link bewaard: de knop zoekt op de afzender in Outlook.</p>';
+    if (it.status === "open") h += '<button type="button" class="mail-view-done" data-mail-done="' + esc(it.id) + '">✓ Afgerond</button>';
     h += "</article>";
     return h;
   }
@@ -1082,6 +1084,7 @@
   }
   function mailOfflineNote() { if (!state.mailOffline) return ""; return '<p class="rem-note">Offline: lijst kon niet worden geladen. Je ziet de laatste mailupdate; vinkjes worden alleen op dit toestel bewaard.</p>'; }
   function mailRerender() { var m = location.hash.match(/^#\/bot\/(.+)$/); if (m) renderDetail(decodeURIComponent(m[1])); }
+  function mailConfirmDelete() { return window.confirm("Weet je zeker dat je deze e-mail wilt verwijderen?"); }
   function mailOpen(id) { state.mailOpenId = id; mailRerender(); window.scrollTo(0, 0); }
   function mailToggle(id, checked) {
     var it = (state.mail || []).filter(function (x) { return x.id === id; })[0]; if (!it) return;
@@ -1089,7 +1092,8 @@
     var dz = $("mailArchDetails"); if (dz) state.mailArchOpen = dz.open;
     if (checked) { it.status = "done"; it.doneAt = now; delete it.goneAt; } else { it.status = "open"; delete it.doneAt; delete it.goneAt; }
     setTimeout(mailRerender, 250);
-    mailApi("PATCH", "/" + encodeURIComponent(id), { status: checked ? "done" : "open" }).then(function (srv) {
+    // Afvinken = ook in Outlook naar Verwijderde items (uitgevoerd door de mail-routine, herstelbaar).
+    mailApi("PATCH", "/" + encodeURIComponent(id), checked ? { status: "done", deleteInOutlook: true } : { status: "open" }).then(function (srv) {
       if (srv && srv.id) { Object.keys(it).forEach(function (k) { delete it[k]; }); Object.assign(it, srv); }
     }, function () {
       Object.keys(it).forEach(function (k) { delete it[k]; }); Object.assign(it, backup);
@@ -1339,7 +1343,17 @@
 
   $("detailBody").addEventListener("click", function (e) {
     var mc = e.target.closest("button.email-check-box[data-mail-id]");
-    if (mc) { mailToggle(mc.getAttribute("data-mail-id"), mc.getAttribute("aria-pressed") !== "true"); return; }
+    if (mc) {
+      var mid = mc.getAttribute("data-mail-id"), turnOn = mc.getAttribute("aria-pressed") !== "true";
+      if (turnOn && !mailConfirmDelete()) return;
+      mailToggle(mid, turnOn); return;
+    }
+    var md = e.target.closest("[data-mail-done]");
+    if (md) {
+      if (!mailConfirmDelete()) return;
+      var did = md.getAttribute("data-mail-done");
+      state.mailOpenId = null; mailToggle(did, true); mailRerender(); return;
+    }
     var op = e.target.closest("[data-mail-open]");
     if (op) { mailOpen(op.getAttribute("data-mail-open")); return; }
   });
