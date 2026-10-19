@@ -22,11 +22,13 @@ for key in parkinson covid; do
     cp "$f" "updates/$key/${d}T$(date -r "$f" +%H-%M).md"
   done
 done
-# Quantum-bot schrijft wekelijks /workspace/quantum-updates/<datum>.md
+# Quantum Computing research (new) schrijft /workspace/Quantum-<soort>-<datum>.md
+# (scorecard en compleet-bundel overslaan; oude bot /workspace/quantum-updates niet meer gebruiken)
 mkdir -p updates/quantum
-for f in /workspace/quantum-updates/*.md; do
+for f in /workspace/Quantum-*-20[0-9][0-9]-[0-9][0-9]-[0-9][0-9].md; do
   [ -e "$f" ] || continue
-  d=$(basename "$f" .md)
+  case "$(basename "$f")" in Quantum-scorecard-*) continue;; esac
+  d=$(basename "$f" .md); d=${d: -10}
   ls updates/quantum/"$d"*.md >/dev/null 2>&1 && cmp -s "$f" updates/quantum/"$d"*.md && continue
   rm -f updates/quantum/"$d"*.md
   cp "$f" "updates/quantum/${d}T$(date -r "$f" +%H-%M).md"

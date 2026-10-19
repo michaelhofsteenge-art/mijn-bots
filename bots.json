@@ -72,11 +72,11 @@
     "subtitle": "Onderzoek & nieuws over covid"
   },
   {
-    "id": "f5a071b2-73db-41ea-b5ca-026b5f87a1a2",
+    "id": "e5e6dbdc-c8d8-4929-8103-1af0cff6a52d",
     "key": "quantum",
-    "name": "Quantum Computing",
+    "name": "Quantum Computing Research",
     "emoji": "⚛️",
     "color": "#5B4BDB",
-    "subtitle": "Wekelijkse quantum-update"
+    "subtitle": "Weekrapport & nulmeting quantum"
   }
 ]
