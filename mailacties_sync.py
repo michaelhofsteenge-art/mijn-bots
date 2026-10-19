@@ -4,9 +4,13 @@
   python3 mailacties_sync.py sync <items.json>   # volledige lijst van NU openstaande mails (upsert;
                                                  #  open items die ontbreken -> 'weg')
   python3 mailacties_sync.py list                # alle items (open/done/weg) als JSON
+  python3 mailacties_sync.py set-link <id> <url>   # alleen de mail-link van één item zetten (Outlook webLink / Gmail)
   python3 mailacties_sync.py seed-md <update.md>  # parse '- Sender (mailbox): actie [id:slug]' regels -> sync
 items.json: {"items":[{"id":"slug","text":"...","sender":"...","mailbox":"Outlook",
-             "received":"2026-10-11T13:05","deadline":null}]}  (of direct een lijst)
+             "received":"2026-10-11T13:05","deadline":null,
+             "link":"<Outlook webLink uit Graph | https://mail.google.com/mail/u/0/#all/<threadId>>"}]}  (of direct een lijst)
+  'link' is optioneel; zonder link blijft een eerder opgeslagen link staan. Alleen https-links naar
+  outlook.live.com / outlook.office(365).com / mail.google.com worden bewaard (tikken op de tekst in de app opent die mail).
 Config: .reminders-api (MIJNBOTS_API=.../api/reminders, MIJNBOTS_KEY=...).
 """
 import json, os, re, sys, unicodedata, urllib.request
@@ -56,6 +60,8 @@ def main(a):
     elif a[:1] == ['sync'] and len(a) == 2:
         d = json.load(open(a[1])); items = d['items'] if isinstance(d, dict) else d
         print(json.dumps(call('POST', '/sync', {'items': items}), ensure_ascii=False))
+    elif a[:1] == ['set-link'] and len(a) == 3:
+        print(json.dumps(call('PATCH', '/' + a[1], {'link': a[2]}), ensure_ascii=False))
     elif a[:1] == ['seed-md'] and len(a) == 2:
         items = parse_md(open(a[1]).read())
         print(json.dumps(items, indent=1, ensure_ascii=False))

@@ -63,3 +63,9 @@ Daarna: `./publish.sh` (of commit + push naar `main`).
 - Root `./` = keuzescherm met twee knoppen; oude deep links (`#/bot/<id>`) sturen door naar de juiste app.
 - Eén codebase: `acties/index.html` en `onderzoek/index.html` zetten `APP_VARIANT` en laden `../app.js`; de indeling staat in `ACTIES_KEYS` in app.js.
 - Eigen manifest, iconen (`make_app_icons.py`) en service worker per app. **Na een wijziging aan app.js/style.css/md.js: verhoog VERSION in alle drie sw.js-bestanden.**
+
+## Email Reageren: vakje vs. tekst (sinds 19-10-2026, sw v23 / acties v2)
+- Alleen het **vakje** (eigen `<label class="email-check-box">`, ~52px tikvlak) zet een mail in het archief.
+- De **tekst** is een link (`a.mail-open`, nieuw tabblad) naar de mail zelf: veld `link` per item in de mailacties-API
+  (Outlook `webLink` uit Graph, of `https://mail.google.com/mail/u/0/#all/<threadId>`). Zonder link klapt de tekst details open.
+- Vullen: `link` meesturen in `mailacties_sync.py sync`, of los: `python3 mailacties_sync.py set-link <id> <url>`.

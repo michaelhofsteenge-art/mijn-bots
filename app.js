@@ -521,12 +521,12 @@
     return '<ul class="email-checklist" role="list">' + entries.map(function (en) {
       var on = en.status !== "open";
       return '<li class="email-check-row' + (on ? " is-checked" : "") + '">' +
-        '<label class="email-check-label">' +
+        '<label class="email-check-box" aria-label="Afvinken">' +
         '<input type="checkbox" class="email-check" data-ident="' + esc(en.info.ident) +
         '" data-hash="' + esc(en.info.legacyHash) + '"' +
-        (on ? " checked" : "") + ">" +
-        '<span class="email-check-text md">' + window.renderMarkdown(en.info.display) + "</span>" +
-        "</label></li>";
+        (on ? " checked" : "") + "></label>" +
+        '<div class="email-check-text md">' + window.renderMarkdown(en.info.display) + "</div>" +
+        "</li>";
     }).join("") + "</ul>";
   }
   var EMAIL_HEADER_RE = /^\s*\*\*[^*]+\*\*\s*:?\s*$/;
@@ -1024,10 +1024,29 @@
     else meta = "sinds " + mailShortDate(it.firstSeen);
     if (it.deadline) meta += " · deadline " + it.deadline;
     var who = (it.sender || "") + (it.mailbox ? " (" + it.mailbox + ")" : "");
-    return '<li class="email-check-row' + (on ? " is-checked" : "") + '"><label class="email-check-label">' +
-      '<input type="checkbox" class="email-check mail-check" data-mail-id="' + esc(it.id) + '"' + (on ? " checked" : "") + ">" +
-      '<span class="email-check-text"><strong>' + esc(who) + "</strong> " + esc(it.text) +
-      '<br><span class="mail-meta">' + esc(meta) + "</span></span></label></li>";
+    // Alleen het vakje archiveert; de tekst opent de mail (of klapt details open als er geen link is).
+    var box = '<label class="email-check-box" aria-label="Afvinken: ' + esc(it.sender || "mail") + '">' +
+      '<input type="checkbox" class="email-check mail-check" data-mail-id="' + esc(it.id) + '"' + (on ? " checked" : "") + "></label>";
+    var inner = "<strong>" + esc(who) + "</strong> " + esc(it.text) + '<br><span class="mail-meta">' + esc(meta) + "</span>";
+    var link = mailSafeLink(it.link);
+    var body;
+    if (link) {
+      body = '<a class="email-check-text mail-open" href="' + esc(link) + '" target="_blank" rel="noopener noreferrer">' + inner +
+        '<span class="mail-open-cue">Open mail ›</span></a>';
+    } else {
+      var det = [];
+      if (it.received) det.push("ontvangen " + mailShortDate(it.received) + " " + String(it.received).slice(11, 16));
+      if (it.mailbox) det.push("in " + it.mailbox);
+      det.push("geen directe link: zoek op afzender in je mail");
+      body = '<div class="email-check-text mail-expand" role="button" tabindex="0" aria-expanded="false" data-mail-expand="1">' + inner +
+        '<span class="mail-open-cue">Details ›</span><span class="mail-details">' + esc(det.join(" · ")) + "</span></div>";
+    }
+    return '<li class="email-check-row' + (on ? " is-checked" : "") + '">' + box + body + "</li>";
+  }
+  function mailSafeLink(u) {
+    if (!u) return "";
+    try { var x = new URL(String(u)); return (x.protocol === "https:" && /^(outlook\.live\.com|outlook\.office(365)?\.com|mail\.google\.com)$/.test(x.hostname)) ? x.href : ""; }
+    catch (e) { return ""; }
   }
   function mailListHtml() {
     var open = mailOpenItems(), arch = mailArchItems();
@@ -1298,6 +1317,16 @@
     if (row) row.classList.toggle("is-checked", cb.checked);
   });
 
+  $("detailBody").addEventListener("click", function (e) {
+    var ex = e.target.closest("[data-mail-expand]");
+    if (!ex) return;
+    var open = ex.getAttribute("aria-expanded") !== "true";
+    ex.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  $("detailBody").addEventListener("keydown", function (e) {
+    var ex = e.target.closest && e.target.closest("[data-mail-expand]");
+    if (ex && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); ex.click(); }
+  });
   $("botList").addEventListener("click", function (e) {
     var b = e.target.closest(".bot-btn[data-id]"); if (b) location.hash = "#/bot/" + encodeURIComponent(b.getAttribute("data-id"));
   });
