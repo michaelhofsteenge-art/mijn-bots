@@ -607,7 +607,7 @@
   function isKlimaatBot(b) {
     if (!b) return false;
     if (b.id === KLIMAAT_BOT_ID) return true;
-    return b.key === "klimaat" || /klimaat\s*kritisch/i.test(b.name || "");
+    return b.key === "klimaat";
   }
   /** Fixed Klimaat categories — always show all five, independent of today's markdown. */
   var KLIMAAT_CATEGORIES = [
