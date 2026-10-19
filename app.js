@@ -739,7 +739,7 @@
     };
   }
 
-  function isParkinsonBot(b) { return !!b && (b.key === "parkinson" || b.key === "covid" || b.key === "quantum" || /parkinson|covid|quantum/i.test(b.name || "")); }
+  function isParkinsonBot(b) { return !!b && (b.key === "parkinson" || b.key === "covid" || b.key === "quantum" || b.key === "klimaatonderzoek" || /parkinson|covid|quantum|klimaat/i.test(b.name || "")); }
   function parseParkinson(md) {
     var lines = String(md || "").replace(/\r\n/g, "\n").split("\n"), blocks = [], cur = null, sec = null;
     for (var i = 0; i < lines.length; i++) {
@@ -761,6 +761,9 @@
       }
       return true;
     });
+    var pre = String(u.markdown || "").replace(/\r\n/g, "\n").split(/\n(?=##\s)/)[0];
+    pre = /^##\s/.test(pre) ? "" : pre.replace(/^#\s+.*\n?/, "").trim();
+    if (pre && blocks.length) top = '<div class="topic-summary"><div class="md">' + window.renderMarkdown(pre) + "</div></div>" + top;
     if (top) top = '<div class="card">' + top + "</div>";
     if (!blocks.length) return '<article class="card latest"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + '</div><div class="md">' + window.renderMarkdown(u.markdown) + "</div></article>";
     var active = state.klimaatTopic, idx = active ? parseInt(String(active).replace(/^blok-/, ""), 10) - 1 : -1;
