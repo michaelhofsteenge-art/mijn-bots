@@ -1050,8 +1050,11 @@
     h += '<p class="mail-meta">' + esc(meta) + "</p>";
     if (it.body) h += '<div class="mail-view-body">' + esc(it.body) + "</div>";
     else h += '<p class="mail-view-note">De volledige mailtekst staat niet in deze app. Open de mail in Outlook om hem helemaal te lezen.</p>';
-    if (link) h += '<a class="mail-view-outlook" href="' + esc(link) + '" target="_blank" rel="noopener noreferrer">Openen in Outlook</a>';
-    else h += '<p class="mail-view-note">Geen directe link: zoek in Outlook op de afzender.</p>';
+    // Altijd een knop: opgeslagen link, anders zoeken op afzender in Outlook web.
+    var q = String(it.sender || "").replace(/\s*\([^)]*\)\s*/g, " ").trim();
+    var url = link || ("https://outlook.live.com/mail/0/" + (q ? "search?q=" + encodeURIComponent(q) : "inbox"));
+    h += '<a class="mail-view-outlook" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">Openen in Outlook</a>';
+    if (!link) h += '<p class="mail-view-note">Geen directe link bewaard: de knop zoekt op de afzender in Outlook.</p>';
     h += "</article>";
     return h;
   }

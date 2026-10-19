@@ -1,7 +1,7 @@
 // Service worker voor App Onderzoek (scope /mijn-bots/onderzoek/). Verhoog VERSION samen met ../sw.js.
 // - App-bestanden: cache-first (verhoog VERSION na elke wijziging aan HTML/JS/CSS/iconen).
 // - data.json: network-first (altijd nieuwste updates), bij offline de laatst opgeslagen versie.
-const VERSION = "v2";
+const VERSION = "v3";
 const SHELL_CACHE = "onderzoek-shell-" + VERSION;
 const DATA_CACHE = "mijnbots-data";
 const SHELL = [
@@ -56,10 +56,11 @@ self.addEventListener("fetch", (e) => {
     return;
   }
 
+  // App-bestanden: network-first (nieuwe versie komt direct binnen), offline uit de EIGEN cache.
+  // Bewust niet caches.match() over alle caches: dat kon een oude app.js uit de cache van een andere app teruggeven.
   e.respondWith(
-    caches.match(req, { ignoreSearch: true }).then((hit) => {
-      if (hit) return hit;
-      return fetch(req).catch(() => (req.mode === "navigate" ? caches.match("index.html") : Response.error()));
-    })
+    fetch(req, { cache: "no-cache" })
+      .then((res) => { if (res.ok) { const c = res.clone(); caches.open(SHELL_CACHE).then((x) => x.put(req, c)); } return res; })
+      .catch(() => caches.open(SHELL_CACHE).then((c) => c.match(req, { ignoreSearch: true })).then((hit) => hit || Response.error()))
   );
 });
