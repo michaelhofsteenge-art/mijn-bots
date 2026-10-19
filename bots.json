@@ -78,5 +78,13 @@
     "emoji": "⚛️",
     "color": "#5B4BDB",
     "subtitle": "Weekrapport & nulmeting quantum"
+  },
+  {
+    "id": "07b3deeb-1316-44c3-a484-d4510de2eaa3",
+    "key": "klimaatonderzoek",
+    "name": "Klimaat Kritisch Onderzoek",
+    "emoji": "🔬",
+    "color": "#1E8449",
+    "subtitle": "Weekrapport, verdieping & nulmeting"
   }
 ]
