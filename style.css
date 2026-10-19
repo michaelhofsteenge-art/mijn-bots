@@ -538,14 +538,30 @@ a.bot-btn { text-decoration: none; color: inherit; }
   border-right: 1px solid var(--line); -webkit-tap-highlight-color: transparent;
 }
 .email-check-box .email-check { width: 24px; height: 24px; margin: 0; }
+button.email-check-box { background: none; border: 0; border-right: 1px solid var(--line); margin: 0; font: inherit; color: inherit; min-width: 52px; }
+.mail-check { display: block; width: 24px; height: 24px; border: 2px solid var(--muted); border-radius: 6px; box-sizing: border-box; position: relative; }
+.mail-check.on { background: var(--link); border-color: var(--link); }
+.mail-check.on::after { content: ""; position: absolute; left: 6px; top: 1px; width: 6px; height: 12px; border: solid #fff; border-width: 0 3px 3px 0; transform: rotate(45deg); }
 .email-check-row > .email-check-text {
   display: block; padding: 10px 12px; min-height: 44px; color: inherit; text-decoration: none;
   -webkit-tap-highlight-color: rgba(0,0,0,.06);
 }
+button.mail-open { flex: 1 1 auto; min-width: 0; background: none; border: 0; margin: 0; font: inherit; text-align: left; cursor: pointer; }
 a.mail-open, .mail-expand { cursor: pointer; }
-a.mail-open strong { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.mail-open strong { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
 .mail-open-cue { display: block; margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--link); }
 .email-check-row.is-checked .mail-open-cue { color: var(--muted); }
 .mail-details { display: none; margin-top: 4px; font-size: 13px; color: var(--muted); }
 .mail-expand[aria-expanded="true"] .mail-details { display: block; }
 .mail-expand[aria-expanded="true"] .mail-open-cue { display: none; }
+
+/* In-app mailweergave */
+.mail-view { padding: 16px; }
+.mail-view p { margin: 0 0 6px; }
+.mail-view-from span { color: var(--muted); }
+.mail-view-from { font-weight: 600; }
+.mail-view-meta, .mail-view-note { color: var(--muted); font-size: 14px; }
+.mail-view h3 { margin: 10px 0 6px; font-size: 1.1rem; line-height: 1.35; }
+.mail-view-body { white-space: pre-wrap; margin: 12px 0; line-height: 1.45; }
+.mail-view-note { margin-top: 12px !important; }
+.mail-view-outlook { display: block; margin-top: 14px; padding: 13px; min-height: 44px; box-sizing: border-box; text-align: center; border-radius: 12px; background: var(--link); color: #fff; font-weight: 600; text-decoration: none; }
