@@ -78,13 +78,5 @@
     "emoji": "🔬",
     "color": "#1E8449",
     "subtitle": "Weekrapport, verdieping & nulmeting"
-  },
-  {
-    "id": "07b3deeb-1316-44c3-a484-d4510de2eaa3-clintel",
-    "key": "clintel",
-    "name": "Clintel",
-    "emoji": "📑",
-    "color": "#117A65",
-    "subtitle": "Publicaties & standpunten van Clintel"
   }
 ]
