@@ -739,6 +739,7 @@
     };
   }
 
+  function allBtnHtml(on) { return '<button type="button" class="topic-chip topic-all' + (on ? " is-active" : "") + '" data-topic="alles"' + (on ? ' aria-current="true"' : "") + '>📖 Alles lezen</button>'; }
   function isParkinsonBot(b) { return !!b && (b.key === "parkinson" || b.key === "covid" || b.key === "quantum" || b.key === "klimaatonderzoek" || /parkinson|covid|quantum|klimaat/i.test(b.name || "")); }
   function parseParkinson(md) {
     var lines = String(md || "").replace(/\r\n/g, "\n").split("\n"), blocks = [], cur = null, sec = null;
@@ -766,6 +767,21 @@
     if (pre && blocks.length) top = '<div class="topic-summary"><div class="md">' + window.renderMarkdown(pre) + "</div></div>" + top;
     if (top) top = '<div class="card">' + top + "</div>";
     if (!blocks.length) return '<article class="card latest"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + '</div><div class="md">' + window.renderMarkdown(u.markdown) + "</div></article>";
+    var blockHtml = function (bl, i) {
+      var x = '<h2 class="topic-title">' + esc((i + 1) + ". " + bl.title) + "</h2>";
+      var intro = bl.intro.join("\n").trim();
+      if (intro) x += '<div class="md">' + window.renderMarkdown(intro) + "</div>";
+      bl.order.forEach(function (name) {
+        var t = bl.secs[name].join("\n").trim(); if (!t) return;
+        var cls = /samenvatting/i.test(name) ? "topic-summary" : /conclusie/i.test(name) ? "topic-conclusion" : "topic-section";
+        x += '<div class="' + cls + '"><div class="topic-section-label">' + esc(name) + '</div><div class="md">' + window.renderMarkdown(t) + "</div></div>";
+      });
+      return x;
+    };
+    if (state.klimaatTopic === "alles") {
+      return '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + '</div><button type="button" class="topic-back" data-topic-back="1">‹ Alle onderwerpen</button><h2 class="topic-title">📖 Volledig rapport</h2></div>' +
+        top + blocks.map(function (bl, i) { return '<div class="card full-block">' + blockHtml(bl, i) + "</div>"; }).join("");
+    }
     var active = state.klimaatTopic, idx = active ? parseInt(String(active).replace(/^blok-/, ""), 10) - 1 : -1;
     if (!(idx >= 0 && idx < blocks.length)) idx = -1;
     var nav = '<nav class="topic-nav" aria-label="Onderwerpen">' + blocks.map(function (bl, i) {
@@ -773,17 +789,10 @@
       return '<button type="button" class="topic-chip' + (on ? " is-active" : "") + '" data-topic="' + id + '"' + (on ? ' aria-current="true"' : "") + ' title="' + esc(label) + '">' + esc(label) + "</button>";
     }).join("") + "</nav>";
     var h = (idx < 0 ? top : "") + '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
-      '<p class="topic-hint">' + (idx >= 0 ? "Onderwerp" : "Kies een onderwerp") + "</p>" + nav;
+      (idx < 0 ? allBtnHtml(false) : "") + '<p class="topic-hint">' + (idx >= 0 ? "Onderwerp" : "Kies een onderwerp") + "</p>" + nav;
     if (idx < 0) return h + '<p class="topic-empty">Tik op een onderwerp om alleen dat blok te lezen.</p></div>';
     var bl = blocks[idx];
-    h += '<button type="button" class="topic-back" data-topic-back="1">‹ Alle onderwerpen</button><h2 class="topic-title">' + esc((idx + 1) + ". " + bl.title) + "</h2>";
-    var intro = bl.intro.join("\n").trim();
-    if (intro) h += '<div class="md">' + window.renderMarkdown(intro) + "</div>";
-    bl.order.forEach(function (name) {
-      var t = bl.secs[name].join("\n").trim(); if (!t) return;
-      var cls = /samenvatting/i.test(name) ? "topic-summary" : /conclusie/i.test(name) ? "topic-conclusion" : "topic-section";
-      h += '<div class="' + cls + '"><div class="topic-section-label">' + esc(name) + '</div><div class="md">' + window.renderMarkdown(t) + "</div></div>";
-    });
+    h += '<button type="button" class="topic-back" data-topic-back="1">‹ Alle onderwerpen</button>' + blockHtml(bl, idx);
     return h + "</div>";
   }
   function klimaatTopicsHtml(activeId) {
@@ -800,11 +809,24 @@
   function renderKlimaatLatest(u) {
     var byNum = parseKlimaatBlocks(u.markdown);
     var active = state.klimaatTopic;
+    var catHtml = function (cat) {
+      var raw = (byNum[cat.n] || "").trim(), x = '<h2 class="topic-title">' + esc(cat.n + ". " + cat.title) + "</h2>";
+      if (!raw) return x + '<p class="topic-empty-cat">Nog niets in deze categorie vandaag.</p>';
+      var parts = splitKlimaatBlock(raw);
+      if (parts.summary) x += '<div class="topic-summary"><div class="topic-section-label">Samenvatting</div><div class="md">' + window.renderMarkdown(parts.summary) + "</div></div>";
+      if (parts.conclusion) x += '<div class="topic-conclusion"><div class="topic-section-label">Conclusie</div><div class="md">' + window.renderMarkdown(parts.conclusion) + "</div></div>";
+      if (parts.body) x += '<div class="md">' + window.renderMarkdown(parts.body) + "</div>";
+      return x;
+    };
+    if (active === "alles") {
+      return '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + '</div><button type="button" class="topic-back" data-topic-back="1">‹ Alle onderwerpen</button><h2 class="topic-title">📖 Volledig rapport</h2></div>' +
+        KLIMAAT_CATEGORIES.map(function (c) { return '<div class="card full-block">' + catHtml(c) + "</div>"; }).join("");
+    }
     var valid = KLIMAAT_CATEGORIES.some(function (c) { return "blok-" + c.n === active; });
     if (!valid) active = null;
     var h = '<div class="card klimaat-topics">' +
       '<div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
-      '<p class="topic-hint">' + (active ? "Onderwerp" : "Kies een onderwerp") + "</p>" +
+      (active ? "" : allBtnHtml(false)) + '<p class="topic-hint">' + (active ? "Onderwerp" : "Kies een onderwerp") + "</p>" +
       klimaatTopicsHtml(active);
     if (!active) {
       h += '<p class="topic-empty">Tik op een onderwerp om alleen dat blok te lezen.</p></div>';
@@ -1216,7 +1238,7 @@
   function route() {
     if (!/^#\/bot\//.test(location.hash)) state.mailOpenId = null;
     if (!isUnlocked()) { if ($("lock").hidden) showLock(); return; }
-    var m = location.hash.match(/^#\/bot\/([^\/]+)(?:\/(blok-\d+))?$/);
+    var m = location.hash.match(/^#\/bot\/([^\/]+)(?:\/(blok-\d+|alles))?$/);
     if (m && state.data) {
       var botId = decodeURIComponent(m[1]);
       // Link naar een bot die in de andere app (of op het keuzescherm) hoort: daarheen doorsturen.
