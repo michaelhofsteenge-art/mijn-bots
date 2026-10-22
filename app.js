@@ -1272,7 +1272,7 @@
         '<span class="bot-chev" aria-hidden="true">›</span></a>';
     }
     return '<p class="launch-intro">Mijn Bots is opgesplitst in twee apps. Kies er één (en zet hem eventueel op je beginscherm):</p>' +
-      btn("acties", "#C2410C", "✅", "Acties Michael", "Mails, herinneringen, vacatures & crypto",
+      btn("acties", "#C2410C", "✅", "Akties Michael", "Mails, herinneringen, vacatures & crypto",
         acties.sort(function (a, b) { return ACTIES_KEYS.indexOf(a.key) - ACTIES_KEYS.indexOf(b.key); })
           .map(function (b) { return b.name; }).reduce(function (o, n, i) { return i === 0 ? [n, "Herinneringen"] : o.concat([n]); }, []).join(" · "), needs) +
       btn("onderzoek", "#1F6FB2", "🔬", "Onderzoek", "Alle onderzoeks- en nieuwsbots",
