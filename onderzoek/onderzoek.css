@@ -1,0 +1,113 @@
+/* App Onderzoek – ontwerp "Helder modern" (B) met donkere modus "Donker focus" (C).
+   Alleen geladen door onderzoek/index.html en gescoped op html.ond, dus App Acties en de launcher blijven ongewijzigd. */
+html.ond[data-theme="light"] {
+  --bg:#F1F5F9; --fg:#0F172A; --muted:#64748B; --card:#FFFFFF; --line:rgba(15,23,42,.07);
+  --shadow:0 1px 2px rgba(15,23,42,.04),0 6px 20px rgba(15,23,42,.06);
+  --link:#0F766E; --code:#F1F5F9; --accent:#0F766E;
+  --hdr:linear-gradient(135deg,#0F766E,#15803D); --hdr-fg:#fff;
+  --sum-bg:#F0FDFA; --sum-line:#99F6E4; --sum-fg:#0F766E;
+  --con-bg:#FFFBEB; --con-line:#FDE68A; --con-fg:#B45309;
+  --cta:#059669; --cta-fg:#fff; --tile-h:150px; color-scheme:light;
+}
+html.ond[data-theme="dark"] {
+  --bg:#0E1113; --fg:#E4E4E7; --muted:#71717A; --card:#171B1E; --line:rgba(255,255,255,.06);
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+  --link:#6EE7B7; --code:#1F2427; --accent:#34D399;
+  --hdr:#0E1113; --hdr-fg:#F4F4F5;
+  --sum-bg:rgba(56,189,248,.10); --sum-line:rgba(56,189,248,.25); --sum-fg:#7DD3FC;
+  --con-bg:rgba(251,191,36,.10); --con-line:rgba(251,191,36,.25); --con-fg:#FCD34D;
+  --cta:#34D399; --cta-fg:#0B0F10; --tile-h:150px; color-scheme:dark;
+}
+html.ond body { font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; background:var(--bg); }
+
+/* ---------- Kopbalken ---------- */
+html.ond .topbar { background:var(--hdr); color:var(--hdr-fg); border-bottom:1px solid var(--line); padding:calc(var(--sat) + 14px) 20px 14px; }
+html.ond[data-theme="dark"] .topbar { background:color-mix(in srgb,#0E1113 90%,transparent); }
+html.ond .topbar h1 { font-size:26px; font-weight:750; }
+html.ond .refreshed { color:currentColor; opacity:.8; }
+html.ond .top-actions { display:flex; gap:8px; }
+html.ond .topbar .icon-btn { background:rgba(255,255,255,.18); border:0; color:inherit; border-radius:999px; width:42px; height:42px; }
+html.ond[data-theme="dark"] .topbar .icon-btn { background:rgba(255,255,255,.07); }
+html.ond .detail-bar { background:var(--hdr); }
+html.ond[data-theme="light"] .detail-bar { background:linear-gradient(135deg,color-mix(in srgb,var(--c) 70%,#0F766E),var(--c)); }
+html.ond .detail-bar .back-btn { background:rgba(255,255,255,.18); }
+html.ond[data-theme="dark"] .detail-bar .back-btn { background:rgba(255,255,255,.07); color:#6EE7B7; }
+html.ond .detail-title h1 { font-size:19px; font-weight:700; }
+
+/* ---------- Inhoud breedte ---------- */
+html.ond .bot-list, html.ond .detail-body, html.ond .foot { max-width:1280px; margin:0 auto; }
+html.ond .bot-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; padding:16px 16px 8px; }
+
+/* Managementsamenvatting: volle breedte bovenaan */
+html.ond .mgmt-summary { grid-column:1 / -1; margin:0 0 4px; border-radius:22px; border:0; }
+html.ond[data-theme="dark"] .mgmt-summary { border:1px solid rgba(52,211,153,.2); background:linear-gradient(160deg,#10261F,#14181B); }
+html.ond[data-theme="dark"] .mgmt-summary > summary { color:#A7F3D0; }
+html.ond .mgmt-summary > summary { padding:18px; font-size:17px; }
+html.ond .ms-count { color:var(--muted); font-weight:500; font-size:13px; }
+
+/* ---------- Tegels ---------- */
+html.ond .bot-btn {
+  flex-direction:column; align-items:flex-start; justify-content:space-between; gap:12px;
+  min-height:var(--tile-h); padding:16px; border-radius:22px; border:0;
+}
+html.ond[data-theme="dark"] .bot-btn { border:1px solid var(--line); }
+html.ond .bot-btn::before { display:none; }
+html.ond .bot-emoji { width:46px; height:46px; border-radius:15px; font-size:23px; background:color-mix(in srgb,var(--c) 14%,var(--card)); }
+html.ond .bot-text { width:100%; gap:3px; }
+html.ond .bot-name { white-space:normal; font-size:15.5px; font-weight:650; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+html.ond .bot-sub { display:none; }
+html.ond .bot-date { color:var(--c); font-weight:600; font-size:12px; }
+html.ond[data-theme="dark"] .bot-date { color:color-mix(in srgb,var(--c) 70%,#fff); }
+html.ond .bot-date::before { content:"● "; }
+html.ond .bot-chev { position:absolute; top:16px; right:16px; }
+
+/* ---------- Voet ---------- */
+html.ond .foot { padding:16px 16px calc(var(--sab) + 24px); }
+html.ond .pin-change-btn, html.ond .link-btn { color:var(--muted); }
+
+/* ---------- Rapport ---------- */
+html.ond .detail-body { padding:16px 16px calc(var(--sab) + 32px); }
+html.ond .card { border-radius:20px; border:0; }
+html.ond[data-theme="dark"] .card { border:1px solid var(--line); }
+html.ond .topic-chip { background:var(--card); border:1px solid var(--line); border-radius:14px; min-height:52px; font-size:15px; }
+html.ond .topic-nav .topic-chip { background:var(--code); }
+html.ond .topic-chip.is-active { background:color-mix(in srgb,var(--accent) 14%,var(--card)); color:var(--accent); border-color:color-mix(in srgb,var(--accent) 40%,transparent); }
+html.ond .topic-chip.topic-all { background:var(--cta); color:var(--cta-fg); border-radius:18px; min-height:56px; box-shadow:0 6px 18px color-mix(in srgb,var(--cta) 30%,transparent); }
+html.ond .topic-title { font-size:22px; line-height:1.25; letter-spacing:-.02em; }
+html.ond .topic-summary, html.ond .topic-conclusion { border-radius:16px; padding:14px 16px; margin:14px 0; }
+html.ond .topic-summary { background:var(--sum-bg); border:1px solid var(--sum-line); }
+html.ond .topic-conclusion { background:var(--con-bg); border:1px solid var(--con-line); }
+html.ond .topic-summary .topic-section-label { color:var(--sum-fg); }
+html.ond .topic-conclusion .topic-section-label { color:var(--con-fg); }
+html.ond .topic-section-label { text-transform:uppercase; letter-spacing:.08em; font-size:11.5px; font-weight:700; }
+html.ond .md { font-size:16px; line-height:1.65; }
+html.ond .card .topic-summary .md, html.ond .card > .md { max-width:72ch; }
+html.ond .md a { color:var(--link); }
+
+/* ---------- Thema-knop (los, ook in rapport) ---------- */
+html.ond .theme-btn { font-size:18px; }
+
+/* ---------- iPad ---------- */
+@media (min-width:700px) {
+  html.ond .bot-list { grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; padding:24px 28px 8px; }
+  html.ond .detail-body { padding:24px 28px 40px; }
+  html.ond .topbar { padding-left:28px; padding-right:28px; }
+  html.ond .bot-sub { display:block; white-space:normal; }
+  html.ond { --tile-h:170px; }
+}
+/* ---------- Breed: onderwerpen naast leesvlak ---------- */
+@media (min-width:900px) {
+  html.ond .klimaat-topics:has(.topic-nav) { display:grid; grid-template-columns:280px minmax(0,1fr); column-gap:32px; align-items:start; padding:24px; }
+  html.ond .klimaat-topics:has(.topic-nav) > * { grid-column:2; }
+  html.ond .klimaat-topics:has(.topic-nav) > .topic-nav { grid-column:1; grid-row:1 / span 40; position:sticky; top:calc(var(--sat) + 96px); margin:0; }
+  html.ond .klimaat-topics:has(.topic-nav) .topic-back { display:none; }
+  html.ond .detail-body .md, html.ond .detail-body .topic-title, html.ond .detail-body .topic-summary,
+  html.ond .detail-body .topic-conclusion, html.ond .detail-body .topic-section { max-width:75ch; }
+  html.ond .md { font-size:17px; line-height:1.7; }
+  html.ond .topic-title { font-size:26px; }
+}
+@media (min-width:1200px) {
+  html.ond .bot-list { grid-template-columns:repeat(4,minmax(0,1fr)); }
+  html.ond .md { font-size:18px; }
+  html.ond .topbar h1 { font-size:30px; }
+}

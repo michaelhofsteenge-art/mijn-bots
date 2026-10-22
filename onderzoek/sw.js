@@ -1,11 +1,11 @@
 // Service worker voor App Onderzoek (scope /mijn-bots/onderzoek/). Verhoog VERSION samen met ../sw.js.
 // - App-bestanden: cache-first (verhoog VERSION na elke wijziging aan HTML/JS/CSS/iconen).
 // - data.json: network-first (altijd nieuwste updates), bij offline de laatst opgeslagen versie.
-const VERSION = "v14";
+const VERSION = "v15";
 const SHELL_CACHE = "onderzoek-shell-" + VERSION;
 const DATA_CACHE = "mijnbots-data";
 const SHELL = [
-  "./", "index.html", "../style.css", "../config.js", "../md.js", "../app.js", "manifest.webmanifest",
+  "./", "index.html", "../style.css", "onderzoek.css", "../config.js", "../md.js", "../app.js", "manifest.webmanifest",
   "icons/apple-touch-icon.png", "icons/icon-192.png", "icons/icon-512.png", "icons/favicon-32.png"
 ];
 
