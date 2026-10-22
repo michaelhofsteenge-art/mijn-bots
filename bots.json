@@ -86,5 +86,13 @@
     "emoji": "🧊",
     "color": "#117A65",
     "subtitle": "Clintel: claims, peer review & toetsing"
+  },
+  {
+    "id": "tcs-research",
+    "key": "tcs",
+    "name": "TCS Onderzoek",
+    "emoji": "🏢",
+    "color": "#1F4E9A",
+    "subtitle": "Tata Consultancy Services: maandrapport"
   }
 ]
