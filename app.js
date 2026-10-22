@@ -984,13 +984,20 @@
     if (!list.length) return "";
     return '<h2 class="hist-title">Herinneringen</h2><ul class="card rem-list">' + list.map(function (r) { return remRowHtml(r, now); }).join("") + "</ul>";
   }
+  function remNextInfo(n) {
+    if (!n) return "Niets gepland";
+    if (APP !== "acties") return n + " gepland";
+    var nx = upcomingReminders().slice().sort(function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : 0; })[0];
+    var w = nx.due.slice(0, 10) === nowAmsLocal().slice(0, 10) ? "vandaag " + nx.due.slice(11, 16) : mailShortDate(nx.due) + " " + nx.due.slice(11, 16);
+    return "Volgende: " + esc(String(nx.text || "").slice(0, 60)) + " · " + esc(w) + (n > 1 ? " · " + n + " gepland" : "");
+  }
   function remHomeButtonHtml() {
     var n = upcomingReminders().length, today = remDueTodayPending();
     var badge = today ? '<span class="bot-badge" aria-label="Vandaag">Vandaag</span>' : (n ? '<span class="rem-count">' + n + "</span>" : "");
     return '<button type="button" class="bot-btn' + (today ? " bot-btn--action" : "") + '" style="--c:#C2410C" data-id="' + REM_ID + '">' +
       '<span class="bot-emoji" aria-hidden="true">⏰</span><span class="bot-text"><span class="bot-name-row"><span class="bot-name">Herinneringen</span>' + badge + "</span>" +
       '<span class="bot-sub">Actiepunt aanmaken · ik herinner je</span>' +
-      '<span class="bot-date">' + (n ? n + " gepland" : "Niets gepland") + "</span></span>" +
+      '<span class="bot-date">' + remNextInfo(n) + "</span></span>" +
       '<span class="bot-chev" aria-hidden="true">›</span></button>';
   }
   // ---- reminders:end ----
@@ -1231,14 +1238,21 @@
     return (function (b) {
       var u = b.updates && b.updates[0];
       var needs = emailNeedsAction(b);
-      var cls = "bot-btn" + (needs ? " bot-btn--action" : "");
+      // App Acties: e-mailtegel toont aantal openstaande mails en eerstvolgende deadline.
+      var info = u ? esc(fmtDate(u.date)) : "Nog geen update";
+      if (APP === "acties" && isEmailBot(b) && mailOnline()) {
+        var op = mailOpenItems(), dl = op.map(function (x) { return x.deadline; }).filter(Boolean).sort()[0];
+        info = op.length ? '<b class="tile-count">' + op.length + "</b> openstaand" + (dl ? " · eerste deadline " + esc(mailShortDate(dl)) : "") : "Geen openstaande mails 🎉";
+        if (op.length) needs = true;
+      }
+      var cls = "bot-btn" + (needs ? " bot-btn--action" : "") + (isEmailBot(b) ? " tile-email" : "");
       var badge = needs ? '<span class="bot-badge" aria-label="Actie nodig">Actie</span>' : "";
       return '<button type="button" class="' + cls + '" style="--c:' + esc(b.color || "#666") + '" data-id="' + esc(b.id) + '"' +
         (needs ? ' aria-description="Actie vandaag"' : "") + '>' +
         '<span class="bot-emoji" aria-hidden="true">' + esc(b.emoji || "🤖") + "</span>" +
         '<span class="bot-text"><span class="bot-name-row"><span class="bot-name">' + esc(b.name) + "</span>" + badge + "</span>" +
         '<span class="bot-sub">' + esc(b.subtitle || "") + "</span>" +
-        '<span class="bot-date">' + (u ? esc(fmtDate(u.date)) : "Nog geen update") + "</span></span>" +
+        '<span class="bot-date">' + info + "</span></span>" +
         '<span class="bot-chev" aria-hidden="true">›</span></button>';
     })(b);
   }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="nl">
+<html lang="nl" class="ond acties">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -18,7 +18,17 @@
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="../style.css?v=20261022e">
+  <link rel="stylesheet" href="../style.css?v=20261022f">
+  <link rel="stylesheet" href="../onderzoek/onderzoek.css?v=20261022f">
+  <script>
+    // Licht/donker: onthouden in localStorage, standaard volgens systeem
+    (function () {
+      var t = null; try { t = localStorage.getItem("ond-theme"); } catch (e) {}
+      if (t !== "light" && t !== "dark") t = (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+  <link rel="stylesheet" href="acties.css?v=20261022f">
 </head>
 <body>
   <!-- PIN-scherm -->
@@ -48,7 +58,10 @@
         <h1>Acties Michael</h1>
         <p class="refreshed" id="refreshed">Laden…</p>
       </div>
-      <button type="button" class="icon-btn" id="refreshBtn" aria-label="Vernieuwen">↻</button>
+      <div class="top-actions">
+        <button type="button" class="icon-btn theme-btn" id="themeBtn" aria-label="Licht of donker">🌙</button>
+        <button type="button" class="icon-btn" id="refreshBtn" aria-label="Vernieuwen">↻</button>
+      </div>
     </header>
     <p class="chrome-tip home-tip" id="homeChromeTip" hidden>
       Tip: in Chrome werkt alles prima als tab. Voor een beginscherm-icoon: open de site in Safari → Deel → Zet op beginscherm.
@@ -91,9 +104,27 @@
 
   <div class="toast" id="toast" hidden></div>
 
-  <script src="../config.js?v=20261022e"></script>
-  <script src="../md.js?v=20261022e"></script>
+  <script src="../config.js?v=20261022f"></script>
+  <script src="../md.js?v=20261022f"></script>
   <script>window.APP_VARIANT = "acties"; window.APP_BASE = "../";</script>
-  <script src="../app.js?v=20261022e"></script>
+  <script src="../app.js?v=20261022f"></script>
+  <script>
+    (function () {
+      var root = document.documentElement, btn = document.getElementById("themeBtn");
+      function paint() {
+        var dark = root.getAttribute("data-theme") === "dark";
+        btn.textContent = dark ? "☀️" : "🌙";
+        btn.setAttribute("aria-label", dark ? "Lichte modus" : "Donkere modus");
+        document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.setAttribute("content", dark ? "#0E1113" : "#0F766E"); m.removeAttribute("media"); });
+      }
+      btn.addEventListener("click", function () {
+        var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("ond-theme", next); } catch (e) {}
+        paint();
+      });
+      paint();
+    })();
+  </script>
 </body>
 </html>
