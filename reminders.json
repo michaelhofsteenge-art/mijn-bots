@@ -46,8 +46,8 @@
     "text": "Afspraak maken bij Toyota garage",
     "due": "2026-10-22T12:00",
     "created": "2026-10-21T17:42:59",
-    "status": "gepland",
-    "remindedAt": null
+    "status": "herinnerd",
+    "remindedAt": "2026-10-22T12:14:00"
   },
   {
     "id": "r-10164e388c",
