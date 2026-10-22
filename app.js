@@ -753,7 +753,8 @@
     }
     return blocks;
   }
-  function renderParkinsonLatest(u) {
+  function renderParkinsonLatest(u, bot) {
+    var plain = !!bot && bot.key === "congres";
     var all = parseParkinson(u.markdown), top = "", blocks = all.filter(function (bl) {
       if (/^(samenvatting|conclusie van de week)$/i.test(bl.title)) {
         var t = bl.intro.join("\n").trim();
@@ -765,6 +766,7 @@
     var pre = String(u.markdown || "").replace(/\r\n/g, "\n").split(/\n(?=##\s)/)[0];
     pre = /^##\s/.test(pre) ? "" : pre.replace(/^#\s+.*\n?/, "").trim();
     if (pre && blocks.length) top = '<div class="topic-summary"><div class="md">' + window.renderMarkdown(pre) + "</div></div>" + top;
+    if (plain) top = "";
     if (top) top = '<div class="card">' + top + "</div>";
     if (!blocks.length) return '<article class="card latest"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + '</div><div class="md">' + window.renderMarkdown(u.markdown) + "</div></article>";
     var blockHtml = function (bl, i) {
@@ -789,7 +791,7 @@
       return '<button type="button" class="topic-chip' + (on ? " is-active" : "") + '" data-topic="' + id + '"' + (on ? ' aria-current="true"' : "") + ' title="' + esc(label) + '">' + esc(label) + "</button>";
     }).join("") + "</nav>";
     var h = (idx < 0 && top ? allBtnHtml(false) + '<details class="card summary-fold"><summary>📋 Samenvatting &amp; conclusie</summary>' + top.replace(/^<div class="card">/, "<div>") + "</details>" : "") + '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
-      (idx < 0 ? allBtnHtml(false) : "") + '<p class="topic-hint">' + (idx >= 0 ? "Onderwerp" : "Kies een onderwerp") + "</p>" + nav;
+      (idx < 0 && !plain ? allBtnHtml(false) : "") + '<p class="topic-hint">' + (idx >= 0 ? "Onderwerp" : "Kies een onderwerp") + "</p>" + nav;
     if (idx < 0) return h + '<p class="topic-empty">Tik op een onderwerp om alleen dat blok te lezen.</p></div>';
     var bl = blocks[idx];
     h += '<button type="button" class="topic-back" data-topic-back="1">‹ Alle onderwerpen</button>' + blockHtml(bl, idx);
@@ -1260,7 +1262,7 @@
       if (klimaat) {
         h += renderKlimaatLatest(ups[0]);
       } else if (parkinson) {
-        h += renderParkinsonLatest(ups[0]);
+        h += renderParkinsonLatest(ups[0], b);
       } else if (isEmailBot(b)) {
         h += emailRemindersHtml() + (mailOnline() ? mailListHtml() + mailDigestHtml(ups[0]) : mailOfflineNote() + renderEmailLatest(ups[0]));
       } else {
