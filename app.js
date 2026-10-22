@@ -753,10 +753,41 @@
     }
     return blocks;
   }
+  function sumCardHtml(md) {
+    return '<section class="card sum-card"><h2 class="sum-head">📋 Samenvatting en conclusies</h2><div class="md">' + window.renderMarkdown(md) + "</div></section>";
+  }
+  function renderBlockchainLatest(u) {
+    var lines = String(u.markdown || "").replace(/\r\n/g, "\n").split("\n"), intro = [], segs = [], cur = null;
+    lines.forEach(function (l) {
+      var m = l.match(/^\s*\*\*([^*]{2,80})\*\*\s*$/) || l.match(/^#{2,3}\s+(.+?)\s*$/);
+      if (m) { cur = { title: m[1].replace(/:$/, ""), body: [] }; segs.push(cur); return; }
+      (cur ? cur.body : intro).push(l);
+    });
+    var h = '<div class="card-date bc-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>";
+    var it = intro.join("\n").replace(/^#\s+.*\n?/, "").trim();
+    if (it) h += sumCardHtml(it);
+    if (!segs.length) return h + '<article class="card latest"><div class="md">' + window.renderMarkdown(u.markdown) + "</div></article>";
+    return h + segs.map(function (sg) {
+      return '<section class="card seg-card"><h2 class="topic-title">' + esc(sg.title) + '</h2><div class="md">' + window.renderMarkdown(sg.body.join("\n").trim()) + "</div></section>";
+    }).join("");
+  }
+  function renderStatinesLatest(u) {
+    var parts = String(u.markdown || "").replace(/\r\n/g, "\n").split(/\n(?=##\s)/), top = [], rest = [];
+    parts.forEach(function (p, i) {
+      var t = (p.match(/^##\s+(.+)/) || [])[1] || "";
+      if (i === 0 && !/^##\s/.test(p)) { var x = p.replace(/^#\s+.*\n?/, "").trim(); if (x) top.push(x); return; }
+      if (/samenvatting|conclusie|wat betekent dit/i.test(t)) top.push(p.replace(/^##\s+(.+)/, function (a, b) { return /samenvatting/i.test(b) ? "" : "### " + b; }).trim());
+      else rest.push(p);
+    });
+    var h = '<div class="card-date bc-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>";
+    if (top.length) h += sumCardHtml(top.join("\n\n"));
+    if (rest.length) h += '<details class="card upd-fold"><summary>🔎 Updates van deze week tonen</summary><div class="md">' + window.renderMarkdown(rest.join("\n")) + "</div></details>";
+    return h;
+  }
   function renderParkinsonLatest(u, bot) {
     var plain = !!bot && bot.key === "congres";
     var all = parseParkinson(u.markdown), top = "", blocks = all.filter(function (bl) {
-      if (/^(samenvatting|conclusie van de week)$/i.test(bl.title)) {
+      if (/^(?:overall\s+|algemene\s+)?(?:samenvatting|conclusies?)(?:\s+van de week)?$/i.test(bl.title)) {
         var t = bl.intro.join("\n").trim();
         if (t) top += '<div class="' + (/conclusie/i.test(bl.title) ? "topic-conclusion" : "topic-summary") + '"><div class="topic-section-label">' + esc(bl.title) + '</div><div class="md">' + window.renderMarkdown(t) + "</div></div>";
         return false;
@@ -790,8 +821,8 @@
       var id = "blok-" + (i + 1), on = i === idx, label = (i + 1) + "  " + bl.title;
       return '<button type="button" class="topic-chip' + (on ? " is-active" : "") + '" data-topic="' + id + '"' + (on ? ' aria-current="true"' : "") + ' title="' + esc(label) + '">' + esc(label) + "</button>";
     }).join("") + "</nav>";
-    var h = (idx < 0 && top ? allBtnHtml(false) + '<details class="card summary-fold"><summary>📋 Samenvatting &amp; conclusie</summary>' + top.replace(/^<div class="card">/, "<div>") + "</details>" : "") + '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
-      (idx < 0 && !plain ? allBtnHtml(false) : "") + '<p class="topic-hint">' + (idx >= 0 ? "Onderwerp" : "Kies een onderwerp") + "</p>" + nav;
+    var h = (idx < 0 && !plain ? allBtnHtml(false) : "") + (idx < 0 && top ? '<details class="card summary-fold" open><summary>📋 Samenvatting en conclusies</summary>' + top.replace(/^<div class="card">/, "<div>") + "</details>" : "") + '<div class="card klimaat-topics' + (idx < 0 && !plain ? " topics-grid" : "") + '"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
+      '<p class="topic-hint">' + (idx >= 0 ? "Onderwerp" : "Kies een onderwerp") + "</p>" + nav;
     if (idx < 0) return h + '<p class="topic-empty">Tik op een onderwerp om alleen dat blok te lezen.</p></div>';
     var bl = blocks[idx];
     h += '<button type="button" class="topic-back" data-topic-back="1">‹ Alle onderwerpen</button>' + blockHtml(bl, idx);
@@ -1277,6 +1308,10 @@
         h += renderKlimaatLatest(ups[0]);
       } else if (parkinson) {
         h += renderParkinsonLatest(ups[0], b);
+      } else if (b.key === "blockchain") {
+        h += renderBlockchainLatest(ups[0]);
+      } else if (b.key === "statines") {
+        h += renderStatinesLatest(ups[0]);
       } else if (isEmailBot(b)) {
         h += emailRemindersHtml() + (mailOnline() ? mailListHtml() + mailDigestHtml(ups[0]) : mailOfflineNote() + renderEmailLatest(ups[0]));
       } else {

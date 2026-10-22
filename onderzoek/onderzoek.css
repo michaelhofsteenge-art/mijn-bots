@@ -97,10 +97,10 @@ html.ond .theme-btn { font-size:18px; }
 }
 /* ---------- Breed: onderwerpen naast leesvlak ---------- */
 @media (min-width:900px) {
-  html.ond .klimaat-topics:has(.topic-nav) { display:grid; grid-template-columns:280px minmax(0,1fr); column-gap:32px; align-items:start; padding:24px; }
-  html.ond .klimaat-topics:has(.topic-nav) > * { grid-column:2; }
-  html.ond .klimaat-topics:has(.topic-nav) > .topic-nav { grid-column:1; grid-row:1 / span 40; position:sticky; top:calc(var(--sat) + 96px); margin:0; }
-  html.ond .klimaat-topics:has(.topic-nav) .topic-back { display:none; }
+  html.ond .klimaat-topics:has(.topic-nav):not(.topics-grid) { display:grid; grid-template-columns:280px minmax(0,1fr); column-gap:32px; align-items:start; padding:24px; }
+  html.ond .klimaat-topics:has(.topic-nav):not(.topics-grid) > * { grid-column:2; }
+  html.ond .klimaat-topics:has(.topic-nav):not(.topics-grid) > .topic-nav { grid-column:1; grid-row:1 / span 40; position:sticky; top:calc(var(--sat) + 96px); margin:0; }
+  html.ond .klimaat-topics:has(.topic-nav):not(.topics-grid) .topic-back { display:none; }
   html.ond .detail-body .md, html.ond .detail-body .topic-title, html.ond .detail-body .topic-summary,
   html.ond .detail-body .topic-conclusion, html.ond .detail-body .topic-section { max-width:75ch; }
   html.ond .md { font-size:17px; line-height:1.7; }
@@ -111,3 +111,22 @@ html.ond .theme-btn { font-size:18px; }
   html.ond .md { font-size:18px; }
   html.ond .topbar h1 { font-size:30px; }
 }
+
+/* Overzicht van onderwerpen: volle breedte raster totdat er een gekozen is */
+html.ond .klimaat-topics.topics-grid .topic-empty { margin-top:4px; }
+@media (min-width:700px) {
+  html.ond .klimaat-topics.topics-grid .topic-nav { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+  html.ond .klimaat-topics.topics-grid .topic-chip { min-height:64px; }
+  html.ond .klimaat-topics.topics-grid .topic-empty { display:none; }
+}
+/* Samenvatting en conclusies (Blockchain/Statines) + segmenten */
+html.ond .sum-card { background:var(--sum-bg); border:1px solid var(--sum-line); }
+html.ond .sum-head { margin:0 0 8px; font-size:18px; color:var(--sum-fg); }
+html.ond .summary-fold > summary { font-weight:700; font-size:17px; }
+html.ond .seg-card .topic-title { margin-top:0; color:var(--accent); }
+html.ond .bc-date { padding:0 4px; }
+html.ond .upd-fold > summary { cursor:pointer; list-style:none; font-weight:700; font-size:16px; min-height:48px; display:flex; align-items:center; color:var(--accent); }
+html.ond .upd-fold > summary::-webkit-details-marker { display:none; }
+html.ond .upd-fold > summary::after { content:"▾"; margin-left:auto; }
+html.ond .upd-fold[open] > summary::after { transform:rotate(180deg); }
+@media (min-width:900px) { html.ond .sum-card .md, html.ond .seg-card .md, html.ond .upd-fold .md { max-width:75ch; } }
