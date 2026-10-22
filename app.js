@@ -1145,12 +1145,67 @@
       return ae - be;
     });
     var remInserted = false;
-    $("botList").innerHTML = bots.map(function (b) {
+    $("botList").innerHTML = (APP === "onderzoek" ? mgmtSummaryHtml(bots) : "") + bots.map(function (b) {
       var html = botBtnHtml(b);
       if (!remInserted && isEmailBot(b)) { remInserted = true; html += remHomeButtonHtml(); }
       return html;
     }).join("") + (remInserted || APP !== "acties" ? "" : remHomeButtonHtml());
     showChromeTips();
+  }
+  // Managementsamenvatting (Onderzoek-home): dynamisch uit data.json, nieuwe bots komen er vanzelf in.
+  function msPlain(s) {
+    return String(s || "").replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+      .replace(/[*_`>]+/g, "").replace(/^\s*[-•]\s+/gm, "").replace(/\s+/g, " ").trim();
+  }
+  function msTrim(s, n) { s = msPlain(s); return s.length > n ? s.slice(0, n).replace(/\s\S*$/, "") + "…" : s; }
+  function msExtract(md) {
+    var lines = String(md || "").split(/\r?\n/), i, out = [];
+    function sectionAfter(k) {
+      var buf = [];
+      for (var j = k + 1; j < lines.length; j++) {
+        if (/^#{1,6}\s/.test(lines[j])) { if (buf.length) break; else continue; }
+        if (!lines[j].trim()) { if (buf.length) break; continue; }
+        buf.push(lines[j]);
+      }
+      return buf.join(" ");
+    }
+    // 1. Kop met (management)samenvatting / conclusie
+    var sumH = -1, conH = -1;
+    for (i = 0; i < lines.length; i++) {
+      if (!/^#{1,4}\s/.test(lines[i])) continue;
+      if (sumH < 0 && /samenvatting/i.test(lines[i])) sumH = i;
+      else if (conH < 0 && /conclusie/i.test(lines[i])) conH = i;
+    }
+    if (sumH >= 0) out.push(msTrim(sectionAfter(sumH), 380));
+    if (conH >= 0 && (sumH < 0 || conH - sumH < 40)) out.push("Conclusie: " + msTrim(sectionAfter(conH), 240));
+    if (out.length) return out;
+    // 2. Vetgedrukte regels **Managementsamenvatting.** / **Samenvatting:** / **Conclusie:**
+    var s = null, c = null;
+    for (i = 0; i < lines.length; i++) {
+      var l = lines[i];
+      if (s === null && /^\s*\*\*\s*(management)?samenvatting/i.test(l)) s = l.replace(/^\s*\*\*[^*]*\*\*\s*:?/, "");
+      else if (c === null && /^\s*\*\*\s*conclusie/i.test(l)) c = l.replace(/^\s*\*\*[^*]*\*\*\s*:?/, "");
+    }
+    if (s) out.push(msTrim(s, 380));
+    if (c) out.push("Conclusie: " + msTrim(c, 240));
+    if (out.length) return out;
+    // 3. Eerste intro-alinea
+    for (i = 0; i < lines.length; i++) {
+      if (lines[i].trim() && !/^#{1,6}\s/.test(lines[i]) && !/^\s*(\||---)/.test(lines[i])) { out.push(msTrim(sectionAfter(i - 1), 420)); break; }
+    }
+    return out;
+  }
+  function mgmtSummaryHtml(bots) {
+    var items = bots.filter(function (b) { return appForBot(b) === "onderzoek"; }).map(function (b) {
+      var u = b.updates && b.updates[0];
+      var parts = u ? msExtract(u.markdown) : [];
+      return '<div class="ms-item"><div class="ms-head">' + esc(b.emoji || "🤖") + " " + esc(b.name) +
+        (u ? ' <span class="ms-date">' + esc(fmtDate(u.date)) + "</span>" : "") + "</div>" +
+        (parts.length ? parts.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("") : '<p class="ms-none">Nog geen update.</p>') +
+        '<button type="button" class="ms-open" data-id="' + esc(b.id) + '">Lees rapport ›</button></div>';
+    });
+    if (!items.length) return "";
+    return '<details class="card mgmt-summary"><summary>📋 Managementsamenvatting <span class="ms-count">(' + items.length + " onderwerpen)</span></summary>" + items.join("") + "</details>";
   }
   function launcherHtml(d) {
     var acties = d.bots.filter(function (b) { return appForBot(b) === "acties"; });
@@ -1383,7 +1438,7 @@
     if (op) { mailOpen(op.getAttribute("data-mail-open")); return; }
   });
   $("botList").addEventListener("click", function (e) {
-    var b = e.target.closest(".bot-btn[data-id]"); if (b) location.hash = "#/bot/" + encodeURIComponent(b.getAttribute("data-id"));
+    var b = e.target.closest(".bot-btn[data-id], .ms-open[data-id]"); if (b) location.hash = "#/bot/" + encodeURIComponent(b.getAttribute("data-id"));
   });
   $("backBtn").addEventListener("click", function () {
     if (state.mailOpenId) { state.mailOpenId = null; mailRerender(); return; }
