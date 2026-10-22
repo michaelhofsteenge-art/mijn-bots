@@ -572,3 +572,9 @@ a.mail-open, .mail-expand { cursor: pointer; }
 .topic-chip.topic-all::after{content:none}
 .full-block{margin-top:12px}
 .full-block .topic-title:first-child{margin-top:0}
+
+.summary-fold > summary{cursor:pointer;font-weight:600;padding:4px 0;list-style:none}
+.summary-fold > summary::-webkit-details-marker{display:none}
+.summary-fold > summary::after{content:" ▾";float:right}
+.summary-fold[open] > summary::after{content:" ▴"}
+.summary-fold[open] > summary{margin-bottom:8px}
