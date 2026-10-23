@@ -1136,7 +1136,7 @@
     if (!link) h += '<p class="mail-view-note">Geen directe link bewaard: de knop zoekt op de afzender in Outlook.</p>';
     if (it.status === "open") {
       h += '<div class="mail-view-actions">';
-      h += '<button type="button" class="mail-view-done mail-view-keep" data-mail-keep="' + esc(it.id) + '">✓ Afgerond — laten staan</button>';
+      h += '<button type="button" class="mail-view-done mail-view-keep" data-mail-keep="' + esc(it.id) + '">✓ Afgerond — verplaatsen naar archief</button>';
       h += '<button type="button" class="mail-view-done mail-view-delete" data-mail-done="' + esc(it.id) + '">✓ Afgerond — verwijderen</button>';
       h += '<p class="mail-view-note">Laten staan: uit de actielijst, mail gaat naar Outlook-map «Email reageren - Archiveren». Verwijderen: ook uit Outlook (herstelbaar via Verwijderde items).</p>';
       h += "</div>";
