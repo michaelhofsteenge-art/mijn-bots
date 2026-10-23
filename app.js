@@ -1134,7 +1134,13 @@
     var url = link || ("https://outlook.live.com/mail/0/" + (q ? "search?q=" + encodeURIComponent(q) : "inbox"));
     h += '<a class="mail-view-outlook" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">Openen in Outlook</a>';
     if (!link) h += '<p class="mail-view-note">Geen directe link bewaard: de knop zoekt op de afzender in Outlook.</p>';
-    if (it.status === "open") h += '<button type="button" class="mail-view-done" data-mail-done="' + esc(it.id) + '">✓ Afgerond</button>';
+    if (it.status === "open") {
+      h += '<div class="mail-view-actions">';
+      h += '<button type="button" class="mail-view-done mail-view-keep" data-mail-keep="' + esc(it.id) + '">✓ Afgerond — laten staan</button>';
+      h += '<button type="button" class="mail-view-done mail-view-delete" data-mail-done="' + esc(it.id) + '">✓ Afgerond — verwijderen</button>';
+      h += '<p class="mail-view-note">Laten staan: uit de actielijst, mail gaat naar Outlook-map «Email reageren - Archiveren». Verwijderen: ook uit Outlook (herstelbaar via Verwijderde items).</p>';
+      h += "</div>";
+    }
     h += "</article>";
     return h;
   }
@@ -1164,14 +1170,20 @@
   function mailRerender() { var m = location.hash.match(/^#\/bot\/(.+)$/); if (m) renderDetail(decodeURIComponent(m[1])); }
   function mailConfirmDelete() { return window.confirm("Weet je zeker dat je deze e-mail wilt verwijderen?"); }
   function mailOpen(id) { state.mailOpenId = id; mailRerender(); window.scrollTo(0, 0); }
-  function mailToggle(id, checked) {
+  // outlookAction: "delete" (Verwijderde items), "archive" (Email reageren - Archiveren), of weglaten bij terugzetten.
+  function mailToggle(id, checked, outlookAction) {
     var it = (state.mail || []).filter(function (x) { return x.id === id; })[0]; if (!it) return;
     var backup = JSON.parse(JSON.stringify(it)), now = nowAmsLocal();
     var dz = $("mailArchDetails"); if (dz) state.mailArchOpen = dz.open;
     if (checked) { it.status = "done"; it.doneAt = now; delete it.goneAt; } else { it.status = "open"; delete it.doneAt; delete it.goneAt; }
     setTimeout(mailRerender, 250);
-    // Afvinken = ook in Outlook naar Verwijderde items (uitgevoerd door de mail-routine, herstelbaar).
-    mailApi("PATCH", "/" + encodeURIComponent(id), checked ? { status: "done", deleteInOutlook: true } : { status: "open" }).then(function (srv) {
+    var payload = { status: "open" };
+    if (checked) {
+      payload = { status: "done" };
+      if (outlookAction === "archive") payload.archiveInOutlook = true;
+      else payload.deleteInOutlook = true; // checkbox + "verwijderen"-knop
+    }
+    mailApi("PATCH", "/" + encodeURIComponent(id), payload).then(function (srv) {
       if (srv && srv.id) { Object.keys(it).forEach(function (k) { delete it[k]; }); Object.assign(it, srv); }
     }, function () {
       Object.keys(it).forEach(function (k) { delete it[k]; }); Object.assign(it, backup);
@@ -1488,11 +1500,16 @@
       if (turnOn && !mailConfirmDelete()) return;
       mailToggle(mid, turnOn); return;
     }
+    var mk = e.target.closest("[data-mail-keep]");
+    if (mk) {
+      var kid = mk.getAttribute("data-mail-keep");
+      state.mailOpenId = null; mailToggle(kid, true, "archive"); mailRerender(); return;
+    }
     var md = e.target.closest("[data-mail-done]");
     if (md) {
       if (!mailConfirmDelete()) return;
       var did = md.getAttribute("data-mail-done");
-      state.mailOpenId = null; mailToggle(did, true); mailRerender(); return;
+      state.mailOpenId = null; mailToggle(did, true, "delete"); mailRerender(); return;
     }
     var op = e.target.closest("[data-mail-open]");
     if (op) { mailOpen(op.getAttribute("data-mail-open")); return; }

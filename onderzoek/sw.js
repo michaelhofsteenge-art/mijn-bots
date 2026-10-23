@@ -1,7 +1,7 @@
 // Service worker voor App Onderzoek (scope /mijn-bots/onderzoek/). Verhoog VERSION samen met ../sw.js.
 // - App-bestanden: cache-first (verhoog VERSION na elke wijziging aan HTML/JS/CSS/iconen).
 // - data.json: network-first (altijd nieuwste updates), bij offline de laatst opgeslagen versie.
-const VERSION = "v19";
+const VERSION = "v20";
 const SHELL_CACHE = "onderzoek-shell-" + VERSION;
 const DATA_CACHE = "mijnbots-data";
 const SHELL = [

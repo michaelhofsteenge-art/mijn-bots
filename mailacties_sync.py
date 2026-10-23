@@ -6,9 +6,12 @@
   python3 mailacties_sync.py list                # alle items (open/done/weg) als JSON
   python3 mailacties_sync.py set-link <id> <url>   # alleen de mail-link van één item zetten (Outlook webLink / Gmail)
   python3 mailacties_sync.py set-body <id> <file>  # mailtekst (preview, max 2000 tekens) van één item zetten
-  python3 mailacties_sync.py pending-delete        # items die in de app 'Afgerond' kregen en in Outlook naar
-                                                   #  Verwijderde items moeten (outlookDelete == 'pending')
-  python3 mailacties_sync.py mark-deleted <id>     # melden dat de mail in Outlook verplaatst is
+  python3 mailacties_sync.py pending-delete        # items die in de app 'Afgerond — verwijderen' kregen en in Outlook
+                                                   #  naar Verwijderde items moeten (outlookDelete == 'pending')
+  python3 mailacties_sync.py mark-deleted <id>     # melden dat de mail in Outlook naar Verwijderde items is
+  python3 mailacties_sync.py pending-archive       # items die 'Afgerond — laten staan' kregen en naar de map
+                                                   #  "Email reageren - Archiveren" moeten (outlookArchive == 'pending')
+  python3 mailacties_sync.py mark-archived <id>    # melden dat de mail naar die archiefmap is verplaatst
   python3 mailacties_sync.py seed-md <update.md>  # parse '- Sender (mailbox): actie [id:slug]' regels -> sync
 items.json: {"items":[{"id":"slug","text":"...","sender":"...","mailbox":"Outlook",
              "received":"2026-10-11T13:05","deadline":null,
@@ -73,6 +76,10 @@ def main(a):
         print(json.dumps([i for i in call('GET') if i.get('outlookDelete') == 'pending'], indent=2, ensure_ascii=False))
     elif a[:1] == ['mark-deleted'] and len(a) == 2:
         print(json.dumps(call('PATCH', '/' + a[1], {'outlookDeleted': True}), ensure_ascii=False))
+    elif a[:1] == ['pending-archive']:
+        print(json.dumps([i for i in call('GET') if i.get('outlookArchive') == 'pending'], indent=2, ensure_ascii=False))
+    elif a[:1] == ['mark-archived'] and len(a) == 2:
+        print(json.dumps(call('PATCH', '/' + a[1], {'outlookArchived': True}), ensure_ascii=False))
     elif a[:1] == ['seed-md'] and len(a) == 2:
         items = parse_md(open(a[1]).read())
         print(json.dumps(items, indent=1, ensure_ascii=False))

@@ -565,7 +565,11 @@ a.mail-open, .mail-expand { cursor: pointer; }
 .mail-view-body { white-space: pre-wrap; margin: 12px 0; line-height: 1.45; }
 .mail-view-note { margin-top: 12px !important; }
 .mail-view-outlook { display: block; margin-top: 14px; padding: 13px; min-height: 44px; box-sizing: border-box; text-align: center; border-radius: 12px; background: var(--link); color: #fff; font-weight: 600; text-decoration: none; }
-.mail-view-done { display: block; width: 100%; margin-top: 10px; padding: 13px; min-height: 44px; border-radius: 12px; border: 1px solid var(--line); background: transparent; color: inherit; font: inherit; font-weight: 600; cursor: pointer; }
+.mail-view-actions { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+.mail-view-done { display: block; width: 100%; margin-top: 0; padding: 13px; min-height: 44px; border-radius: 12px; border: 1px solid var(--line); background: transparent; color: inherit; font: inherit; font-weight: 600; cursor: pointer; }
+.mail-view-keep { border-color: var(--accent, #1E8449); color: var(--accent, #1E8449); }
+.mail-view-delete { border-color: var(--line); }
+.mail-view-actions .mail-view-note { margin: 2px 0 0 !important; font-size: 13px; }
 .mail-view { max-width: 760px; }
 
 .topic-chip.topic-all{display:block;width:100%;min-height:52px;margin:6px 0 10px;font-size:1.08rem;font-weight:700;text-align:center;background:#1E8449;color:#fff;border:none}
