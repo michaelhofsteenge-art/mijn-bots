@@ -65,5 +65,13 @@
     "created": "2026-10-17T14:46:07",
     "status": "gepland",
     "remindedAt": null
+  },
+  {
+    "id": "r-888d9ca009",
+    "text": "inleveren huiswerk AvGW",
+    "due": "2026-10-25T12:00",
+    "created": "2026-10-24T00:47:16",
+    "status": "gepland",
+    "remindedAt": null
   }
 ]
