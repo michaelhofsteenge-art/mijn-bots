@@ -996,6 +996,7 @@
     var extra = "";
     if (remOnline()) {
       extra += ' <label class="rem-donelbl"><input type="checkbox" class="rem-done" data-rem-done="' + esc(r.id) + '"' + (r.status === "afgerond" ? " checked" : "") + "> Afgerond</label>";
+      if (isRemDone(r, now)) extra += ' <button type="button" class="rem-restore" data-rem-restore="' + esc(r.id) + '">↩ Terugzetten</button>';
       extra += ' <button type="button" class="rem-edit" data-rem-edit="' + esc(r.id) + '">Wijzigen</button>';
       extra += ' <button type="button" class="rem-del" data-rem-del="' + esc(r.id) + '">Verwijderen</button>';
     }
@@ -1408,6 +1409,16 @@
     var redit = e.target.closest("[data-rem-edit]");
     if (redit) { state.remEditId = redit.getAttribute("data-rem-edit"); renderRemindersDetail(); return; }
     if (e.target.closest("[data-rem-cancel]")) { state.remEditId = null; renderRemindersDetail(); return; }
+    var rres = e.target.closest("[data-rem-restore]");
+    if (rres) {
+      var rsid = rres.getAttribute("data-rem-restore"), rnw = nowAmsLocal();
+      var rdz = $("remDoneDetails"); if (rdz) state.remDoneOpen = rdz.open;
+      remOptimistic(rsid, { status: "gepland" }, function (it) {
+        it.status = (it.due < rnw && it.remindedAt) ? "herinnerd" : "gepland"; it.reopenedAt = rnw; delete it.doneAt;
+      });
+      toast("Teruggezet ✓");
+      return;
+    }
     var rdel = e.target.closest("[data-rem-del]");
     if (rdel) {
       var rid = rdel.getAttribute("data-rem-del");
