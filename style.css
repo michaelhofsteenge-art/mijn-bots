@@ -598,3 +598,10 @@ a.mail-open, .mail-expand { cursor: pointer; }
 .ms-open { margin-top: 6px; background: none; border: 0; padding: 6px 0; color: #1F6FB2; font: inherit; font-weight: 600; cursor: pointer; }
 .rem-restore { font: inherit; font-size: 14px; font-weight: 600; color: #fff; background: #C2410C; border: 0; border-radius: 10px; min-height: 40px; padding: 8px 14px; margin-right: 6px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .rem-restore:active { opacity: .8; }
+/* Herinnering aanmaken: inklapbaar */
+.rem-new { padding: 0; }
+.rem-new > .rem-new-sum { list-style: none; cursor: pointer; padding: 14px 16px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; -webkit-tap-highlight-color: transparent; }
+.rem-new > .rem-new-sum::-webkit-details-marker { display: none; }
+.rem-new > .rem-new-sum::after { content: "+"; font-size: 1.4em; line-height: 1; color: #C2410C; }
+.rem-new[open] > .rem-new-sum::after { content: "−"; }
+.rem-new > .rem-form { padding: 0 16px 16px; }

@@ -980,7 +980,7 @@
   function isRemDone(r, now) { return r.status === "afgerond" || (r.status === "herinnerd" && r.due < now && !r.reopenedAt); }
   function upcomingReminders() { var now = nowAmsLocal(); return allReminders().filter(function (r) { return !isRemDone(r, now) && r.status !== "herinnerd"; }); }
   function remDueTodayPending() { var now = nowAmsLocal(), t = now.slice(0, 10); return upcomingReminders().some(function (r) { return r.due.slice(0, 10) === t && r.due >= now; }); }
-  function tomorrowKey() { var d = new Date(Date.now() + 864e5); return dayKey(d); }
+  function tomorrowKey() { var t = nowAmsLocal().slice(0, 10).split("-"); return dayKey(new Date(Date.UTC(+t[0], +t[1] - 1, +t[2] + 1, 12))); }
   function remOnline() { return !state.remsOffline && Array.isArray(state.rems); }
   function remRowHtml(r, now) {
     if (state.remEditId === r.id && remOnline()) {
@@ -1009,11 +1009,12 @@
     $("detailEmoji").textContent = "⏰";
     $("detailName").textContent = "Herinneringen";
     var tm = tomorrowKey();
-    var h = '<form class="card rem-form" id="remForm"><label class="rem-lbl">Wat moet je doen?<input type="text" id="remText" required placeholder="Bijv. Peter een appje sturen"></label>' +
+    var h = '<details class="card rem-new" id="remNewDetails"' + (state.remFormOpen || state.remBusy || state.remDraft ? " open" : "") + '><summary class="rem-new-sum">Herinnering aanmaken</summary>' +
+      '<form class="rem-form" id="remForm"><label class="rem-lbl">Wat moet je doen?<input type="text" id="remText" required placeholder="Bijv. Peter een appje sturen"></label>' +
       '<div class="rem-dt"><label class="rem-lbl">Datum<input type="date" id="remDate" required value="' + tm + '"></label>' +
-      '<label class="rem-lbl">Tijd<input type="time" id="remTime" required value="12:00"></label></div>' +
+      '<label class="rem-lbl">Tijd<input type="time" id="remTime" required value="09:00"></label></div>' +
       '<button type="submit" class="rem-submit"' + (state.remBusy ? " disabled" : "") + ">" + (state.remBusy ? "Opslaan…" : "Herinnering aanmaken") + "</button>" +
-      "</form>";
+      "</form></details>";
     if (state.remsOffline) h += '<p class="rem-note">Offline: je ziet de laatst bekende lijst. Aanmaken en wijzigen kan weer zodra er verbinding is.</p>';
     else if (!Array.isArray(state.rems)) h += '<p class="rem-note">Laden…</p>';
     var now = nowAmsLocal(), all = allReminders();
@@ -1397,6 +1398,7 @@
 
   $("detailBody").addEventListener("toggle", function (e) {
     if (e.target && e.target.id === "remDoneDetails") state.remDoneOpen = e.target.open;
+    if (e.target && e.target.id === "remNewDetails") { state.remFormOpen = e.target.open; }
     if (e.target && e.target.id === "mailArchDetails") state.mailArchOpen = e.target.open;
     if (e.target && e.target.id === "mailDigestDetails") state.mailDigestOpen = e.target.open;
   }, true);
@@ -1476,12 +1478,12 @@
     if (e.target.id !== "remForm") return;
     e.preventDefault();
     var text = $("remText").value.trim().replace(/\s+/g, " ").replace(/\|/g, "/");
-    var date = $("remDate").value, time = $("remTime").value || "12:00";
+    var date = $("remDate").value, time = $("remTime").value || "09:00";
     if (!text || !date) return;
     var due = date + "T" + time.slice(0, 5);
     state.remBusy = true; renderRemindersDetail();
     remApi("POST", "", { text: text, due: due }).then(function () {
-      state.remBusy = false; toast("Herinnering opgeslagen ✓");
+      state.remBusy = false; state.remFormOpen = false; toast("Herinnering opgeslagen ✓");
     }, function () {
       state.remBusy = false; state.remDraft = { text: text, date: date, time: time };
       window.alert("Opslaan mislukt (geen verbinding?). Probeer het zo opnieuw.");

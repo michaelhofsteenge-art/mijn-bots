@@ -1,53 +1,43 @@
 [
   {
-    "id": "quinten-weekplan",
-    "text": "Quinten weekplan maken en boek uitzoeken",
-    "due": "2026-10-11T09:00",
-    "created": "2026-10-11T09:52:00+02:00",
-    "status": "herinnerd",
-    "remindedAt": "2026-10-11T09:55:58",
-    "reopenedAt": "2026-10-25T01:16:19"
-  },
-  {
-    "id": "ouders-volkert-jan",
-    "text": "Ouders Volkert jan bericht sturen",
-    "due": "2026-10-11T12:00",
-    "created": "2026-10-11T09:52:00+02:00",
-    "status": "herinnerd",
-    "remindedAt": "2026-10-11T12:14:21",
-    "reopenedAt": "2026-10-25T01:16:23"
-  },
-  {
-    "id": "r-c1b4c02c2e",
-    "text": "Afspraak maken bij Toyota garage",
-    "due": "2026-10-22T12:00",
-    "created": "2026-10-21T17:42:59",
-    "status": "herinnerd",
-    "remindedAt": "2026-10-22T12:14:00",
-    "reopenedAt": "2026-10-25T09:04:09"
-  },
-  {
-    "id": "r-10164e388c",
-    "text": "Greetje en Jan e-mail sturen met meer informatie over 27 oktober bezoek Loge",
-    "due": "2026-10-23T12:00",
-    "created": "2026-10-12T10:18:33",
-    "status": "herinnerd",
-    "remindedAt": "2026-10-25T09:16:43",
-    "reopenedAt": "2026-10-25T09:02:44"
-  },
-  {
     "id": "r-888d9ca009",
     "text": "inleveren huiswerk AvGW",
     "due": "2026-10-25T12:00",
     "created": "2026-10-24T00:47:16",
     "status": "herinnerd",
-    "remindedAt": "2026-10-25T12:15:34"
+    "remindedAt": "2026-10-25T12:15:34",
+    "reopenedAt": "2026-10-25T19:55:46"
+  },
+  {
+    "id": "r-c1b4c02c2e",
+    "text": "Afspraak maken bij Toyota garage",
+    "due": "2026-10-26T12:00",
+    "created": "2026-10-21T17:42:59",
+    "status": "gepland",
+    "remindedAt": null,
+    "reopenedAt": "2026-10-25T19:54:51"
   },
   {
     "id": "r-80ae57c6a7",
     "text": "Peter data etentje sturen",
     "due": "2026-10-26T12:00",
     "created": "2026-10-25T17:48:26",
+    "status": "gepland",
+    "remindedAt": null
+  },
+  {
+    "id": "r-a6c836afc3",
+    "text": "herinneringen verjaardag",
+    "due": "2026-10-26T12:00",
+    "created": "2026-10-25T19:40:44",
+    "status": "gepland",
+    "remindedAt": null
+  },
+  {
+    "id": "r-c2dcade6c2",
+    "text": "weekplan Quinten maken",
+    "due": "2026-10-26T12:00",
+    "created": "2026-10-25T19:54:21",
     "status": "gepland",
     "remindedAt": null
   }
