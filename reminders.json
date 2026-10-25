@@ -40,7 +40,7 @@
     "text": "inleveren huiswerk AvGW",
     "due": "2026-10-25T12:00",
     "created": "2026-10-24T00:47:16",
-    "status": "gepland",
-    "remindedAt": null
+    "status": "herinnerd",
+    "remindedAt": "2026-10-25T12:15:34"
   }
 ]
