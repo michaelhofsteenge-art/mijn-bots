@@ -1328,7 +1328,7 @@
     if (!klimaat && !parkinson) state.klimaatTopic = null;
     if (isCryptoBot(b)) h += cryptoPanelHtml();
     if (!ups.length && isEmailBot(b) && mailOnline()) {
-      h += emailRemindersHtml() + mailListHtml();
+      h += mailListHtml();
     } else if (!ups.length) {
       h += '<div class="card empty-card"><p class="big-empty">Nog geen update beschikbaar</p><p>Deze bot heeft nog geen rapport gestuurd. Kom later terug.</p></div>';
     } else {
@@ -1337,7 +1337,7 @@
       } else if (parkinson) {
         h += renderParkinsonLatest(ups[0], b);
       } else if (isEmailBot(b)) {
-        h += emailRemindersHtml() + (mailOnline() ? mailListHtml() + mailDigestHtml(ups[0]) : mailOfflineNote() + renderEmailLatest(ups[0]));
+        h += (mailOnline() ? mailListHtml() + mailDigestHtml(ups[0]) : mailOfflineNote() + renderEmailLatest(ups[0]));
       } else {
         h += '<article class="card latest"><div class="card-date">Laatste update · ' + esc(fmtDate(ups[0].date, true)) + '</div><div class="md">' + window.renderMarkdown(ups[0].markdown) + "</div></article>";
       }
