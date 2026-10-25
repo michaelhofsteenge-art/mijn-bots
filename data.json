@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-25T09:07:40+01:00",
+  "generated_at": "2026-10-25T09:16:44+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -246,53 +246,22 @@
       "reopenedAt": "2026-10-25T01:16:23"
     },
     {
-      "id": "r-6b2a844ee8",
-      "text": "Peter een appje sturen ivm operatie 13 okt",
-      "due": "2026-10-12T12:00",
-      "created": "2026-10-11T22:20:09",
-      "status": "herinnerd",
-      "remindedAt": "2026-10-12T12:08:47"
-    },
-    {
-      "id": "uitslag-donderdag",
-      "text": "Goos even een appje sturen over de uitslag (wel of geen kanker) en hoe het gaat",
-      "due": "2026-10-15T12:00",
-      "created": "2026-10-10T19:55:20+02:00",
-      "status": "herinnerd",
-      "remindedAt": "2026-10-15T12:14:23"
-    },
-    {
-      "id": "r-e6b71f55b9",
-      "text": "Sportschool Quinten oozeggen onderzoeken",
-      "due": "2026-10-18T12:00",
-      "created": "2026-10-17T17:15:09",
-      "status": "herinnerd",
-      "remindedAt": "2026-10-18T12:10:46"
-    },
-    {
       "id": "r-c1b4c02c2e",
       "text": "Afspraak maken bij Toyota garage",
       "due": "2026-10-22T12:00",
       "created": "2026-10-21T17:42:59",
       "status": "herinnerd",
-      "remindedAt": "2026-10-22T12:14:00"
+      "remindedAt": "2026-10-22T12:14:00",
+      "reopenedAt": "2026-10-25T09:04:09"
     },
     {
       "id": "r-10164e388c",
       "text": "Greetje en Jan e-mail sturen met meer informatie over 27 oktober bezoek Loge",
       "due": "2026-10-23T12:00",
       "created": "2026-10-12T10:18:33",
-      "status": "afgerond",
-      "remindedAt": null,
-      "doneAt": "2026-10-12T12:18:19"
-    },
-    {
-      "id": "r-dde043bf86",
-      "text": "Mark al naar ziekenhuis geweest voor katheresatie",
-      "due": "2026-10-25T12:00",
-      "created": "2026-10-17T14:46:07",
-      "status": "gepland",
-      "remindedAt": null
+      "status": "herinnerd",
+      "remindedAt": "2026-10-25T09:16:43",
+      "reopenedAt": "2026-10-25T09:02:44"
     },
     {
       "id": "r-888d9ca009",
