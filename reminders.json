@@ -4,18 +4,18 @@
     "text": "Quinten weekplan maken en boek uitzoeken",
     "due": "2026-10-11T09:00",
     "created": "2026-10-11T09:52:00+02:00",
-    "status": "afgerond",
+    "status": "herinnerd",
     "remindedAt": "2026-10-11T09:55:58",
-    "doneAt": "2026-10-15T23:38:30"
+    "reopenedAt": "2026-10-25T01:16:19"
   },
   {
     "id": "ouders-volkert-jan",
-    "text": "Ouders Volkert jan bellen",
+    "text": "Ouders Volkert jan bericht sturen",
     "due": "2026-10-11T12:00",
     "created": "2026-10-11T09:52:00+02:00",
-    "status": "afgerond",
+    "status": "herinnerd",
     "remindedAt": "2026-10-11T12:14:21",
-    "doneAt": "2026-10-11T17:49:44"
+    "reopenedAt": "2026-10-25T01:16:23"
   },
   {
     "id": "r-6b2a844ee8",
@@ -61,10 +61,10 @@
   {
     "id": "r-dde043bf86",
     "text": "Mark al naar ziekenhuis geweest voor katheresatie",
-    "due": "2026-10-24T12:00",
+    "due": "2026-10-25T12:00",
     "created": "2026-10-17T14:46:07",
-    "status": "herinnerd",
-    "remindedAt": "2026-10-24T12:01:01"
+    "status": "gepland",
+    "remindedAt": null
   },
   {
     "id": "r-888d9ca009",

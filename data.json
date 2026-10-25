@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-25T01:20:01+02:00",
+  "generated_at": "2026-10-25T08:08:12+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-10-25T08:07+01:00",
+          "markdown": "**Actie nodig**\n\n**Deze week**\n- Erik Hessel / DSB (Outlook): ALV dinsdag 27 okt 20:00, Maliebaan 70A Utrecht; jouw punt over sociale betrokkenheid komt bij 'vaststellen agenda' [id:dsb-alv-27okt]\n\n**Voor Quinten**\n- Uyên (fwd YOEP) (Gmail Quinten): YOEP-documenten aanleveren, deadline 1 okt verstreken en nog ongelezen [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Toyota Kooijman Maarssen (Outlook): onderhoudsbeurt Lexus GS NH-660-G inplannen [id:lexus-onderhoud]\n- Nationale-Nederlanden (Outlook): pensioenberichten bekijken in mijn.nn [id:nn-pensioenberichten]\n\nVervallen: Hospitium beschikbaarheid december (deadline za 24 okt voorbij)."
+        },
+        {
           "date": "2026-10-24T17:00+02:00",
           "markdown": "**Actie nodig**\n\n- Rooster Hospitium (Outlook): beschikbaarheid december opgeven, deadline vandaag za 24 okt [id:hospitium-beschikbaarheid-dec]\n- Erik Hessel, DSB (Outlook): ALV di 27 okt 20:00, Maliebaan 70A Utrecht; jouw punt 'sociale betrokkenheid' komt bij vaststellen agenda [id:dsb-alv-27okt]\n- Toyota Kooijman Maarssen (Outlook): onderhoudsbeurt Lexus GS inplannen [id:lexus-onderhoud]\n- Nationale-Nederlanden (Outlook): berichten Pensioen Beleggingsverzekering bekijken in mijn.nn [id:nn-pensioenberichten]\n- Uyên / YOEP (Gmail Quinten): Quinten moet YOEP-documenten nog aanleveren, deadline 1 okt verstreken [id:yoep-quinten]"
         },
         {
           "date": "2026-10-24T08:08+02:00",
           "markdown": "**Actie nodig**\n\n**Vandaag**\n- Rooster Hospitium Vleuten (Outlook): beschikbaarheid december opgeven via ons.rooster.nl, deadline vandaag (za 24 okt) [id:hospitium-beschikbaarheid-dec]\n\n**Deze week**\n- Erik Hessel / DSB (Outlook): ALV dinsdag 27 okt 20:00, Maliebaan 70A Utrecht; jouw punt over sociale betrokkenheid komt bij 'vaststellen agenda' [id:dsb-alv-27okt]\n\n**Voor Quinten**\n- Uyên (fwd YOEP) (Gmail Quinten): YOEP-documenten aanleveren, deadline 1 okt verstreken en nog ongelezen [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Toyota Kooijman Maarssen (Outlook): onderhoudsbeurt Lexus GS NH-660-G inplannen [id:lexus-onderhoud]\n- Nationale-Nederlanden (Outlook): pensioenberichten bekijken in mijn.nn [id:nn-pensioenberichten]"
-        },
-        {
-          "date": "2026-10-23T17:00+02:00",
-          "markdown": "**Actie nodig**\n\n- Rinske Smid, AVGU Masterclass (Outlook): één plek vrij in leergang Focusing en Belichaamde Aanwezigheid (start morgen za 24 okt); vandaag nog aanmelden als je wilt [id:avgu-focusing-leergang-24okt]\n- Rooster Hospitium (Outlook): beschikbaarheid december opgeven, deadline morgen za 24 okt [id:hospitium-beschikbaarheid-dec]\n- Heleen / RDW / Camper Actiegroep MRB (Outlook): camper 36-PZR-9 is geschorst tot 21-10-2027; verzekering zelf opzeggen, camper niet op de openbare weg; nog beslissen over het model-bezwaarschrift MRB (Heleen vindt het kansloos) [id:mrb-bezwaar-camper]\n- Erik Hessel, DSB (Outlook): ALV di 27 okt 20:00, Maliebaan 70A Utrecht, in agenda; jouw punt 'sociale betrokkenheid' komt bij vaststellen agenda [id:dsb-alv-27okt]\n- Toyota Kooijman Maarssen (Outlook): onderhoudsbeurt Lexus GS inplannen [id:lexus-onderhoud]\n- Nationale-Nederlanden (Outlook): berichten Pensioen Beleggingsverzekering bekijken in mijn.nn [id:nn-pensioenberichten]\n- Uyên / YOEP (Gmail Quinten): Quinten moet YOEP-documenten nog aanleveren, deadline 1 okt verstreken [id:yoep-quinten]"
         }
       ]
     },
@@ -232,18 +232,18 @@
       "text": "Quinten weekplan maken en boek uitzoeken",
       "due": "2026-10-11T09:00",
       "created": "2026-10-11T09:52:00+02:00",
-      "status": "afgerond",
+      "status": "herinnerd",
       "remindedAt": "2026-10-11T09:55:58",
-      "doneAt": "2026-10-15T23:38:30"
+      "reopenedAt": "2026-10-25T01:16:19"
     },
     {
       "id": "ouders-volkert-jan",
-      "text": "Ouders Volkert jan bellen",
+      "text": "Ouders Volkert jan bericht sturen",
       "due": "2026-10-11T12:00",
       "created": "2026-10-11T09:52:00+02:00",
-      "status": "afgerond",
+      "status": "herinnerd",
       "remindedAt": "2026-10-11T12:14:21",
-      "doneAt": "2026-10-11T17:49:44"
+      "reopenedAt": "2026-10-25T01:16:23"
     },
     {
       "id": "r-6b2a844ee8",
@@ -289,10 +289,10 @@
     {
       "id": "r-dde043bf86",
       "text": "Mark al naar ziekenhuis geweest voor katheresatie",
-      "due": "2026-10-24T12:00",
+      "due": "2026-10-25T12:00",
       "created": "2026-10-17T14:46:07",
-      "status": "herinnerd",
-      "remindedAt": "2026-10-24T12:01:01"
+      "status": "gepland",
+      "remindedAt": null
     },
     {
       "id": "r-888d9ca009",
