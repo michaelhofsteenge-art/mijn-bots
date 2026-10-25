@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-25T17:24:22+01:00",
+  "generated_at": "2026-10-25T18:21:23+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -270,6 +270,14 @@
       "created": "2026-10-24T00:47:16",
       "status": "herinnerd",
       "remindedAt": "2026-10-25T12:15:34"
+    },
+    {
+      "id": "r-80ae57c6a7",
+      "text": "Peter data etentje sturen",
+      "due": "2026-10-26T12:00",
+      "created": "2026-10-25T17:48:26",
+      "status": "gepland",
+      "remindedAt": null
     }
   ]
 }

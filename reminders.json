@@ -42,5 +42,13 @@
     "created": "2026-10-24T00:47:16",
     "status": "herinnerd",
     "remindedAt": "2026-10-25T12:15:34"
+  },
+  {
+    "id": "r-80ae57c6a7",
+    "text": "Peter data etentje sturen",
+    "due": "2026-10-26T12:00",
+    "created": "2026-10-25T17:48:26",
+    "status": "gepland",
+    "remindedAt": null
   }
 ]
