@@ -998,7 +998,8 @@
       extra += ' <label class="rem-donelbl"><input type="checkbox" class="rem-done" data-rem-done="' + esc(r.id) + '"' + (r.status === "afgerond" ? " checked" : "") + "> Afgerond</label>";
       if (isRemDone(r, now)) extra += ' <button type="button" class="rem-restore" data-rem-restore="' + esc(r.id) + '">↩ Terugzetten</button>';
       extra += ' <button type="button" class="rem-edit" data-rem-edit="' + esc(r.id) + '">Wijzigen</button>';
-      extra += ' <button type="button" class="rem-del" data-rem-del="' + esc(r.id) + '">Verwijderen</button>';
+      // Verwijderen alleen in het archief; in de open lijst vinkt Mike af.
+      if (isRemDone(r, now)) extra += ' <button type="button" class="rem-del" data-rem-del="' + esc(r.id) + '">Verwijderen</button>';
     }
     return '<li class="rem-row"><div class="rem-when">' + esc(remWhen(r.due)) + '</div><div class="rem-text">' + esc(r.text) +
       '</div><div class="rem-meta"><span class="rem-status rem-status--' + esc(r.status) + '">' + st + "</span>" + extra + "</div></li>";

@@ -1,7 +1,7 @@
 // Service worker voor App Acties Michael (scope /mijn-bots/acties/). Verhoog VERSION samen met ../sw.js.
 // - App-bestanden: cache-first (verhoog VERSION na elke wijziging aan HTML/JS/CSS/iconen).
 // - data.json: network-first (altijd nieuwste updates), bij offline de laatst opgeslagen versie.
-const VERSION = "v23";
+const VERSION = "v24";
 const SHELL_CACHE = "acties-shell-" + VERSION;
 const DATA_CACHE = "mijnbots-data";
 const SHELL = [
