@@ -13,8 +13,8 @@
     "text": "Afspraak maken bij Toyota garage",
     "due": "2026-10-26T12:00",
     "created": "2026-10-21T17:42:59",
-    "status": "gepland",
-    "remindedAt": null,
+    "status": "herinnerd",
+    "remindedAt": "2026-10-26T12:01:23",
     "reopenedAt": "2026-10-25T19:54:51"
   },
   {
@@ -22,23 +22,23 @@
     "text": "Peter data etentje sturen",
     "due": "2026-10-26T12:00",
     "created": "2026-10-25T17:48:26",
-    "status": "gepland",
-    "remindedAt": null
+    "status": "herinnerd",
+    "remindedAt": "2026-10-26T12:01:25"
   },
   {
     "id": "r-a6c836afc3",
     "text": "herinneringen verjaardag",
     "due": "2026-10-26T12:00",
     "created": "2026-10-25T19:40:44",
-    "status": "gepland",
-    "remindedAt": null
+    "status": "herinnerd",
+    "remindedAt": "2026-10-26T12:01:27"
   },
   {
     "id": "r-c2dcade6c2",
     "text": "weekplan Quinten maken",
     "due": "2026-10-26T12:00",
     "created": "2026-10-25T19:54:21",
-    "status": "gepland",
-    "remindedAt": null
+    "status": "herinnerd",
+    "remindedAt": "2026-10-26T12:01:29"
   }
 ]
