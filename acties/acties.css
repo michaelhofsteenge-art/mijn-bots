@@ -24,7 +24,6 @@ html.acties .mail-check.on { background:var(--accent); border-color:var(--accent
 html.acties .detail-body { max-width:900px; }
 @media (min-width:700px) {
   html.acties .bot-list { grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
-  html.acties .tile-email { grid-column:1 / -1; }
   html.acties .bot-btn { min-height:120px; }
 }
 html.acties .mail-view-keep { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
