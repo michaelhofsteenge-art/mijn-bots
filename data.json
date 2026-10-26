@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-26T07:09:39+01:00",
+  "generated_at": "2026-10-26T08:05:47+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-10-26T08:10+01:00",
+          "markdown": "**Actie nodig**\n\n**Deze week**\n- Erik Hessel / DSB (Outlook): morgen (di 27 okt) 20:00 ALV, Maliebaan 70A Utrecht; jouw punt over sociale betrokkenheid komt bij 'vaststellen agenda' [id:dsb-alv-27okt]\n\n**Voor Quinten**\n- Uyên (fwd YOEP) (Gmail Quinten): YOEP-documenten aanleveren, deadline 1 okt verstreken en nog ongelezen [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Nationale-Nederlanden (Outlook): pensioenberichten bekijken in mijn.nn [id:nn-pensioenberichten]\n\nVan de lijst af: Lexus-onderhoudsmail van Toyota Kooijman staat niet meer in je Inbox."
+        },
+        {
           "date": "2026-10-25T17:00+01:00",
           "markdown": "**Actie nodig**\n\n- Erik Hessel (DSB secretaris) (Outlook): ALV Loge De Stichtse Broederschap dinsdag 27 okt 20:00, Maliebaan 70A Utrecht (stukken in bijlage ALV-mail 6 okt); jouw punt over 'sociale betrokkenheid' wordt bij 'vaststellen agenda' toegevoegd (deadline 2026-10-27) [id:dsb-alv-27okt]\n- Erik Hessel (DSB secretaris) (Outlook): Erik Hessel (secretaris DSB) laten weten of je het VM Magazine voortaan nog in fysieke vorm wilt ontvangen of alleen digitaal (inventarisatie december) [id:dsb-vm-magazine]\n- Uyên Hérault-Huynh (fwd YOEP) (Gmail (Quinten)): Quinten: YOEP-documenten aanleveren (deadline 1 okt verstreken; nog unread in zijn Gmail) (deadline 2026-10-01) [id:yoep-quinten]\n- Toyota Kooijman Maarssen (Outlook): Onderhoudsbeurt Lexus GS NH-660-G inplannen bij Toyota Kooijman Maarssen (lange wachttijden; optioneel winterbanden) [id:lexus-onderhoud]\n- Nationale-Nederlanden (Outlook): Berichten over Pensioen Beleggingsverzekering (polissen ..73682, ..73794) bekijken in mijn.nn [id:nn-pensioenberichten]"
         },
         {
           "date": "2026-10-25T08:07+01:00",
           "markdown": "**Actie nodig**\n\n**Deze week**\n- Erik Hessel / DSB (Outlook): ALV dinsdag 27 okt 20:00, Maliebaan 70A Utrecht; jouw punt over sociale betrokkenheid komt bij 'vaststellen agenda' [id:dsb-alv-27okt]\n\n**Voor Quinten**\n- Uyên (fwd YOEP) (Gmail Quinten): YOEP-documenten aanleveren, deadline 1 okt verstreken en nog ongelezen [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Toyota Kooijman Maarssen (Outlook): onderhoudsbeurt Lexus GS NH-660-G inplannen [id:lexus-onderhoud]\n- Nationale-Nederlanden (Outlook): pensioenberichten bekijken in mijn.nn [id:nn-pensioenberichten]\n\nVervallen: Hospitium beschikbaarheid december (deadline za 24 okt voorbij)."
-        },
-        {
-          "date": "2026-10-24T17:00+02:00",
-          "markdown": "**Actie nodig**\n\n- Rooster Hospitium (Outlook): beschikbaarheid december opgeven, deadline vandaag za 24 okt [id:hospitium-beschikbaarheid-dec]\n- Erik Hessel, DSB (Outlook): ALV di 27 okt 20:00, Maliebaan 70A Utrecht; jouw punt 'sociale betrokkenheid' komt bij vaststellen agenda [id:dsb-alv-27okt]\n- Toyota Kooijman Maarssen (Outlook): onderhoudsbeurt Lexus GS inplannen [id:lexus-onderhoud]\n- Nationale-Nederlanden (Outlook): berichten Pensioen Beleggingsverzekering bekijken in mijn.nn [id:nn-pensioenberichten]\n- Uyên / YOEP (Gmail Quinten): Quinten moet YOEP-documenten nog aanleveren, deadline 1 okt verstreken [id:yoep-quinten]"
         }
       ]
     },
