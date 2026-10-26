@@ -977,7 +977,8 @@
     out.sort(function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : 0; });
     return out;
   }
-  function isRemDone(r, now) { return r.status === "afgerond" || (r.status === "herinnerd" && r.due < now && !r.reopenedAt); }
+  // Alleen door Mike afgevinkt (afgerond) is klaar; "herinnerd" blijft open tot hij afvinkt.
+  function isRemDone(r) { return r.status === "afgerond"; }
   function upcomingReminders() { var now = nowAmsLocal(); return allReminders().filter(function (r) { return !isRemDone(r, now) && r.status !== "herinnerd"; }); }
   function remDueTodayPending() { var now = nowAmsLocal(), t = now.slice(0, 10); return upcomingReminders().some(function (r) { return r.due.slice(0, 10) === t && r.due >= now; }); }
   function tomorrowKey() { var t = nowAmsLocal().slice(0, 10).split("-"); return dayKey(new Date(Date.UTC(+t[0], +t[1] - 1, +t[2] + 1, 12))); }
