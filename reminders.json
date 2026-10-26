@@ -23,7 +23,8 @@
     "due": "2026-10-26T12:00",
     "created": "2026-10-25T17:48:26",
     "status": "herinnerd",
-    "remindedAt": "2026-10-26T12:01:25"
+    "remindedAt": "2026-10-26T12:01:25",
+    "reopenedAt": "2026-10-26T20:29:54"
   },
   {
     "id": "r-a6c836afc3",
@@ -31,7 +32,8 @@
     "due": "2026-10-26T12:00",
     "created": "2026-10-25T19:40:44",
     "status": "herinnerd",
-    "remindedAt": "2026-10-26T12:01:27"
+    "remindedAt": "2026-10-26T12:01:27",
+    "reopenedAt": "2026-10-26T20:29:51"
   },
   {
     "id": "r-c2dcade6c2",
@@ -39,6 +41,15 @@
     "due": "2026-10-26T12:00",
     "created": "2026-10-25T19:54:21",
     "status": "herinnerd",
-    "remindedAt": "2026-10-26T12:01:29"
+    "remindedAt": "2026-10-26T12:01:29",
+    "reopenedAt": "2026-10-26T20:29:57"
+  },
+  {
+    "id": "r-8fd9837245",
+    "text": "Afspraak tandarts maken",
+    "due": "2026-10-27T09:00",
+    "created": "2026-10-26T20:29:39",
+    "status": "gepland",
+    "remindedAt": null
   }
 ]
