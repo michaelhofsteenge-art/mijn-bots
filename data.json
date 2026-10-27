@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-27T16:32:03+01:00",
+  "generated_at": "2026-10-27T17:03:37+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-10-27T17:00+01:00",
+          "markdown": "**Actie nodig**\n\n- Uyên Hérault-Huynh, fwd YOEP (Gmail Quinten): Quinten moet nog zijn YOEP-documenten aanleveren via de beveiligde link; deadline 1 okt is verstreken en de mails staan nog ongelezen in zijn Gmail. Even nagaan of hij dit oppakt. [id:yoep-quinten]"
+        },
+        {
           "date": "2026-10-27T08:10+01:00",
           "markdown": "**Actie nodig**\n\nDagelijks overzicht e-mailacties, dinsdag 27 oktober 2026 (08:10)\n\nVandaag: niets.\nDeze week: niets.\n\nVoor Quinten\n- Uyên Hérault-Huynh / YOEP (Gmail Quinten): Quinten moet zijn documenten voor het YOEP-dossier nog aanleveren via de beveiligde link; de deadline van 1 okt is verstreken en de mail staat nog ongelezen in zijn Gmail. Even nagaan of hij het heeft gedaan. [id:yoep-quinten]\n\nWanneer het uitkomt: niets."
         },
         {
           "date": "2026-10-26T17:00+01:00",
           "markdown": "**Actie nodig**\n\n- Uyên Hérault-Huynh, fwd YOEP (Gmail Quinten): Quinten moet nog zijn YOEP-documenten aanleveren via de beveiligde link; deadline 1 okt is verstreken en de mails staan nog ongelezen in zijn Gmail. Even nagaan of hij dit oppakt. [id:yoep-quinten]"
-        },
-        {
-          "date": "2026-10-26T08:10+01:00",
-          "markdown": "**Actie nodig**\n\n**Deze week**\n- Erik Hessel / DSB (Outlook): morgen (di 27 okt) 20:00 ALV, Maliebaan 70A Utrecht; jouw punt over sociale betrokkenheid komt bij 'vaststellen agenda' [id:dsb-alv-27okt]\n\n**Voor Quinten**\n- Uyên (fwd YOEP) (Gmail Quinten): YOEP-documenten aanleveren, deadline 1 okt verstreken en nog ongelezen [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Nationale-Nederlanden (Outlook): pensioenberichten bekijken in mijn.nn [id:nn-pensioenberichten]\n\nVan de lijst af: Lexus-onderhoudsmail van Toyota Kooijman staat niet meer in je Inbox."
         }
       ]
     },
