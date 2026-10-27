@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-26T21:23:08+01:00",
+  "generated_at": "2026-10-27T08:10:10+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-10-27T08:10+01:00",
+          "markdown": "**Actie nodig**\n\nDagelijks overzicht e-mailacties, dinsdag 27 oktober 2026 (08:10)\n\nVandaag: niets.\nDeze week: niets.\n\nVoor Quinten\n- Uyên Hérault-Huynh / YOEP (Gmail Quinten): Quinten moet zijn documenten voor het YOEP-dossier nog aanleveren via de beveiligde link; de deadline van 1 okt is verstreken en de mail staat nog ongelezen in zijn Gmail. Even nagaan of hij het heeft gedaan. [id:yoep-quinten]\n\nWanneer het uitkomt: niets."
+        },
+        {
           "date": "2026-10-26T17:00+01:00",
           "markdown": "**Actie nodig**\n\n- Uyên Hérault-Huynh, fwd YOEP (Gmail Quinten): Quinten moet nog zijn YOEP-documenten aanleveren via de beveiligde link; deadline 1 okt is verstreken en de mails staan nog ongelezen in zijn Gmail. Even nagaan of hij dit oppakt. [id:yoep-quinten]"
         },
         {
           "date": "2026-10-26T08:10+01:00",
           "markdown": "**Actie nodig**\n\n**Deze week**\n- Erik Hessel / DSB (Outlook): morgen (di 27 okt) 20:00 ALV, Maliebaan 70A Utrecht; jouw punt over sociale betrokkenheid komt bij 'vaststellen agenda' [id:dsb-alv-27okt]\n\n**Voor Quinten**\n- Uyên (fwd YOEP) (Gmail Quinten): YOEP-documenten aanleveren, deadline 1 okt verstreken en nog ongelezen [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Nationale-Nederlanden (Outlook): pensioenberichten bekijken in mijn.nn [id:nn-pensioenberichten]\n\nVan de lijst af: Lexus-onderhoudsmail van Toyota Kooijman staat niet meer in je Inbox."
-        },
-        {
-          "date": "2026-10-25T17:00+01:00",
-          "markdown": "**Actie nodig**\n\n- Erik Hessel (DSB secretaris) (Outlook): ALV Loge De Stichtse Broederschap dinsdag 27 okt 20:00, Maliebaan 70A Utrecht (stukken in bijlage ALV-mail 6 okt); jouw punt over 'sociale betrokkenheid' wordt bij 'vaststellen agenda' toegevoegd (deadline 2026-10-27) [id:dsb-alv-27okt]\n- Erik Hessel (DSB secretaris) (Outlook): Erik Hessel (secretaris DSB) laten weten of je het VM Magazine voortaan nog in fysieke vorm wilt ontvangen of alleen digitaal (inventarisatie december) [id:dsb-vm-magazine]\n- Uyên Hérault-Huynh (fwd YOEP) (Gmail (Quinten)): Quinten: YOEP-documenten aanleveren (deadline 1 okt verstreken; nog unread in zijn Gmail) (deadline 2026-10-01) [id:yoep-quinten]\n- Toyota Kooijman Maarssen (Outlook): Onderhoudsbeurt Lexus GS NH-660-G inplannen bij Toyota Kooijman Maarssen (lange wachttijden; optioneel winterbanden) [id:lexus-onderhoud]\n- Nationale-Nederlanden (Outlook): Berichten over Pensioen Beleggingsverzekering (polissen ..73682, ..73794) bekijken in mijn.nn [id:nn-pensioenberichten]"
         }
       ]
     },
@@ -252,9 +252,9 @@
       "text": "inleveren huiswerk AvGW",
       "due": "2026-10-25T12:00",
       "created": "2026-10-24T00:47:16",
-      "status": "herinnerd",
+      "status": "afgerond",
       "remindedAt": "2026-10-25T12:15:34",
-      "reopenedAt": "2026-10-26T09:03:22"
+      "doneAt": "2026-10-26T23:29:00"
     },
     {
       "id": "r-c1b4c02c2e",
@@ -270,9 +270,9 @@
       "text": "Peter data etentje sturen",
       "due": "2026-10-26T12:00",
       "created": "2026-10-25T17:48:26",
-      "status": "herinnerd",
+      "status": "afgerond",
       "remindedAt": "2026-10-26T12:01:25",
-      "reopenedAt": "2026-10-26T20:29:54"
+      "doneAt": "2026-10-26T23:29:03"
     },
     {
       "id": "r-a6c836afc3",
@@ -288,15 +288,23 @@
       "text": "weekplan Quinten maken",
       "due": "2026-10-26T12:00",
       "created": "2026-10-25T19:54:21",
-      "status": "herinnerd",
+      "status": "afgerond",
       "remindedAt": "2026-10-26T12:01:29",
-      "reopenedAt": "2026-10-26T20:29:57"
+      "doneAt": "2026-10-26T23:29:08"
     },
     {
       "id": "r-8fd9837245",
       "text": "Afspraak tandarts maken",
       "due": "2026-10-27T09:00",
       "created": "2026-10-26T20:29:39",
+      "status": "gepland",
+      "remindedAt": null
+    },
+    {
+      "id": "r-fd402f06c9",
+      "text": "Paraplu van Rob mee naar de loge nemen",
+      "due": "2026-10-28T09:00",
+      "created": "2026-10-27T00:17:31",
       "status": "gepland",
       "remindedAt": null
     }
