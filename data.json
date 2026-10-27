@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-27T09:05:41+01:00",
+  "generated_at": "2026-10-27T09:10:17+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -297,8 +297,8 @@
       "text": "Afspraak tandarts maken",
       "due": "2026-10-27T09:00",
       "created": "2026-10-26T20:29:39",
-      "status": "gepland",
-      "remindedAt": null
+      "status": "herinnerd",
+      "remindedAt": "2026-10-27T09:10:08"
     },
     {
       "id": "r-fd402f06c9",
