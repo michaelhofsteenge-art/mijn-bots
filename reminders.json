@@ -57,7 +57,7 @@
     "text": "Paraplu van Rob mee naar de loge nemen",
     "due": "2026-10-28T09:00",
     "created": "2026-10-27T00:17:31",
-    "status": "gepland",
-    "remindedAt": null
+    "status": "herinnerd",
+    "remindedAt": "2026-10-28T09:16:16"
   }
 ]
