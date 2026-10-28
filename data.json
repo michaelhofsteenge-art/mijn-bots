@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T16:26:06+01:00",
+  "generated_at": "2026-10-28T17:06:31+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-10-28T17:00+01:00",
+          "markdown": "**Actie nodig**\n\n- Uyên Hérault-Huynh, fwd YOEP (Gmail Quinten): Quinten moet zijn YOEP-documenten aanleveren via de beveiligde link; deadline 1 okt is verstreken en de mail is nog ongelezen in zijn Gmail. Nagaan of Quinten dit oppakt. [id:yoep-quinten]"
+        },
+        {
           "date": "2026-10-28T08:05+01:00",
           "markdown": "**Actie nodig**\n\nVolledig overzicht openstaande mailacties – woensdag 28 oktober 2026\n\n**Voor Quinten**\n- Uyên Hérault-Huynh / YOEP (Gmail Quinten): Quinten moet de gevraagde documenten aanleveren via de beveiligde YOEP-link; deadline 1 okt is verstreken en de mail is nog ongelezen in zijn Gmail. Even nagaan of hij dit heeft opgepakt. [id:yoep-quinten]\n\nVandaag, deze week en wanneer het uitkomt: niets open. Nieuw sinds gisteren alleen nieuwsbrieven, promo's, bezorgmeldingen en een ongevraagde trading-mentoringmail."
         },
         {
           "date": "2026-10-27T17:00+01:00",
           "markdown": "**Actie nodig**\n\n- Uyên Hérault-Huynh, fwd YOEP (Gmail Quinten): Quinten moet nog zijn YOEP-documenten aanleveren via de beveiligde link; deadline 1 okt is verstreken en de mails staan nog ongelezen in zijn Gmail. Even nagaan of hij dit oppakt. [id:yoep-quinten]"
-        },
-        {
-          "date": "2026-10-27T08:10+01:00",
-          "markdown": "**Actie nodig**\n\nDagelijks overzicht e-mailacties, dinsdag 27 oktober 2026 (08:10)\n\nVandaag: niets.\nDeze week: niets.\n\nVoor Quinten\n- Uyên Hérault-Huynh / YOEP (Gmail Quinten): Quinten moet zijn documenten voor het YOEP-dossier nog aanleveren via de beveiligde link; de deadline van 1 okt is verstreken en de mail staat nog ongelezen in zijn Gmail. Even nagaan of hij het heeft gedaan. [id:yoep-quinten]\n\nWanneer het uitkomt: niets."
         }
       ]
     },
