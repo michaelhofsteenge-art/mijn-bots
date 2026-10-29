@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T16:30:09+01:00",
+  "generated_at": "2026-10-29T17:05:27+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-10-29T17:00+01:00",
+          "markdown": "**Actie nodig**\n\n- Rooster Hospitium Vleuten (Outlook): decemberrooster staat online; check je diensten via ons.rooster.nl of de Inplanning-app. Optioneel: laat Anne en Rinske weten als je een paar uur kunt op 1e/2e kerstdag (middag/avond). [id:hospitium-rooster-dec]\n- Uyên Hérault-Huynh, fwd YOEP (Gmail Quinten): voor Quinten; YOEP vroeg documenten aan te leveren (deadline 1 okt verstreken, mail nog ongelezen). Nagaan of Quinten dit heeft gedaan. [id:yoep-quinten]"
+        },
+        {
           "date": "2026-10-29T08:10+01:00",
           "markdown": "**Actie nodig**\n\nOchtendoverzicht donderdag 29 oktober 2026 (08:10)\n\n### Voor Quinten\n- Uyên Hérault-Huynh (Gmail Quinten): YOEP vraagt Quinten documenten aan te leveren voor zijn dossier (wachtlijst hulpverlening). De deadline van 1 okt is verstreken en de mail is nog ongelezen; even nagaan of Quinten dit heeft gedaan. [id:yoep-quinten]\n\nVerder niets open in Outlook en Gmail."
         },
         {
           "date": "2026-10-28T17:00+01:00",
           "markdown": "**Actie nodig**\n\n- Uyên Hérault-Huynh, fwd YOEP (Gmail Quinten): Quinten moet zijn YOEP-documenten aanleveren via de beveiligde link; deadline 1 okt is verstreken en de mail is nog ongelezen in zijn Gmail. Nagaan of Quinten dit oppakt. [id:yoep-quinten]"
-        },
-        {
-          "date": "2026-10-28T08:05+01:00",
-          "markdown": "**Actie nodig**\n\nVolledig overzicht openstaande mailacties – woensdag 28 oktober 2026\n\n**Voor Quinten**\n- Uyên Hérault-Huynh / YOEP (Gmail Quinten): Quinten moet de gevraagde documenten aanleveren via de beveiligde YOEP-link; deadline 1 okt is verstreken en de mail is nog ongelezen in zijn Gmail. Even nagaan of hij dit heeft opgepakt. [id:yoep-quinten]\n\nVandaag, deze week en wanneer het uitkomt: niets open. Nieuw sinds gisteren alleen nieuwsbrieven, promo's, bezorgmeldingen en een ongevraagde trading-mentoringmail."
         }
       ]
     },
