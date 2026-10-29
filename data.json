@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T14:15:37+01:00",
+  "generated_at": "2026-10-29T14:15:50+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -252,7 +252,12 @@
       "emoji": "📚",
       "color": "#8E6CC8",
       "subtitle": "Geestelijke verzorging, zingeving & hermeneutiek",
-      "updates": []
+      "updates": [
+        {
+          "date": "2026-10-29T14:15+01:00",
+          "markdown": "# GV Research — weekselectie (VOORBEELD)\n\n> ⚠️ Dit is een voorbeeldpagina. De eerste echte weekselectie van GV Research verschijnt vrijdag rond 9:00.\n\n## Samenvatting en conclusies\n\nVoorbeeld: hier komt elke vrijdag een korte samenvatting van de weekselectie en de belangrijkste conclusies voor de gesprekspraktijk (Brozus) en de opleiding Spiritualiteit & Zingeving.\n\n## 1. Geestelijke verzorging\n\nVoorbeeld: per item de kernbevindingen, een kritische beoordeling van de bewijskracht, toepassingen voor de praktijk en de bron met link.\n\n## 2. Zingeving\n\nVoorbeeld: nog geen inhoud.\n\n## 3. Hermeneutische gespreksvoering\n\nVoorbeeld: nog geen inhoud."
+        }
+      ]
     }
   ],
   "reminders": [

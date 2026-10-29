@@ -14,7 +14,8 @@ done
 # Parkinson- en Covid-bot schrijven wekelijks /workspace/<key>/report-<datum>.md
 for key in parkinson covid gvresearch; do
   mkdir -p updates/$key
-  for f in /workspace/$key/report-*.md; do
+  src=/workspace/$key; [ "$key" = gvresearch ] && src=/workspace/gv-research
+  for f in $src/report-*.md; do
     [ -e "$f" ] || continue
     d=$(basename "$f" .md); d=${d#report-}
     ls updates/$key/"$d"*.md >/dev/null 2>&1 && cmp -s "$f" updates/$key/"$d"*.md && continue
