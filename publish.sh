@@ -12,7 +12,7 @@ for f in /workspace/gv-vacatures-*.md; do
   cp "$f" "updates/gv/$d.md"
 done
 # Parkinson- en Covid-bot schrijven wekelijks /workspace/<key>/report-<datum>.md
-for key in parkinson covid; do
+for key in parkinson covid gvresearch; do
   mkdir -p updates/$key
   for f in /workspace/$key/report-*.md; do
     [ -e "$f" ] || continue

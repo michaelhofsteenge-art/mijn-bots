@@ -94,5 +94,13 @@
     "emoji": "🏢",
     "color": "#1F4E9A",
     "subtitle": "Tata Consultancy Services: maandrapport"
+  },
+  {
+    "id": "37e5bad5-5aa1-45ad-92df-bdba137c7b7a",
+    "key": "gvresearch",
+    "name": "GV Research",
+    "emoji": "📚",
+    "color": "#8E6CC8",
+    "subtitle": "Geestelijke verzorging, zingeving & hermeneutiek"
   }
 ]
