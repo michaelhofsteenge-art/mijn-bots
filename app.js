@@ -797,7 +797,7 @@
     return top.join("\n\n") + "\n" + rest.join("\n");
   }
   function renderParkinsonLatest(u, bot) {
-    if (bot && (bot.key === "blockchain" || bot.key === "statines")) u = Object.assign({}, u, { markdown: normalizeSegMd(u.markdown, bot.key) });
+    if (bot && (bot.key === "blockchain" || bot.key === "statines" || bot.key === "gvresearch")) u = Object.assign({}, u, { markdown: normalizeSegMd(u.markdown, bot.key) });
     var plain = !!bot && bot.key === "congres";
     var all = parseParkinson(u.markdown), top = "", blocks = all.filter(function (bl) {
       if (/^(?:overall\s+|algemene\s+)?(?:samenvatting|conclusies?)(?:\s+van de week)?$/i.test(bl.title)) {
