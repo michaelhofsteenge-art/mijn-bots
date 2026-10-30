@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T21:26:55+01:00",
+  "generated_at": "2026-10-30T08:00:53+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-10-30T08:00+01:00",
+          "markdown": "**Actie nodig**\n\nOchtendoverzicht vrijdag 30 oktober 2026 (08:00)\n\n### Vandaag\n- Apple (Outlook): je Apple Account is op 29 okt om 17:55 gebruikt om in te loggen bij iCloud op een Mac mini (2024). Was jij dat (nieuwe Mac mini), dan negeren; zo niet, meteen je wachtwoord wijzigen via account.apple.com. (nieuw) [id:apple-login-macmini]\n- 1Password (Outlook): nieuwe inlog vanaf 'Mac mini van Michael' (Utrecht, 29 okt 19:52). Was jij dat, dan negeren; zo niet, direct je account beveiligen en vertrouwde apparaten checken. (nieuw) [id:1password-login-macmini]\n\n### Deze week\n- Rooster Hospitium Vleuten, Anne en Rinske (Outlook): decemberrooster staat online; je diensten checken via ons.rooster.nl of de Inplanning-app. Optioneel: laat weten als je op 1e of 2e kerstdag ('s middags/'s avonds) een paar uur kunt helpen. (nieuw) [id:hospitium-rooster-dec]\n\n### Voor Quinten\n- Uyên Hérault-Huynh (Gmail Quinten): YOEP vraagt Quinten documenten aan te leveren voor zijn dossier (wachtlijst hulpverlening). De deadline van 1 okt is verstreken en de mail is nog ongelezen; even nagaan of Quinten dit heeft gedaan. [id:yoep-quinten]"
+        },
+        {
           "date": "2026-10-29T17:00+01:00",
           "markdown": "**Actie nodig**\n\n- Rooster Hospitium Vleuten (Outlook): decemberrooster staat online; check je diensten via ons.rooster.nl of de Inplanning-app. Optioneel: laat Anne en Rinske weten als je een paar uur kunt op 1e/2e kerstdag (middag/avond). [id:hospitium-rooster-dec]\n- Uyên Hérault-Huynh, fwd YOEP (Gmail Quinten): voor Quinten; YOEP vroeg documenten aan te leveren (deadline 1 okt verstreken, mail nog ongelezen). Nagaan of Quinten dit heeft gedaan. [id:yoep-quinten]"
         },
         {
           "date": "2026-10-29T08:10+01:00",
           "markdown": "**Actie nodig**\n\nOchtendoverzicht donderdag 29 oktober 2026 (08:10)\n\n### Voor Quinten\n- Uyên Hérault-Huynh (Gmail Quinten): YOEP vraagt Quinten documenten aan te leveren voor zijn dossier (wachtlijst hulpverlening). De deadline van 1 okt is verstreken en de mail is nog ongelezen; even nagaan of Quinten dit heeft gedaan. [id:yoep-quinten]\n\nVerder niets open in Outlook en Gmail."
-        },
-        {
-          "date": "2026-10-28T17:00+01:00",
-          "markdown": "**Actie nodig**\n\n- Uyên Hérault-Huynh, fwd YOEP (Gmail Quinten): Quinten moet zijn YOEP-documenten aanleveren via de beveiligde link; deadline 1 okt is verstreken en de mail is nog ongelezen in zijn Gmail. Nagaan of Quinten dit oppakt. [id:yoep-quinten]"
         }
       ]
     },
