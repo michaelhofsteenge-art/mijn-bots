@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31T21:24:43+01:00",
+  "generated_at": "2026-11-01T08:02:29+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-11-01T08:00+01:00",
+          "markdown": "**Actie nodig** · overzicht zondag 1 november 2026, 08:00\n\n**Wanneer het uitkomt**\n- Erik Hessel / De Stichtse Broederschap (Outlook): uitnodiging consecratie Prometheus Loge nr. 316, za 9 jan 2027 in de Nieuwe Kerk Den Haag (programma 7-10 jan). Beslissen of je gaat; aanmelden kan tot 10 december. [id:prometheus-consecratie-jan27]\n\n**Voor Quinten**\n- YOEP via Uyên (Gmail Quinten): YOEP vraagt documenten aan te leveren voor zijn dossier (wachtlijst hulpverlening); deadline 1 okt is verstreken en de mail is nog ongelezen. Nagaan of Quinten dit heeft gedaan. [id:yoep-quinten]\n\nGeen nieuwe acties sinds gisteren."
+        },
+        {
           "date": "2026-10-31T17:00+01:00",
           "markdown": "**Actie nodig**\n\n- Uyên Hérault-Huynh (fwd YOEP) (Gmail (Quinten)): Voor Quinten: YOEP vraagt documenten aan te leveren voor zijn dossier (wachtlijst hulpverlening); deadline 1 okt is verstreken en de mail is nog ongelezen. Nagaan of Quinten dit heeft gedaan. (deadline 2026-10-01) [id:yoep-quinten]\n- Erik Hessel, secretaris Loge De Stichtse Broederschap (Outlook): Uitnodiging consecratie Prometheus Loge nr. 316, za 9 jan 2027 in de Nieuwe Kerk Den Haag (programma 7-10 jan). Beslissen of je gaat; aanmelden kan tot 10 december via het formulier. (deadline 2026-12-10) [id:prometheus-consecratie-jan27]\n\n_Stand za 31 okt 2026, 17:00 (Amsterdam). Nieuw sinds 16:00: alleen een reserveringsbevestiging van Brisa (geen actie)._"
         },
         {
           "date": "2026-10-31T08:00+01:00",
           "markdown": "**Actie nodig**\n\nOchtendoverzicht zaterdag 31 oktober 2026 (08:00)\n\n### Voor Quinten\n- Uyên Hérault-Huynh (Gmail Quinten): YOEP vraagt Quinten documenten aan te leveren voor zijn dossier (wachtlijst hulpverlening). De deadline van 1 okt is verstreken en de mail is nog ongelezen; even nagaan of Quinten dit heeft gedaan. [id:yoep-quinten]\n\nVerder niets open: in je Outlook-inbox staan alleen nieuwsbrieven, promoties en je eigen acties-herinnering."
-        },
-        {
-          "date": "2026-10-30T17:00+01:00",
-          "markdown": "**Actie nodig**\n\n- Uyên Hérault-Huynh, doorgestuurd van YOEP (Gmail Quinten): voor Quinten, documenten aanleveren voor zijn YOEP-dossier (wachtlijst hulpverlening); deadline 1 okt is verstreken en de mail is nog ongelezen. Nagaan of Quinten dit heeft gedaan. [id:yoep-quinten]"
         }
       ]
     },
