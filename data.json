@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T12:20:58+01:00",
+  "generated_at": "2026-11-01T13:21:57+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -301,9 +301,9 @@
       "text": "herinneringen verjaardag",
       "due": "2026-10-26T12:00",
       "created": "2026-10-25T19:40:44",
-      "status": "herinnerd",
+      "status": "afgerond",
       "remindedAt": "2026-10-26T12:01:27",
-      "reopenedAt": "2026-10-26T20:29:51"
+      "doneAt": "2026-11-01T13:06:22"
     },
     {
       "id": "r-c2dcade6c2",
@@ -330,6 +330,14 @@
       "status": "afgerond",
       "remindedAt": "2026-10-28T09:16:16",
       "doneAt": "2026-10-28T09:24:59"
+    },
+    {
+      "id": "r-44181788dc",
+      "text": "Verjaardag voorbereiden menu boodschappen",
+      "due": "2026-11-04T09:00",
+      "created": "2026-11-01T13:06:49",
+      "status": "gepland",
+      "remindedAt": null
     }
   ]
 }
