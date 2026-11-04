@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-04T16:21:16+01:00",
+  "generated_at": "2026-11-04T17:03:12+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-11-04T17:00+01:00",
+          "markdown": "**Actie nodig**\n\n- Nick Quarrell via LinkedIn (Outlook): nieuw LinkedIn-bericht van 4 nov 12:42 lezen en zo nodig beantwoorden [id:linkedin-nick-quarrell-4nov]\n- Clare Pearson via LinkedIn (Outlook): nieuw LinkedIn-bericht van 4 nov 15:59 lezen en zo nodig beantwoorden [id:linkedin-clare-pearson-4nov]\n- YOEP via Uyên Hérault-Huynh (Gmail Quinten): voor Quinten, documenten aanleveren voor zijn dossier; deadline 1 okt verstreken, mail nog ongelezen. Nagaan of Quinten dit gedaan heeft [id:yoep-quinten]"
+        },
+        {
           "date": "2026-11-04T08:00+01:00",
           "markdown": "**Actie nodig** · overzicht woensdag 4 november 2026, 08:00\n\n**Voor Quinten**\n- YOEP via Uyên (Gmail Quinten): YOEP vraagt documenten aan te leveren voor zijn dossier (wachtlijst hulpverlening); deadline 1 okt is verstreken en de mail is nog ongelezen. Nagaan of Quinten dit heeft gedaan. [id:yoep-quinten]\n\nIn je Outlook-Inbox staat verder niets meer dat actie vraagt. De LinkedIn-berichten (Clare Pearson, Nick Quarrell, Ad Veldhuizen) en de Strato SSL-mail voor fidesofie.nl zijn uit de Inbox verdwenen, dus die tellen als afgehandeld."
         },
         {
           "date": "2026-11-03T17:00+01:00",
           "markdown": "**Actie nodig**\n\n- Nick Quarrell via LinkedIn (Outlook): heeft je een LinkedIn-bericht gestuurd; lezen en zo nodig reageren, mogelijk werkgerelateerd. [id:linkedin-nick-quarrell]\n- Ad Veldhuizen, AV Group via LinkedIn (Outlook): directeur van een executive-searchbureau stuurde je een bericht; lezen en reageren, mogelijk werkgerelateerd. [id:linkedin-ad-veldhuizen]\n- STRATO (Outlook): aan je nieuwe domein fidesofie.nl is nog geen SSL-certificaat toegewezen; in Strato een certificaat kiezen (niet nodig als de site elders al HTTPS heeft). [id:strato-ssl-fidesofie]\n- YOEP via Uyên (Gmail, Quinten): voor Quinten: YOEP vraagt documenten aan te leveren voor zijn dossier (wachtlijst hulpverlening); deadline 1 okt is verstreken en de mail is nog ongelezen. Nagaan of Quinten dit heeft gedaan. [id:yoep-quinten]\n\nGeen nieuwe actiemails sinds de vorige check."
-        },
-        {
-          "date": "2026-11-03T08:00+01:00",
-          "markdown": "**Actie nodig** · overzicht dinsdag 3 november 2026, 08:00\n\n**Vandaag**\n- LinkedIn (Outlook): drie nieuwe berichten wachten op je reactie, van Joris Kröner (bolttech), Hurriyet Bagcan (CEO Carrière Uitzendbureau, mogelijk werkgerelateerd) en Dean Young (NTT Data). Lezen en waar nodig antwoorden. (nieuw) [id:linkedin-berichten-3nov]\n\n**Voor Quinten**\n- YOEP via Uyên (Gmail Quinten): YOEP vraagt documenten aan te leveren voor zijn dossier (wachtlijst hulpverlening); deadline 1 okt is verstreken en de mail is nog ongelezen. Nagaan of Quinten dit heeft gedaan. [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Marijke Lafeber (Outlook): ze feliciteert je hartelijk; even bedanken. (nieuw) [id:marijke-felicitatie]\n\nGeen actie nodig: de bevestiging van Toyota Kooijman voor de Lexus-werkplaatsafspraak op 15 februari 2027 vanaf 08.00 uur (die stond al gepland)."
         }
       ]
     },
