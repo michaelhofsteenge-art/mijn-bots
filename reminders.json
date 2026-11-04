@@ -71,6 +71,14 @@
     "remindedAt": null
   },
   {
+    "id": "r-40c9301e00",
+    "text": "Boodschappen en koken zaterdag. Check komt Robbert nog?",
+    "due": "2026-11-05T09:00",
+    "created": "2026-11-04T08:46:40",
+    "status": "gepland",
+    "remindedAt": null
+  },
+  {
     "id": "r-162ec72d3f",
     "text": "bloemen papa",
     "due": "2026-11-06T09:00",
