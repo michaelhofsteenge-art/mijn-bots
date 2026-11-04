@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-04T09:13:57+01:00",
+  "generated_at": "2026-11-04T09:14:19+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -345,8 +345,8 @@
       "text": "Verjaardag voorbereiden menu boodschappen",
       "due": "2026-11-04T09:00",
       "created": "2026-11-01T13:06:49",
-      "status": "gepland",
-      "remindedAt": null
+      "status": "herinnerd",
+      "remindedAt": "2026-11-04T09:14:08"
     },
     {
       "id": "r-40c9301e00",
