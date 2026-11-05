@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-05T09:04:31+01:00",
+  "generated_at": "2026-11-05T09:08:07+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -353,8 +353,8 @@
       "text": "Boodschappen en koken zaterdag. Check komt Robbert nog?",
       "due": "2026-11-05T09:00",
       "created": "2026-11-04T08:46:40",
-      "status": "gepland",
-      "remindedAt": null
+      "status": "herinnerd",
+      "remindedAt": "2026-11-05T09:08:06"
     },
     {
       "id": "r-162ec72d3f",
