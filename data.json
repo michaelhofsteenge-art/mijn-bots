@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-06T16:24:53+01:00",
+  "generated_at": "2026-11-06T17:08:07+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-11-06T17:00+01:00",
+          "markdown": "**Actie nodig**\n\n- YOEP via Uyên Hérault-Huynh (Gmail Quinten): voor Quinten, documenten aanleveren voor zijn dossier; deadline 1 okt verstreken, mail nog ongelezen. Nagaan of Quinten dit gedaan heeft [id:yoep-quinten]"
+        },
+        {
           "date": "2026-11-06T08:00+01:00",
           "markdown": "**Actie nodig**\n\nDagelijks overzicht e-mailacties, vrijdag 6 november 2026\n\n**Voor Quinten**\n- Uyên Hérault-Huynh, doorgestuurd van YOEP (Gmail Quinten): YOEP vraagt Quinten documenten aan te leveren voor zijn dossier (wachtlijst hulpverlening). De deadline van 1 oktober is verstreken en de mail is nog ongelezen; nagaan of Quinten dit heeft gedaan. [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Joris Kröner via LinkedIn (Outlook): LinkedIn-bericht lezen en zo nodig beantwoorden (5 nov 19:59, BD Director bolttech, '1 new message awaits your response'). [id:linkedin-joris-kroner-5nov]\n\nNick Quarrell (LinkedIn 5 nov) staat niet meer in de Outlook-Inbox."
         },
         {
           "date": "2026-11-05T20:00+01:00",
           "markdown": "**Actie nodig**\n- Joris Kröner via LinkedIn (Outlook): LinkedIn-bericht lezen/beantwoorden (5 nov 19:59) [id:linkedin-joris-kroner-5nov]"
-        },
-        {
-          "date": "2026-11-05T17:00+01:00",
-          "markdown": "**Actie nodig**\n\n- Nick Quarrell via LinkedIn (Outlook): nieuw LinkedIn-bericht van 5 nov 16:27 lezen en zo nodig beantwoorden [id:linkedin-nick-quarrell-5nov]\n- YOEP via Uyên Hérault-Huynh (Gmail Quinten): voor Quinten, documenten aanleveren voor zijn dossier; deadline 1 okt verstreken, mail nog ongelezen. Nagaan of Quinten dit gedaan heeft [id:yoep-quinten]"
         }
       ]
     },
