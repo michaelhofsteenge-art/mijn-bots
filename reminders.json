@@ -67,16 +67,18 @@
     "text": "Verjaardag voorbereiden menu boodschappen",
     "due": "2026-11-04T09:00",
     "created": "2026-11-01T13:06:49",
-    "status": "herinnerd",
-    "remindedAt": "2026-11-04T09:14:08"
+    "status": "afgerond",
+    "remindedAt": "2026-11-04T09:14:08",
+    "doneAt": "2026-11-07T13:26:12"
   },
   {
     "id": "r-40c9301e00",
     "text": "Boodschappen en koken zaterdag. Check komt Robbert nog?",
     "due": "2026-11-05T09:00",
     "created": "2026-11-04T08:46:40",
-    "status": "herinnerd",
-    "remindedAt": "2026-11-05T09:08:06"
+    "status": "afgerond",
+    "remindedAt": "2026-11-05T09:08:06",
+    "doneAt": "2026-11-07T13:26:14"
   },
   {
     "id": "r-162ec72d3f",
