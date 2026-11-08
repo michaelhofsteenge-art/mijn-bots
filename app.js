@@ -755,7 +755,7 @@
     });
     return parts.join("\n");
   }
-  function isParkinsonBot(b) { return !!b && (b.key === "parkinson" || b.key === "congres" || b.key === "covid" || b.key === "quantum" || b.key === "klimaatonderzoek" || b.key === "clintel" || b.key === "blockchain" || b.key === "statines" || b.key === "gvresearch" || b.key === "tcs" || /parkinson|covid|quantum|klimaat/i.test(b.name || "")); }
+  function isParkinsonBot(b) { return !!b && (b.key === "parkinson" || b.key === "congres" || b.key === "covid" || b.key === "quantum" || b.key === "klimaatonderzoek" || b.key === "clintel" || b.key === "blockchain" || b.key === "statines" || b.key === "gvresearch" || b.key === "airesearch" || b.key === "tcs" || /parkinson|covid|quantum|klimaat/i.test(b.name || "")); }
   function parseParkinson(md) {
     var lines = String(md || "").replace(/\r\n/g, "\n").split("\n"), blocks = [], cur = null, sec = null;
     for (var i = 0; i < lines.length; i++) {
@@ -812,7 +812,7 @@
     return top.join("\n\n") + "\n" + rest.join("\n");
   }
   function renderParkinsonLatest(u, bot) {
-    if (bot && (bot.key === "blockchain" || bot.key === "statines" || bot.key === "gvresearch")) u = Object.assign({}, u, { markdown: normalizeSegMd(u.markdown, bot.key) });
+    if (bot && (bot.key === "blockchain" || bot.key === "statines" || bot.key === "gvresearch" || bot.key === "airesearch")) u = Object.assign({}, u, { markdown: normalizeSegMd(u.markdown, bot.key) });
     var plain = !!bot && bot.key === "congres";
     var summaryMd = "";
     var all = parseParkinson(u.markdown), top = "", blocks = all.filter(function (bl) {

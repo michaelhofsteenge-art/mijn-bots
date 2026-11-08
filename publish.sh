@@ -11,10 +11,13 @@ for f in /workspace/gv-vacatures-*.md; do
   rm -f updates/gv/"${d%%T*}"T*.md
   cp "$f" "updates/gv/$d.md"
 done
-# Parkinson- en Covid-bot schrijven wekelijks /workspace/<key>/report-<datum>.md
-for key in parkinson covid gvresearch; do
+# Parkinson-, Covid-, GV-research- en AI-bot schrijven wekelijks report-<datum>.md
+# AI: /workspace/ai-research  ·  GV Research: /workspace/gv-research  ·  overige: /workspace/<key>
+for key in parkinson covid gvresearch airesearch; do
   mkdir -p updates/$key
-  src=/workspace/$key; [ "$key" = gvresearch ] && src=/workspace/gv-research
+  src=/workspace/$key
+  [ "$key" = gvresearch ] && src=/workspace/gv-research
+  [ "$key" = airesearch ] && src=/workspace/ai-research
   for f in $src/report-*.md; do
     [ -e "$f" ] || continue
     d=$(basename "$f" .md); d=${d#report-}
