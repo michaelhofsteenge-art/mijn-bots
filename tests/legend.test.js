@@ -122,7 +122,7 @@ assert.ok(gTerms.length <= 2, "GV-legenda blijft klein: " + gTerms.join(", "));
 
 var html = L.legendHtml("klimaatonderzoek", blok5, { nested: true });
 assert.ok(html.indexOf("<details class=\"code-legend code-legend--nested\">") === 0);
-assert.ok(html.indexOf("<summary>Legenda – afkortingen en codes</summary>") > 0);
+assert.ok(html.indexOf("<summary>🔤 Legenda – afkortingen en codes</summary>") > 0);
 assert.ok(html.indexOf("<dt>A–E</dt>") > 0);
 assert.ok(html.indexOf("ECS") < 0);
 assert.strictEqual(L.legendHtml("congres", klimaat), "");
@@ -131,6 +131,8 @@ assert.strictEqual(L.legendHtml("klimaatonderzoek", "geen codes hier, alleen een
 var app = read("app.js");
 assert.ok(app.indexOf("codeLegendHtml") > 0);
 assert.ok(/bot\.key === "congres"/.test(app));
+assert.ok(app.indexOf("overviewLegend") > 0, "legenda staat los boven de samenvatting");
+assert.ok(!/<summary>📋 Samenvatting en conclusies<\/summary>' \+ \(plain \? "" : codeLegendHtml/.test(app));
 assert.ok(app.indexOf("ReportLegend") > 0);
 
 console.log("legend.test.js: ok");

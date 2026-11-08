@@ -837,7 +837,6 @@
     if (!blocks.length) return '<article class="card latest"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + '</div><div class="md">' + window.renderMarkdown(u.markdown) + "</div></article>";
     var blockHtml = function (bl, i) {
       var x = '<h2 class="topic-title">' + esc((i + 1) + ". " + bl.title) + "</h2>";
-      if (state.klimaatTopic !== "alles") x += codeLegendHtml(bot, blockSource(bl), true);
       var intro = bl.intro.join("\n").trim();
       if (intro) x += '<div class="md">' + window.renderMarkdown(intro) + "</div>";
       bl.order.forEach(function (name) {
@@ -858,7 +857,10 @@
       var id = "blok-" + (i + 1), on = i === idx, label = (i + 1) + "  " + bl.title;
       return '<button type="button" class="topic-chip' + (on ? " is-active" : "") + '" data-topic="' + id + '"' + (on ? ' aria-current="true"' : "") + ' title="' + esc(label) + '">' + esc(label) + "</button>";
     }).join("") + "</nav>";
-    var h = (idx < 0 && !plain ? allBtnHtml(false) : "") + (idx < 0 && top ? '<details class="card summary-fold" open><summary>📋 Samenvatting en conclusies</summary>' + (plain ? "" : codeLegendHtml(bot, summaryMd, true)) + top.replace(/^<div class="card">/, "<div>") + "</details>" : "") + '<div class="card klimaat-topics' + (idx < 0 && !plain ? " topics-grid" : "") + '"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
+    var overviewLegend = (idx < 0 && !plain) ? codeLegendHtml(bot, summaryMd || u.markdown, false) : "";
+    var topicLegend = (idx >= 0 && !plain) ? codeLegendHtml(bot, blockSource(blocks[idx]), true) : "";
+    var h = (idx < 0 && !plain ? allBtnHtml(false) : "") + overviewLegend + (idx < 0 && top ? '<details class="card summary-fold" open><summary>📋 Samenvatting en conclusies</summary>' + top.replace(/^<div class="card">/, "<div>") + "</details>" : "") + '<div class="card klimaat-topics' + (idx < 0 && !plain ? " topics-grid" : "") + '"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
+      topicLegend +
       '<p class="topic-hint">' + (idx >= 0 ? "Onderwerp" : "Kies een onderwerp") + "</p>" + nav;
     if (idx < 0) return h + '<p class="topic-empty">Tik op een onderwerp om alleen dat blok te lezen.</p></div>';
     var bl = blocks[idx];
@@ -896,20 +898,20 @@
     }
     var valid = KLIMAAT_CATEGORIES.some(function (c) { return "blok-" + c.n === active; });
     if (!valid) active = null;
+    var n = active ? parseInt(String(active).replace(/^blok-/, ""), 10) : 0;
+    var cat = active ? KLIMAAT_CATEGORIES.filter(function (c) { return c.n === n; })[0] : null;
+    var raw = active ? (byNum[n] || "").trim() : "";
     var h = '<div class="card klimaat-topics">' +
       '<div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
-      (active ? "" : allBtnHtml(false)) + '<p class="topic-hint">' + (active ? "Onderwerp" : "Kies een onderwerp") + "</p>" +
+      (active ? codeLegendHtml(bot, raw, true) : allBtnHtml(false) + codeLegendHtml(bot, u.markdown, true)) +
+      '<p class="topic-hint">' + (active ? "Onderwerp" : "Kies een onderwerp") + "</p>" +
       klimaatTopicsHtml(active);
     if (!active) {
       h += '<p class="topic-empty">Tik op een onderwerp om alleen dat blok te lezen.</p></div>';
       return h;
     }
-    var n = parseInt(String(active).replace(/^blok-/, ""), 10);
-    var cat = KLIMAAT_CATEGORIES.filter(function (c) { return c.n === n; })[0];
-    var raw = (byNum[n] || "").trim();
     h += '<button type="button" class="topic-back" data-topic-back="1">‹ Alle onderwerpen</button>';
     h += '<h2 class="topic-title">' + esc(n + ". " + cat.title) + "</h2>";
-    h += codeLegendHtml(bot, raw, true);
     if (!raw) {
       h += '<p class="topic-empty-cat">Nog niets in deze categorie vandaag.</p></div>';
       return h;

@@ -866,7 +866,7 @@
     var rows = items.map(function (it) {
       return "<div><dt>" + esc(it.term) + "</dt><dd>" + esc(it.text) + "</dd></div>";
     }).join("");
-    return '<details class="' + cls + '"><summary>Legenda – afkortingen en codes</summary><dl class="code-legend-list">' + rows + "</dl></details>";
+    return '<details class="' + cls + '"><summary>🔤 Legenda – afkortingen en codes</summary><dl class="code-legend-list">' + rows + "</dl></details>";
   }
 
   root.ReportLegend = {

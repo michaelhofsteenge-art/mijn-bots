@@ -584,7 +584,10 @@ a.mail-open, .mail-expand { cursor: pointer; }
 .summary-fold[open] > summary{margin-bottom:8px}
 
 /* Legenda afkortingen en codes (rapportleesweergave) */
-details.code-legend.card { padding: 0; }
+details.code-legend.card {
+  padding: 0;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+}
 .code-legend > summary {
   cursor: pointer;
   list-style: none;
@@ -613,10 +616,10 @@ details.code-legend.card { padding: 0; }
 .code-legend-list dt { margin: 0; font-weight: 750; color: var(--accent); overflow-wrap: anywhere; }
 .code-legend-list dd { margin: 0; color: var(--fg); line-height: 1.45; overflow-wrap: anywhere; }
 .code-legend--nested {
-  margin: 12px 0;
-  border: 1px solid var(--line);
+  margin: 4px 0 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
   border-radius: 14px;
-  background: color-mix(in srgb, var(--code) 65%, var(--card));
+  background: color-mix(in srgb, var(--accent) 8%, var(--card));
 }
 @media (max-width: 520px) {
   .code-legend-list > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
