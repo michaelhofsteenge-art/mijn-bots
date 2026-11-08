@@ -102,5 +102,13 @@
     "emoji": "📚",
     "color": "#8E6CC8",
     "subtitle": "Geestelijke verzorging, zingeving & hermeneutiek"
+  },
+  {
+    "id": "571ba203-9b88-40a8-b5e6-2b215f8e0446",
+    "key": "airesearch",
+    "name": "AI",
+    "emoji": "🤖",
+    "color": "#155E75",
+    "subtitle": "Weekupdate AI-onderzoek"
   }
 ]

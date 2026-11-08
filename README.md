@@ -62,7 +62,10 @@ Daarna: `./publish.sh` (of commit + push naar `main`).
 - `onderzoek/` = **App Onderzoek** (alle andere bots, ook nieuwe bots uit bots.json)
 - Root `./` = keuzescherm met twee knoppen; oude deep links (`#/bot/<id>`) sturen door naar de juiste app.
 - Eén codebase: `acties/index.html` en `onderzoek/index.html` zetten `APP_VARIANT` en laden `../app.js`; de indeling staat in `ACTIES_KEYS` in app.js.
-- Eigen manifest, iconen (`make_app_icons.py`) en service worker per app. **Na een wijziging aan app.js/style.css/md.js: verhoog VERSION in alle drie sw.js-bestanden.**
+- Eigen manifest, iconen (`make_app_icons.py`) en service worker per app. **Na een wijziging aan app.js/style.css/md.js: verhoog VERSION in alle drie sw.js-bestanden en `?v=` in de drie index.html.**
+
+## AI-weekupdate (Onderzoek)
+Bot **AI** (key `airesearch`) staat in App Onderzoek. Blockchain blijft de bestaande bot. Het weekrapport komt uit `/workspace/ai-research/report-YYYY-MM-DD.md` en wordt door `publish.sh` naar `updates/airesearch/` gekopieerd. Vorm, datumregel en de eerste historische editie (periode t/m 1 november 2026): `update_data.md`. Die editie zit in deze branch ter controle; `publish.sh` pusht naar `main` en wordt pas gedraaid na aparte toestemming.
 
 ## Email Reageren: vakje vs. tekst (sinds 19-10-2026, sw v23 / acties v2)
 - Alleen het **vakje** (eigen `<label class="email-check-box">`, ~52px tikvlak) zet een mail in het archief.
