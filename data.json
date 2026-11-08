@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-07T21:28:05+01:00",
+  "generated_at": "2026-11-08T08:10:48+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-11-08T08:00+01:00",
+          "markdown": "**Actie nodig**\n\nDagoverzicht zondag 8 november: alle nog openstaande mailacties.\n\n### Voor Quinten\n- Uyên Hérault-Huynh / YOEP (Gmail Quinten): YOEP vraagt documenten aan te leveren voor zijn dossier (wachtlijst hulpverlening); deadline 1 okt verstreken, mail nog ongelezen. Nagaan of Quinten dit gedaan heeft [id:yoep-quinten]"
+        },
+        {
           "date": "2026-11-07T17:00+01:00",
           "markdown": "**Actie nodig**\n- 1Password (Outlook): 1Password-abonnement: betaling mislukt; betaalgegevens bijwerken vóór herpoging 10 nov 2026 [id:1password-betaling-mislukt-6nov]\n- Uyên Hérault-Huynh / YOEP (Gmail Quinten): Quinten: YOEP-documenten/gegevens aanleveren via beveiligde link (wachtlijst hulpverlening; herinnering Uyên) [id:yoep-quinten]"
         },
         {
           "date": "2026-11-07T08:00+01:00",
           "markdown": "**Actie nodig**\n\nDagoverzicht zaterdag 7 november: alle nog openstaande mailacties.\n\n### Deze week\n- 1Password (Outlook): betaling van je abonnement is mislukt; betaalgegevens bijwerken vóór de herpoging op di 10 nov (nieuw) [id:1password-betaling-mislukt-6nov]\n- Dean Young via LinkedIn (Outlook): nieuw LinkedIn-bericht (NTT Data, 6 nov 20:37) lezen en zo nodig beantwoorden (nieuw) [id:linkedin-dean-young-6nov]\n\n### Voor Quinten\n- Uyên Hérault-Huynh / YOEP (Gmail Quinten): YOEP vraagt documenten aan te leveren voor zijn dossier (wachtlijst hulpverlening); deadline 1 okt verstreken, mail nog ongelezen. Nagaan of Quinten dit gedaan heeft [id:yoep-quinten]"
-        },
-        {
-          "date": "2026-11-06T22:00+01:00",
-          "markdown": "**Actie nodig**\n\n- Dean Young via LinkedIn (Outlook): Nieuw LinkedIn-bericht (6 nov 20:37) lezen en zo nodig beantwoorden [id:linkedin-dean-young-6nov]\n- 1Password (Outlook): Betaling mislukt; betaalgegevens bijwerken vóór herpoging 10 nov 2026 [id:1password-betaling-mislukt-6nov]\n- Uyên Hérault-Huynh / YOEP (Gmail Quinten): Documenten aanleveren voor Quinten (deadline verstreken) [id:yoep-quinten]"
         }
       ]
     },
