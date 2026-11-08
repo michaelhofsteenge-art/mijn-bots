@@ -740,6 +740,21 @@
   }
 
   function allBtnHtml(on) { return '<button type="button" class="topic-chip topic-all' + (on ? " is-active" : "") + '" data-topic="alles"' + (on ? ' aria-current="true"' : "") + '>📖 Alles lezen</button>'; }
+  /** Uitklapbare legenda. Congres en App Acties blijven zonder. */
+  function codeLegendHtml(bot, md, nested) {
+    if (!bot || bot.key === "congres" || !window.ReportLegend) return "";
+    if (ACTIES_KEYS.indexOf(bot.key) >= 0) return "";
+    var key = isKlimaatBot(bot) ? "klimaat" : bot.key;
+    return window.ReportLegend.legendHtml(key, md, { nested: !!nested });
+  }
+  function blockSource(bl) {
+    var parts = (bl.intro || []).slice();
+    (bl.order || []).forEach(function (name) {
+      parts.push(name);
+      parts = parts.concat(bl.secs[name] || []);
+    });
+    return parts.join("\n");
+  }
   function isParkinsonBot(b) { return !!b && (b.key === "parkinson" || b.key === "congres" || b.key === "covid" || b.key === "quantum" || b.key === "klimaatonderzoek" || b.key === "clintel" || b.key === "blockchain" || b.key === "statines" || b.key === "gvresearch" || b.key === "tcs" || /parkinson|covid|quantum|klimaat/i.test(b.name || "")); }
   function parseParkinson(md) {
     var lines = String(md || "").replace(/\r\n/g, "\n").split("\n"), blocks = [], cur = null, sec = null;
@@ -799,22 +814,30 @@
   function renderParkinsonLatest(u, bot) {
     if (bot && (bot.key === "blockchain" || bot.key === "statines" || bot.key === "gvresearch")) u = Object.assign({}, u, { markdown: normalizeSegMd(u.markdown, bot.key) });
     var plain = !!bot && bot.key === "congres";
+    var summaryMd = "";
     var all = parseParkinson(u.markdown), top = "", blocks = all.filter(function (bl) {
       if (/^(?:overall\s+|algemene\s+)?(?:samenvatting|conclusies?)(?:\s+van de week)?$/i.test(bl.title)) {
         var t = bl.intro.join("\n").trim();
-        if (t) top += '<div class="' + (/conclusie/i.test(bl.title) ? "topic-conclusion" : "topic-summary") + '"><div class="topic-section-label">' + esc(bl.title) + '</div><div class="md">' + window.renderMarkdown(t) + "</div></div>";
+        if (t) {
+          summaryMd += bl.title + "\n" + t + "\n";
+          top += '<div class="' + (/conclusie/i.test(bl.title) ? "topic-conclusion" : "topic-summary") + '"><div class="topic-section-label">' + esc(bl.title) + '</div><div class="md">' + window.renderMarkdown(t) + "</div></div>";
+        }
         return false;
       }
       return true;
     });
     var pre = String(u.markdown || "").replace(/\r\n/g, "\n").split(/\n(?=##\s)/)[0];
     pre = /^##\s/.test(pre) ? "" : pre.replace(/^#\s+.*\n?/, "").trim();
-    if (pre && blocks.length) top = '<div class="topic-summary"><div class="md">' + window.renderMarkdown(pre) + "</div></div>" + top;
-    if (plain) top = "";
+    if (pre && blocks.length) {
+      summaryMd = pre + "\n" + summaryMd;
+      top = '<div class="topic-summary"><div class="md">' + window.renderMarkdown(pre) + "</div></div>" + top;
+    }
+    if (plain) { top = ""; summaryMd = ""; }
     if (top) top = '<div class="card">' + top + "</div>";
     if (!blocks.length) return '<article class="card latest"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + '</div><div class="md">' + window.renderMarkdown(u.markdown) + "</div></article>";
     var blockHtml = function (bl, i) {
       var x = '<h2 class="topic-title">' + esc((i + 1) + ". " + bl.title) + "</h2>";
+      if (state.klimaatTopic !== "alles") x += codeLegendHtml(bot, blockSource(bl), true);
       var intro = bl.intro.join("\n").trim();
       if (intro) x += '<div class="md">' + window.renderMarkdown(intro) + "</div>";
       bl.order.forEach(function (name) {
@@ -826,6 +849,7 @@
     };
     if (state.klimaatTopic === "alles") {
       return '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + '</div><button type="button" class="topic-back" data-topic-back="1">‹ Alle onderwerpen</button><h2 class="topic-title">📖 Volledig rapport</h2></div>' +
+        (plain ? "" : codeLegendHtml(bot, u.markdown, false)) +
         top + blocks.map(function (bl, i) { return '<div class="card full-block">' + blockHtml(bl, i) + "</div>"; }).join("");
     }
     var active = state.klimaatTopic, idx = active ? parseInt(String(active).replace(/^blok-/, ""), 10) - 1 : -1;
@@ -834,7 +858,7 @@
       var id = "blok-" + (i + 1), on = i === idx, label = (i + 1) + "  " + bl.title;
       return '<button type="button" class="topic-chip' + (on ? " is-active" : "") + '" data-topic="' + id + '"' + (on ? ' aria-current="true"' : "") + ' title="' + esc(label) + '">' + esc(label) + "</button>";
     }).join("") + "</nav>";
-    var h = (idx < 0 && !plain ? allBtnHtml(false) : "") + (idx < 0 && top ? '<details class="card summary-fold" open><summary>📋 Samenvatting en conclusies</summary>' + top.replace(/^<div class="card">/, "<div>") + "</details>" : "") + '<div class="card klimaat-topics' + (idx < 0 && !plain ? " topics-grid" : "") + '"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
+    var h = (idx < 0 && !plain ? allBtnHtml(false) : "") + (idx < 0 && top ? '<details class="card summary-fold" open><summary>📋 Samenvatting en conclusies</summary>' + (plain ? "" : codeLegendHtml(bot, summaryMd, true)) + top.replace(/^<div class="card">/, "<div>") + "</details>" : "") + '<div class="card klimaat-topics' + (idx < 0 && !plain ? " topics-grid" : "") + '"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + "</div>" +
       '<p class="topic-hint">' + (idx >= 0 ? "Onderwerp" : "Kies een onderwerp") + "</p>" + nav;
     if (idx < 0) return h + '<p class="topic-empty">Tik op een onderwerp om alleen dat blok te lezen.</p></div>';
     var bl = blocks[idx];
@@ -852,11 +876,12 @@
           ' title="' + esc(label) + '">' + esc(label) + "</button>";
       }).join("") + "</nav>";
   }
-  function renderKlimaatLatest(u) {
+  function renderKlimaatLatest(u, bot) {
     var byNum = parseKlimaatBlocks(u.markdown);
     var active = state.klimaatTopic;
-    var catHtml = function (cat) {
+    var catHtml = function (cat, withLegend) {
       var raw = (byNum[cat.n] || "").trim(), x = '<h2 class="topic-title">' + esc(cat.n + ". " + cat.title) + "</h2>";
+      if (withLegend) x += codeLegendHtml(bot, raw, true);
       if (!raw) return x + '<p class="topic-empty-cat">Nog niets in deze categorie vandaag.</p>';
       var parts = splitKlimaatBlock(raw);
       if (parts.summary) x += '<div class="topic-summary"><div class="topic-section-label">Samenvatting</div><div class="md">' + window.renderMarkdown(parts.summary) + "</div></div>";
@@ -866,7 +891,8 @@
     };
     if (active === "alles") {
       return '<div class="card klimaat-topics"><div class="card-date">Laatste update · ' + esc(fmtDate(u.date, true)) + '</div><button type="button" class="topic-back" data-topic-back="1">‹ Alle onderwerpen</button><h2 class="topic-title">📖 Volledig rapport</h2></div>' +
-        KLIMAAT_CATEGORIES.map(function (c) { return '<div class="card full-block">' + catHtml(c) + "</div>"; }).join("");
+        codeLegendHtml(bot, u.markdown, false) +
+        KLIMAAT_CATEGORIES.map(function (c) { return '<div class="card full-block">' + catHtml(c, false) + "</div>"; }).join("");
     }
     var valid = KLIMAAT_CATEGORIES.some(function (c) { return "blok-" + c.n === active; });
     if (!valid) active = null;
@@ -883,6 +909,7 @@
     var raw = (byNum[n] || "").trim();
     h += '<button type="button" class="topic-back" data-topic-back="1">‹ Alle onderwerpen</button>';
     h += '<h2 class="topic-title">' + esc(n + ". " + cat.title) + "</h2>";
+    h += codeLegendHtml(bot, raw, true);
     if (!raw) {
       h += '<p class="topic-empty-cat">Nog niets in deze categorie vandaag.</p></div>';
       return h;
@@ -1334,7 +1361,7 @@
       h += '<div class="card empty-card"><p class="big-empty">Nog geen update beschikbaar</p><p>Deze bot heeft nog geen rapport gestuurd. Kom later terug.</p></div>';
     } else {
       if (klimaat) {
-        h += renderKlimaatLatest(ups[0]);
+        h += renderKlimaatLatest(ups[0], b);
       } else if (parkinson) {
         h += renderParkinsonLatest(ups[0], b);
       } else if (isEmailBot(b)) {
@@ -1345,7 +1372,8 @@
       if (ups.length > 1) {
         h += '<h2 class="hist-title">Eerdere updates</h2>';
         h += ups.slice(1).map(function (u) {
-          return '<details class="card hist"><summary>' + esc(fmtDate(u.date, true)) + '</summary><div class="md">' + window.renderMarkdown(u.markdown) + "</div></details>";
+          var leg = (b.key === "congres") ? "" : codeLegendHtml(b, u.markdown, true);
+          return '<details class="card hist"><summary>' + esc(fmtDate(u.date, true)) + "</summary>" + leg + '<div class="md">' + window.renderMarkdown(u.markdown) + "</div></details>";
         }).join("");
       }
     }
