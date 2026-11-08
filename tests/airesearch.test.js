@@ -263,6 +263,29 @@ function names(page) {
     });
     assert.strictEqual(bcButtons, 1, "Blockchain-knop hoort één keer voor te komen");
     await shot(reg, "regressie-blockchain-390-light.png");
+    await reg.click("#backBtn");
+    await reg.waitForSelector("#home:not([hidden])");
+    async function openBot(label) {
+      await reg.evaluate(function (name) {
+        [].slice.call(document.querySelectorAll(".bot-btn")).filter(function (el) {
+          return el.querySelector(".bot-name").textContent.trim() === name;
+        })[0].click();
+      }, label);
+      await reg.waitForFunction(function (name) {
+        return document.getElementById("detailName").textContent.trim() === name;
+      }, {}, label);
+    }
+    await openBot("Klimaat Kritisch Onderzoek – Algemeen");
+    await reg.waitForSelector(".code-legend, .topic-all");
+    var klimaatLegend = await reg.$$eval(".code-legend", function (els) { return els.length; });
+    assert.ok(klimaatLegend >= 1, "legenda ontbreekt bij klimaat");
+    await shot(reg, "regressie-klimaat-legenda-390-light.png");
+    await reg.click("#backBtn");
+    await reg.waitForSelector("#home:not([hidden])");
+    await openBot("Klimaat Kritisch Onderzoek – Clintel");
+    var clintelLegend = await reg.$$eval(".code-legend", function (els) { return els.length; });
+    assert.ok(clintelLegend >= 1, "legenda ontbreekt bij Clintel");
+    await shot(reg, "regressie-clintel-legenda-390-light.png");
     await reg.close();
 
     assert.deepStrictEqual(failures, [], "paginafouten: " + failures.join("\n"));
