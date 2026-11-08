@@ -102,7 +102,8 @@ html.ond .theme-btn { font-size:18px; }
   html.ond .klimaat-topics:has(.topic-nav):not(.topics-grid) > .topic-nav { grid-column:1; grid-row:1 / span 40; position:sticky; top:calc(var(--sat) + 96px); margin:0; }
   html.ond .klimaat-topics:has(.topic-nav):not(.topics-grid) .topic-back { display:none; }
   html.ond .detail-body .md, html.ond .detail-body .topic-title, html.ond .detail-body .topic-summary,
-  html.ond .detail-body .topic-conclusion, html.ond .detail-body .topic-section { max-width:75ch; }
+  html.ond .detail-body .topic-conclusion, html.ond .detail-body .topic-section,
+  html.ond .detail-body .code-legend { max-width:75ch; }
   html.ond .md { font-size:17px; line-height:1.7; }
   html.ond .topic-title { font-size:26px; }
 }
@@ -123,6 +124,10 @@ html.ond .klimaat-topics.topics-grid .topic-empty { margin-top:4px; }
 html.ond .sum-card { background:var(--sum-bg); border:1px solid var(--sum-line); }
 html.ond .sum-head { margin:0 0 8px; font-size:18px; color:var(--sum-fg); }
 html.ond .summary-fold > summary { font-weight:700; font-size:17px; }
+html.ond .code-legend { border-radius: 16px; }
+html.ond .code-legend > summary { font-size: 16px; }
+html.ond .code-legend-list dt { color: var(--accent); }
+html.ond[data-theme="dark"] .code-legend--nested { background: #1F2427; }
 html.ond .seg-card .topic-title { margin-top:0; color:var(--accent); }
 html.ond .bc-date { padding:0 4px; }
 html.ond .upd-fold > summary { cursor:pointer; list-style:none; font-weight:700; font-size:16px; min-height:48px; display:flex; align-items:center; color:var(--accent); }
