@@ -773,7 +773,7 @@
     });
     return parts.join("\n");
   }
-  function isParkinsonBot(b) { return !!b && (b.key === "parkinson" || b.key === "congres" || b.key === "covid" || b.key === "quantum" || b.key === "klimaatonderzoek" || b.key === "clintel" || b.key === "klimaatcritici" || b.key === "blockchain" || b.key === "statines" || b.key === "gvresearch" || b.key === "airesearch" || b.key === "tcs" || /parkinson|covid|quantum|klimaat/i.test(b.name || "")); }
+  function isParkinsonBot(b) { return !!b && (b.key === "parkinson" || b.key === "congres" || b.key === "covid" || b.key === "covidkritisch" || b.key === "quantum" || b.key === "klimaatonderzoek" || b.key === "clintel" || b.key === "klimaatcritici" || b.key === "blockchain" || b.key === "statines" || b.key === "gvresearch" || b.key === "airesearch" || b.key === "tcs" || /parkinson|covid|quantum|klimaat/i.test(b.name || "")); }
   function parseParkinson(md) {
     var lines = String(md || "").replace(/\r\n/g, "\n").split("\n"), blocks = [], cur = null, sec = null;
     for (var i = 0; i < lines.length; i++) {

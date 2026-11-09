@@ -64,6 +64,14 @@
     "subtitle": "Onderzoek & nieuws over covid"
   },
   {
+    "id": "covidkritisch",
+    "key": "covidkritisch",
+    "name": "Covid kritisch",
+    "emoji": "🧪",
+    "color": "#A04000",
+    "subtitle": "Kritische stemmen over covid & mRNA, getoetst"
+  },
+  {
     "id": "e5e6dbdc-c8d8-4929-8103-1af0cff6a52d",
     "key": "quantum",
     "name": "Quantum Computing Research",

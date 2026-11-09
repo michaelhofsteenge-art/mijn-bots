@@ -14,6 +14,7 @@ Voor elk van de bots (zie `bots.json`):
 | klimaat | Klimaat Kritisch | 80ec10c0-457b-46f7-b152-23e19cba262a |
 | congres | Congres Trades | a0738999-573e-47b3-8b79-8d39798a19a8 |
 | airesearch | AI | 571ba203-9b88-40a8-b5e6-2b215f8e0446 |
+| covidkritisch | Covid kritisch | (bot-id onbekend; id in bots.json = `covidkritisch`) |
 
 1. Lees het gesprek van de bot met de tool **ReadTranscript** (dynamische namespace `cursor`,
    argument `agent_id`, bv. `limit: 50`; schema eerst ophalen met `GetDynamicTools`).
@@ -97,6 +98,15 @@ Periode: <begin> t/m <eind>. De titeldatum is de einddatum van de verslagperiode
 ### Eerste historische editie
 
 `updates/airesearch/2026-11-01T00-00.md` is de gecontroleerde selectie voor **26 oktober t/m 1 november 2026** (week 44). Het tijdstip `00:00` betekent: alleen de periode-einddatum is vastgelegd, geen publicatieklok. Dit is geen rapport van 9 november. `publish.sh` is voor deze editie niet gedraaid.
+
+## Covid kritisch (`covidkritisch`)
+
+Tegel **Covid kritisch** (🧪) in App Onderzoek, los van de bestaande bot **Covid** (`covid`). Legenda: items met `keys: { covidkritisch: 1 }` in `legend.js` (bewijsklassen A–E, oordelen houdt stand / gedeeltelijk / houdt geen stand / open, bronlabels [P] [PR] [PP] [RET] [K] [S] [O] [?], T-codes en afkortingen), allemaal uit `onderzoeksopzet.md` en de leeswijzer van de nulmeting.
+
+- **Nulmeting** (eerste editie): `updates/covidkritisch/2026-11-09T12-59.md`. App-versie van `/workspace/covidkritisch/nulmeting-2026-11-09.md` met dezelfde tekst; alleen koppen aangepast zodat elk thema een eigen onderwerpknop is (`## 0. Managementsamenvatting` → `## Samenvatting`, `### T1. …` → `## … (T1)`), plus `onderzoeksopzet.md` en `bronnen.md` als laatste twee onderwerpen.
+- **Weekrapport** (elke maandag): de bot schrijft `/workspace/covidkritisch/report-JJJJ-MM-DD.md` en draait `./publish.sh` in `/workspace/bots-app`. Het script kopieert het naar `updates/covidkritisch/<datum>T<uu>-<mm>.md` (tijd = mtime van het bestand), bouwt `data.json`, commit en pusht. Geen sw.js-/`?v=`-bump nodig.
+- **Vorm voor de app:** `# Covid kritisch — weekrapport <datum>` als titel; de managementsamenvatting onder de kop `## Samenvatting` (dan staat die bovenaan in het samenvattingsvak en in de managementsamenvatting van de app); daarna elk onderdeel als `## <n>. <titel>` (wordt een onderwerpknop), subkoppen met `###`. Bronlabels en klassen zoals in de nulmeting, dan verschijnt de legenda vanzelf.
+- De app toont per bot de nieuwste 3 edities; na drie weekrapporten valt de nulmeting uit de app (bestand blijft in de repo).
 
 ## 4. Publiceren
 `./publish.sh` bouwt `data.json`, commit en pusht naar `origin/main` (GitHub Pages).

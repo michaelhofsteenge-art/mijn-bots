@@ -780,6 +780,313 @@
     },
 
     {
+      keys: { covidkritisch: 1 },
+      term: "A–E",
+      text: "Bewijsklasse. A = sterk (meerdere onafhankelijke, gerepliceerde studies of volledige registerdata), B = redelijk sterk (één grote, goede studie of officiële primaire data), C = voorlopig (kleine studie, preprint, ecologische correlatie), D = zwak (methodologisch ernstig bekritiseerd, of ingetrokken), E = niet verifieerbaar. Zo staat het in de onderzoeksopzet. A/B of C/D zit tussen die twee klassen in.",
+      hit: gradeHit
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "B tegen",
+      text: "De bewijsklasse hoort bij het tegenbewijs, niet bij de claim. Het rapport zet dit bij claims die geen stand houden, zoals T1.3 en T1.5.",
+      hit: function (t) { return /\b[A-E] tegen\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "Houdt stand",
+      text: "Oordeel: de kritische claim blijft overeind na toetsing aan het beste tegenbewijs. Zo staat het in de leeswijzer van de nulmeting.",
+      hit: function (t) { return /houdt stand|houden stand|\bStand \(/i.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "Gedeeltelijk / deels",
+      text: "Oordeel: de claim houdt voor een deel stand. Het oordeel zegt welk deel wel en welk niet, bijvoorbeeld bij T1.2: een gat met de trend, maar geen stijging ten opzichte van 2019.",
+      hit: function (t) { return /\bgedeeltelijk\b|\bdeels\b/i.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "Houdt geen stand",
+      text: "Oordeel: de kritische claim blijft niet overeind na toetsing aan het beste tegenbewijs. De klasse erachter zegt hoe sterk dat bewijs is.",
+      hit: function (t) { return /houdt geen stand|houden geen stand|\(nog\) geen stand/i.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "Open",
+      text: "Oordeel: nog niet te beslissen. Bij een open claim staat wat het oordeel zou veranderen, bijvoorbeeld een peer-reviewed versie of een replicatie. Open claims worden wekelijks gevolgd.",
+      hit: function (t) { return /\bOpen\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "Beleid/open",
+      text: "Gaat over beleid of een rechtszaak, niet over een wetenschappelijke vaststelling. De onderzoeksopzet houdt die twee uit elkaar; de uitkomst wordt gevolgd.",
+      hit: function (t) { return /Beleid\s*\/\s*(?:recht, )?open/i.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "[P]",
+      text: "Primaire bron: officiële data, overheidsdocument, rechterlijke uitspraak of Kamerstuk. Zo staat het in de onderzoeksopzet.",
+      hit: function (t) { return /\[P[\],]/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "[PR]",
+      text: "Peer-reviewed artikel. ‘[PR, brief]’ is een ingezonden brief in een tijdschrift.",
+      hit: function (t) { return /\[PR[\],]/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "[PP]",
+      text: "Preprint of rapport zonder peer review.",
+      hit: function (t) { return /\[PP[\],]/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "[RET]",
+      text: "Ingetrokken, verwijderd of ‘withdrawn’ artikel. Volgens de onderzoeksopzet wordt dit altijd vermeld.",
+      hit: function (t) { return /\[RET\]/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "[K]",
+      text: "Kritisch of pleitbezorgend platform (blog, Substack, alternatieve media). Bruikbaar als vindplaats en om de claim vast te leggen, niet als bewijs op zichzelf.",
+      hit: function (t) { return /\[K[\],]/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "[S]",
+      text: "Secundaire bron: pers, factcheck of Retraction Watch.",
+      hit: function (t) { return /\[S[\],]/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "[O]",
+      text: "Eigen oordeel of eigen berekening.",
+      hit: function (t) { return /\[O[\],]/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "[?]",
+      text: "Niet zelf kunnen openen of controleren, bijvoorbeeld omdat de site de ophaaldienst blokkeert of alleen een zoekresultaat gevonden is.",
+      hit: function (t) { return /\[\?\]/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "T1–T8",
+      text: "Thema’s van het dossier: T1 oversterfte in Nederland, T2 internationale grote studies, T3 VS (Senaat, FDA, ACIP, rechtszaken), T4 bijwerkingendatabases, T5 onafhankelijke analisten met eigen servers of AI, T6 autopsie, T7 spike-eiwit, DNA-restanten en IgG4, T8 Nederlandse kritische stemmen en instituties. T1.1, T1.2 enz. zijn vaste claimcodes waar de weekrapporten naar verwijzen.",
+      hit: function (t) { return /\bT[1-8](?:\.\d+)?\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "Healthy vaccinee effect",
+      text: "Mensen die zich laten vaccineren zijn gemiddeld gezonder. Daardoor lijkt vaccinatie beschermender dan ze is. Vaste valkuil in de onderzoeksopzet; het geldt ook voor de geruststellende cohortstudies.",
+      hit: function (t) { return /healthy vaccinee/i.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "Immortal time bias",
+      text: "Vertekening door ongelijke instroom, vooral bij vergelijkingen tussen gevaccineerden en ongevaccineerden. Vaste valkuil in de onderzoeksopzet; het rapport noemt het bij de Koreaanse kankerstudie (T2.2).",
+      hit: function (t) { return /immortal time/i.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "Ecologische correlatie",
+      text: "Verband op groepsniveau (land, provincie), zoals ‘de sterfte loopt gelijk op met het aantal prikken’. Volgens de onderzoeksopzet hypothese-genererend, geen bewijs van oorzaak.",
+      hit: function (t) { return /ecologisch/i.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "Baseline",
+      text: "De ‘verwachte sterfte’ waarmee oversterfte wordt berekend. Bij het RIVM: de vijf voorgaande jaren zonder sterftepieken. De uitkomst hangt volledig af van die keuze.",
+      hit: function (t) { return /\bbaseline\b/i.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "RIVM",
+      text: "Rijksinstituut voor Volksgezondheid en Milieu. Rapporteert sinds 2024 de oversterfte in Nederland.",
+      hit: function (t) { return /\bRIVM\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "CBS",
+      text: "Centraal Bureau voor de Statistiek. Berekende tot eind 2023 de oversterfte en beheert de microdata.",
+      hit: function (t) { return /\bCBS\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "Lareb",
+      text: "Bijwerkingencentrum Lareb: het Nederlandse meldpunt voor vermoede bijwerkingen.",
+      hit: function (t) { return /\bLareb\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "CBG",
+      text: "College ter Beoordeling van Geneesmiddelen, de Nederlandse geneesmiddelenautoriteit.",
+      hit: function (t) { return /\bCBG\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "ZonMw",
+      text: "Nederlandse organisatie voor gezondheidsonderzoek en zorginnovatie. Financierde de oversterfte-onderzoeken.",
+      hit: function (t) { return /\bZonMw\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "EMA",
+      text: "Europees Geneesmiddelenbureau. Beheert EudraVigilance.",
+      hit: function (t) { return /\bEMA\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "EudraVigilance",
+      text: "Europese database van meldingen van vermoede bijwerkingen, publiek in te zien via adrreports.eu. Een melding is geen bewezen bijwerking.",
+      hit: function (t) { return /EudraVigilance/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "VAERS",
+      text: "Amerikaans meldsysteem voor vermoede vaccinbijwerkingen. Een melding is geen bewezen bijwerking.",
+      hit: function (t) { return /\bVAERS\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "IME / DME",
+      text: "Important Medical Event en Designated Medical Event: Europese lijsten van ernstige aandoeningen. Volgens het CBG hulpmiddelen om signalen te prioriteren, geen criterium voor ‘ernstig’ (T4.2).",
+      hit: function (t) { return /\bIME\b|\bDME/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "Nullification",
+      text: "Nietigverklaring van een melding in EudraVigilance. Volgens EMA verklaart dit, met follow-ups en het samenvoegen van dubbele meldingen, waarom meldingen uit de publieke set verdwijnen (T4.1).",
+      hit: function (t) { return /nullification/i.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "FDA",
+      text: "Amerikaanse toezichthouder voor geneesmiddelen en vaccins (Food and Drug Administration).",
+      hit: function (t) { return /\bFDA\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "CDC",
+      text: "Amerikaanse centra voor ziektebestrijding (Centers for Disease Control and Prevention).",
+      hit: function (t) { return /\bCDC\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "ACIP",
+      text: "De vaccinadviescommissie van de CDC. Ligt stil na een rechterlijk bevel (maart 2026).",
+      hit: function (t) { return /\bACIP\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "HHS",
+      text: "Amerikaans ministerie van Volksgezondheid (Health and Human Services), onder minister RFK Jr.",
+      hit: function (t) { return /\bHHS\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "PSI",
+      text: "Permanent Subcommittee on Investigations, onderzoekscommissie van de Amerikaanse Senaat onder senator Ron Johnson.",
+      hit: function (t) { return /\bPSI\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "MHLW",
+      text: "Japans ministerie van Volksgezondheid, Arbeid en Welzijn. Beheert de schaderegeling voor vaccinschade (T2.4).",
+      hit: function (t) { return /\bMHLW\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "GVDN",
+      text: "Global Vaccine Data Network: de internationale studie met 99 miljoen gevaccineerden (T2.6).",
+      hit: function (t) { return /\bGVDN\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "CIMS",
+      text: "Het vaccinatieregister van het RIVM (COVID-vaccinatie Informatie- en Monitoringsysteem). Het CBS wijst de conclusie af dat het onbetrouwbaar is (T1.4).",
+      hit: function (t) { return /\bCIMS\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "IRR",
+      text: "Incidence rate ratio: verhouding van het aantal gebeurtenissen per tijdseenheid. Onder 1 minder vaak, boven 1 vaker. Het rapport geeft IRR 0,56 (44% lagere kans op overlijden).",
+      hit: function (t) { return /\bIRR\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "PVS",
+      text: "Post-vaccinatiesyndroom: langdurige klachten na vaccinatie. Zo noemt het rapport het bij de Yale-studie (T7.1).",
+      hit: function (t) { return /\bPVS\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "IgG4",
+      text: "Een subklasse van antistoffen. Bij herhaalde mRNA-prikken stijgt het aandeel IgG4 (klassewissel); de klinische betekenis is open (T7.3).",
+      hit: function (t) { return /\bIgG4\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "mRNA",
+      text: "Boodschappermolecuul waarop de vaccins van Pfizer/BioNTech en Moderna berusten.",
+      hit: function (t) { return /\bmRNA\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "SV40",
+      text: "Stukje regelend DNA (promotor) afkomstig van het virus SV40. Critici zeggen dat het in de DNA-restanten in de vaccins zit (T7.2).",
+      hit: function (t) { return /\bSV40\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "EBV",
+      text: "Epstein-Barrvirus. De Yale-studie zag vaker reactivatie ervan bij mensen met PVS.",
+      hit: function (t) { return /\bEBV\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "GBS / CVST",
+      text: "Syndroom van Guillain-Barré (zenuwaandoening) en cerebrale veneuze sinustrombose (bloedstolsel in de hersenen): bekende signalen die de GVDN-studie bevestigde.",
+      hit: function (t) { return /\bGBS\b|\bCVST\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "ACS",
+      text: "Acuut coronair syndroom: plotselinge vernauwing of afsluiting van een kransslagader, zoals een hartinfarct.",
+      hit: function (t) { return /\bACS\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "Woo",
+      text: "Wet open overheid: verzoek om overheidsdocumenten openbaar te maken.",
+      hit: function (t) { return /\bWoo\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "CTIVD",
+      text: "Commissie van Toezicht op de Inlichtingen- en Veiligheidsdiensten.",
+      hit: function (t) { return /\bCTIVD\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "NVVP",
+      text: "Nederlandse Vereniging voor Pathologie.",
+      hit: function (t) { return /\bNVVP\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "Q1",
+      text: "Eerste kwartaal (januari t/m maart).",
+      hit: function (t) { return /\bQ1\b/.test(t); }
+    },
+    {
+      keys: { covidkritisch: 1 },
+      term: "n",
+      text: "Aantal mensen in de studie, bijvoorbeeld n=19.",
+      hit: function (t) { return /\bn\s*=\s*\d/.test(t); }
+    },
+
+    {
       keys: { quantum: 1 },
       term: "[F]",
       text: "Geverifieerd feit uit een primaire bron. Zo staat het in de leeswijzer van de quantumrapporten.",
@@ -1036,7 +1343,7 @@
     },
 
     {
-      keys: { gvresearch: 1, statines: 1, parkinson: 1, tcs: 1, blockchain: 1, quantum: 1 },
+      keys: { gvresearch: 1, statines: 1, parkinson: 1, tcs: 1, blockchain: 1, quantum: 1, covidkritisch: 1 },
       term: "DOI",
       text: "Vast nummer van een publicatie. Een link met doi.org of doi: wijst daarmee naar het artikel.",
       hit: function (t) { return /\bdoi\s*:|doi\.org/i.test(t); }

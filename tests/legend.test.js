@@ -128,6 +128,17 @@ assert.ok(html.indexOf("ECS") < 0);
 assert.strictEqual(L.legendHtml("congres", klimaat), "");
 assert.strictEqual(L.legendHtml("klimaatonderzoek", "geen codes hier, alleen een zin."), "");
 
+var ck = read("updates/covidkritisch/2026-11-09T12-59.md");
+var ckTerms = terms("covidkritisch", ck);
+["A–E", "Houdt stand", "Gedeeltelijk / deels", "Houdt geen stand", "Open", "[P]", "[PR]", "[PP]", "[RET]", "[K]", "[S]", "[O]", "[?]", "T1–T8", "Healthy vaccinee effect", "EudraVigilance", "VAERS", "DOI"].forEach(function (t) { hasTerm(ckTerms, t); });
+lacks(ckTerms, "[F]");
+lacks(ckTerms, "ECS");
+var ckT6 = ck.split(/^## Autopsie \(T6\)/m)[1].split(/^## /m)[0];
+var ck6 = terms("covidkritisch", ckT6);
+hasTerm(ck6, "[RET]");
+lacks(ck6, "IgG4");
+lacks(terms("covid", ck), "[RET]");
+
 var app = read("app.js");
 assert.ok(app.indexOf("codeLegendHtml") > 0);
 assert.ok(/bot\.key === "congres"/.test(app));

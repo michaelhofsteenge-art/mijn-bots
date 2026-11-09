@@ -72,3 +72,6 @@ Bot **AI** (key `airesearch`) staat in App Onderzoek. Blockchain blijft de besta
 - De **tekst** is een link (`a.mail-open`, nieuw tabblad) naar de mail zelf: veld `link` per item in de mailacties-API
   (Outlook `webLink` uit Graph, of `https://mail.google.com/mail/u/0/#all/<threadId>`). Zonder link klapt de tekst details open.
 - Vullen: `link` meesturen in `mailacties_sync.py sync`, of los: `python3 mailacties_sync.py set-link <id> <url>`.
+
+## Covid kritisch (sinds 9-11-2026, sw v55 / onderzoek v34 / acties v36, ?v=20261109c)
+Tegel `covidkritisch` in App Onderzoek met eigen legenda in `legend.js`. Nulmeting in `updates/covidkritisch/2026-11-09T12-59.md`; weekrapporten komen uit `/workspace/covidkritisch/report-YYYY-MM-DD.md` via `publish.sh`. Zie `update_data.md`.

@@ -11,9 +11,9 @@ for f in /workspace/gv-vacatures-*.md; do
   rm -f updates/gv/"${d%%T*}"T*.md
   cp "$f" "updates/gv/$d.md"
 done
-# Parkinson-, Covid-, GV-research-, AI- en Klimaatcritici-bot schrijven wekelijks report-<datum>.md
+# Parkinson-, Covid-, Covid kritisch-, GV-research-, AI- en Klimaatcritici-bot schrijven wekelijks report-<datum>.md
 # AI: /workspace/ai-research  ·  GV Research: /workspace/gv-research  ·  overige: /workspace/<key>
-for key in parkinson covid gvresearch airesearch klimaatcritici; do
+for key in parkinson covid covidkritisch gvresearch airesearch klimaatcritici; do
   mkdir -p updates/$key
   src=/workspace/$key
   [ "$key" = gvresearch ] && src=/workspace/gv-research

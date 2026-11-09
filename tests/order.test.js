@@ -45,13 +45,13 @@ function logicTests() {
   assert.ok(app.indexOf("onderzoek-guest-order") > 0);
   assert.ok(app.indexOf("onderzoek-guest-hidden") > 0);
   assert.ok(app.indexOf('APP === "onderzoek"') > 0);
-  ["v54", "v33", "v35"].forEach(function (v, i) {
+  ["v55", "v34", "v36"].forEach(function (v, i) {
     var file = ["sw.js", "onderzoek/sw.js", "acties/sw.js"][i];
     assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf('VERSION = "' + v + '"') > 0, file);
   });
   ["index.html", "onderzoek/index.html", "acties/index.html"].forEach(function (file) {
-    assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf("20261109b") > 0, file);
-    assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf("20261109a") < 0, file);
+    assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf("20261109c") > 0, file);
+    assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf("20261109b") < 0, file);
   });
   console.log("order logic: ok");
 }
@@ -270,6 +270,7 @@ async function shot(page, name) {
     var scrollAfter = await phone.evaluate(function () { return window.scrollY; });
     assert.ok(scrollAfter > scrollBefore + 20, "snel vegen scrollt de pagina (" + scrollBefore + " → " + scrollAfter + ")");
 
+    await sleep(600);
     var tapPoint = await phone.evaluate(function () {
       var el = document.querySelector('.tile-wrap[data-key="parkinson"] .bot-btn');
       el.scrollIntoView({ block: "center" });
@@ -334,8 +335,9 @@ async function shot(page, name) {
     await phone.waitForFunction(function () { return !document.querySelector('.tile-wrap[data-key="covid"]'); });
     assert.ok((await keys(phone)).indexOf("covid") < 0);
     await phone.evaluate(function () { document.querySelector(".mgmt-summary > summary").click(); });
-    var msText = await phone.$eval(".mgmt-summary", function (el) { return el.innerText; });
-    assert.ok(msText.indexOf("Covid") < 0, "verborgen tegel staat niet in de samenvatting");
+    var msHeads = await phone.$$eval(".mgmt-summary .ms-head", function (els) { return els.map(function (el) { return el.childNodes[0].textContent.trim(); }); });
+    assert.ok(msHeads.indexOf("🦠 Covid") < 0, "verborgen tegel staat niet in de samenvatting");
+    assert.ok(msHeads.indexOf("🧪 Covid kritisch") >= 0, "Covid kritisch blijft in de samenvatting");
     await phone.evaluate(function () { document.querySelector(".mgmt-summary > summary").click(); });
     var hiddenText = await phone.$eval(".guest-hidden", function (el) { return el.innerText; });
     assert.ok(hiddenText.indexOf("Covid") >= 0);
