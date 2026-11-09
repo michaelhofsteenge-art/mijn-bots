@@ -17,6 +17,12 @@
   var APP = window.APP_VARIANT || "root";           // "acties" | "onderzoek" | "root"
   var APP_BASE = window.APP_BASE || "";              // pad naar de gedeelde bestanden ("../" in submappen)
   var ACTIES_KEYS = ["email", "gv", "crypto"];       // + Herinneringen; al het andere = Onderzoek
+  // Tegelvolgorde en gastmodus: alleen App Onderzoek. Acties en de launcher lezen deze sleutels niet.
+  var ORDER_KEY = "onderzoek-tile-order";
+  var GUEST_KEY = "onderzoek-guest";
+  var GUEST_ORDER_KEY = "onderzoek-guest-order";
+  var GUEST_HIDDEN_KEY = "onderzoek-guest-hidden";
+  var GUEST_MAIL = "michael.hofsteenge@outlook.com";
   function appForBot(b) { return b && ACTIES_KEYS.indexOf(b.key) >= 0 ? "acties" : "onderzoek"; }
   function botInApp(b) { return APP === "root" || appForBot(b) === APP; }
   function appUrl(app) { return (APP === "root" ? "" : "../") + app + "/"; }
@@ -27,7 +33,14 @@
     pinFlow: null, // null | { step, current, firstNew }
     refreshTimer: null,
     klimaatTopic: null,
-    emailShowHidden: false
+    emailShowHidden: false,
+    guest: false,
+    orderMode: false,
+    tileDragging: false,
+    blockPullUntil: 0,
+    suppressTileClickUntil: 0,
+    orderFocus: null,
+    guestDraft: { name: "", suggestion: "", remarks: "" }
   };
 
   // ---------- SHA-256 (WebCrypto, met JS-fallback voor niet-HTTPS testen) ----------
@@ -113,7 +126,11 @@
     return getStoredPinHash() || CFG.PIN_SHA256;
   }
   function unlockToken() { return expectedPinHash() + ":" + CFG.CONFIG_VERSION; }
-  function isUnlocked() { try { return localStorage.getItem(UNLOCK_KEY) === unlockToken(); } catch (e) { return false; } }
+  function isGuest() { return APP === "onderzoek" && !!state.guest; }
+  function isUnlocked() {
+    if (isGuest()) return true;
+    try { return localStorage.getItem(UNLOCK_KEY) === unlockToken(); } catch (e) { return false; }
+  }
   function drawDots(el, len) {
     var h = "";
     for (var i = 0; i < CFG.PIN_LENGTH; i++) h += '<span class="dot' + (i < len ? " on" : "") + '"></span>';
@@ -161,6 +178,7 @@
     else if (e.key === "Backspace") pressKey("del");
   });
   $("lockBtn").addEventListener("click", function () {
+    if (isGuest()) return;
     try { localStorage.removeItem(UNLOCK_KEY); } catch (e) {}
     showLock();
   });
@@ -1225,29 +1243,274 @@
   }
   // ---- mailacties:end ----
 
+  // <onderzoekOrder>
+  function botOrderId(b) { return (b && (b.key || b.id)) || ""; }
+  function applyBotOrder(bots, savedKeys) {
+    var list = (bots || []).slice();
+    if (!savedKeys || !savedKeys.length) return list;
+    var byKey = {}, out = [], used = {}, i, k;
+    for (i = 0; i < list.length; i++) {
+      k = botOrderId(list[i]);
+      if (k && !byKey[k]) byKey[k] = list[i];
+    }
+    for (i = 0; i < savedKeys.length; i++) {
+      k = savedKeys[i];
+      if (typeof k !== "string" || !byKey[k] || used[k]) continue;
+      out.push(byKey[k]);
+      used[k] = true;
+    }
+    for (i = 0; i < list.length; i++) {
+      k = botOrderId(list[i]);
+      if (k && !used[k]) { out.push(list[i]); used[k] = true; }
+    }
+    return out;
+  }
+  function applyHidden(bots, hiddenKeys) {
+    var hide = {}, visible = [], hidden = [], i, k;
+    for (i = 0; i < (hiddenKeys || []).length; i++) {
+      if (typeof hiddenKeys[i] === "string" && hiddenKeys[i]) hide[hiddenKeys[i]] = true;
+    }
+    for (i = 0; i < (bots || []).length; i++) {
+      k = botOrderId(bots[i]);
+      if (k && hide[k]) hidden.push(bots[i]);
+      else visible.push(bots[i]);
+    }
+    return { visible: visible, hidden: hidden };
+  }
+  function mergeVisibleOrder(visibleKeys, hiddenKeys, previousFull) {
+    var hide = {}, result = [], seen = {}, vi = 0, i, k;
+    (hiddenKeys || []).forEach(function (hk) { if (hk) hide[hk] = true; });
+    var full = previousFull && previousFull.length ? previousFull.slice() : (visibleKeys || []).concat(hiddenKeys || []);
+    for (i = 0; i < full.length; i++) {
+      k = full[i];
+      if (hide[k]) {
+        if (!seen[k]) { result.push(k); seen[k] = true; }
+      } else if (vi < visibleKeys.length) {
+        k = visibleKeys[vi++];
+        if (k && !seen[k]) { result.push(k); seen[k] = true; }
+      }
+    }
+    while (vi < visibleKeys.length) {
+      k = visibleKeys[vi++];
+      if (k && !seen[k]) { result.push(k); seen[k] = true; }
+    }
+    (hiddenKeys || []).forEach(function (hk) {
+      if (hk && !seen[hk]) { result.push(hk); seen[hk] = true; }
+    });
+    return result;
+  }
+  // </onderzoekOrder>
+
+  function readKeyList(storageKey) {
+    try {
+      var raw = JSON.parse(localStorage.getItem(storageKey) || "null");
+      if (!Array.isArray(raw)) return null;
+      var out = [], i;
+      for (i = 0; i < raw.length; i++) {
+        if (typeof raw[i] === "string" && raw[i] && out.indexOf(raw[i]) < 0) out.push(raw[i]);
+      }
+      return out.length ? out : null;
+    } catch (e) { return null; }
+  }
+  function orderStorageKey() { return state.guest ? GUEST_ORDER_KEY : ORDER_KEY; }
+  function loadTileOrder() { return APP === "onderzoek" ? readKeyList(orderStorageKey()) : null; }
+  function loadHidden() { return state.guest ? (readKeyList(GUEST_HIDDEN_KEY) || []) : []; }
+  function saveTileOrder(keys) {
+    try { localStorage.setItem(orderStorageKey(), JSON.stringify(keys)); } catch (e) {}
+  }
+  function saveHidden(keys) {
+    try { localStorage.setItem(GUEST_HIDDEN_KEY, JSON.stringify(keys)); } catch (e) {}
+  }
+  function visibleTileKeys() {
+    return [].slice.call(document.querySelectorAll("#botList .tile-wrap")).map(function (el) { return el.getAttribute("data-key"); });
+  }
+  function commitVisibleOrder(visibleKeys) {
+    saveTileOrder(mergeVisibleOrder(visibleKeys, loadHidden(), loadTileOrder()));
+  }
+  function moveTileKey(key, delta) {
+    var keys = visibleTileKeys();
+    var i = keys.indexOf(key), j = i + delta;
+    if (i < 0 || j < 0 || j >= keys.length) return;
+    var item = keys.splice(i, 1)[0];
+    keys.splice(j, 0, item);
+    commitVisibleOrder(keys);
+    state.orderFocus = key + ":" + String(delta);
+    renderHome();
+  }
+  function hideTileKey(key) {
+    if (!loadTileOrder()) saveTileOrder(visibleTileKeys());
+    var hidden = loadHidden();
+    if (hidden.indexOf(key) < 0) hidden.push(key);
+    saveHidden(hidden);
+    renderHome();
+  }
+  function showTileKey(key) {
+    saveHidden(loadHidden().filter(function (k) { return k !== key; }));
+    renderHome();
+  }
+  function resetTileOrder() {
+    try { localStorage.removeItem(orderStorageKey()); } catch (e) {}
+    if (state.guest) { try { localStorage.removeItem(GUEST_HIDDEN_KEY); } catch (e2) {} }
+    renderHome();
+    toast(state.guest ? "Standaardweergave hersteld" : "Standaardvolgorde hersteld");
+  }
+  function setupGuest() {
+    if (APP !== "onderzoek") return;
+    var q = null;
+    try { q = new URLSearchParams(location.search).get("gast"); } catch (e) {}
+    if (q === "1") {
+      try { localStorage.setItem(GUEST_KEY, "1"); } catch (e2) {}
+      state.guest = true;
+    } else if (q === "0") {
+      try { localStorage.removeItem(GUEST_KEY); } catch (e3) {}
+      state.guest = false;
+    } else {
+      try { state.guest = localStorage.getItem(GUEST_KEY) === "1"; } catch (e4) { state.guest = false; }
+    }
+    document.documentElement.classList.toggle("is-guest", !!state.guest);
+  }
+  function ensureOrderButton() {
+    if (APP !== "onderzoek" || $("orderBtn")) return;
+    var foot = document.querySelector("#home .foot");
+    if (!foot) return;
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "link-btn order-btn";
+    btn.id = "orderBtn";
+    foot.insertBefore(btn, foot.firstChild);
+    btn.addEventListener("click", function () {
+      state.orderMode = !state.orderMode;
+      renderHome();
+    });
+  }
+  function syncOrderButton() {
+    var btn = $("orderBtn");
+    if (!btn) return;
+    var on = !!state.orderMode;
+    btn.textContent = on ? "Klaar" : (state.guest ? "⇄ Tegels aanpassen" : "⇅ Volgorde aanpassen");
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    document.documentElement.classList.toggle("is-order-mode", on);
+  }
+  function orderBarHtml() {
+    if (APP !== "onderzoek" || !state.orderMode) return "";
+    var hint = state.guest
+      ? "Sleep een tegel naar een andere plek. Op de iPhone houd je hem even ingedrukt. Met de pijlen verplaats je één plek; Verberg haalt een tegel weg."
+      : "Sleep een tegel naar een andere plek. Op de iPhone houd je hem even ingedrukt. Of gebruik de pijlen.";
+    var hidden = state.guest ? loadHidden() : [];
+    return '<div class="order-bar" role="region" aria-label="Tegels aanpassen"><p>' + hint + '</p><div class="order-bar-actions">' +
+      '<button type="button" class="order-done" id="orderDone">Klaar</button>' +
+      '<button type="button" class="order-reset" id="orderReset">' + (state.guest ? "Standaardweergave" : "Standaardvolgorde") + "</button>" +
+      (hidden.length ? '<button type="button" class="order-reset" id="orderShowAll">Alles tonen</button>' : "") +
+      "</div></div>";
+  }
+  function hiddenSectionHtml(hiddenBots) {
+    if (!state.guest || !state.orderMode || !hiddenBots.length) return "";
+    return '<section class="guest-hidden" aria-label="Verborgen tegels"><h2>Verborgen</h2><ul>' + hiddenBots.map(function (b) {
+      var k = botOrderId(b);
+      return "<li><span>" + esc(b.emoji || "🤖") + " " + esc(b.name) + '</span><button type="button" class="order-show" data-order-show="' + esc(k) + '">Toon</button></li>';
+    }).join("") + "</ul></section>";
+  }
+  function buildGuestMailto(draft) {
+    var suggestion = String((draft && draft.suggestion) || "").trim();
+    var remarks = String((draft && draft.remarks) || "").trim();
+    if (!suggestion && !remarks) return "";
+    var name = String((draft && draft.name) || "").trim();
+    var body = "Naam: " + (name || "—") + "\r\n\r\nOnderzoekssuggestie:\r\n" + (suggestion || "—") + "\r\n\r\nOp- en aanmerkingen:\r\n" + (remarks || "—") + "\r\n";
+    var href = "mailto:" + GUEST_MAIL + "?subject=" + encodeURIComponent("App Onderzoek: suggestie") + "&body=" + encodeURIComponent(body);
+    if (href.length > 1900) return "TOO_LONG";
+    return href;
+  }
+  function guestFormHtml() {
+    if (!state.guest) return "";
+    var d = state.guestDraft || { name: "", suggestion: "", remarks: "" };
+    var href = buildGuestMailto(d) || ("mailto:" + GUEST_MAIL);
+    if (href === "TOO_LONG") href = "mailto:" + GUEST_MAIL;
+    return '<section class="guest-suggest" id="guestSuggest" aria-labelledby="guestSuggestTitle">' +
+      '<h2 id="guestSuggestTitle">Suggestie voor Mike</h2>' +
+      '<p class="guest-suggest-lead">Een onderzoeksonderwerp of een opmerking. Er gaat niets naar een server; je mailprogramma gaat open.</p>' +
+      '<label for="guestSuggestion">Onderzoekssuggestie</label>' +
+      '<textarea id="guestSuggestion" name="suggestie" rows="4" placeholder="Welk onderwerp zou Mike moeten oppakken?">' + esc(d.suggestion) + "</textarea>" +
+      '<label for="guestRemarks">Op- en aanmerkingen</label>' +
+      '<textarea id="guestRemarks" name="opmerkingen" rows="4" placeholder="Wat valt je op, of wat kan beter?">' + esc(d.remarks) + "</textarea>" +
+      '<label for="guestName">Naam <span class="guest-opt">(optioneel)</span></label>' +
+      '<input id="guestName" name="naam" type="text" autocomplete="name" maxlength="80" placeholder="Hoe mogen we je noemen?" value="' + esc(d.name) + '">' +
+      '<a class="guest-send" id="guestSend" href="' + esc(href) + '">Versturen via e-mail</a>' +
+      "</section>";
+  }
+  function tileWrapHtml(b, btnHtml, index, total) {
+    var k = botOrderId(b);
+    var ctrls = "";
+    if (state.orderMode) {
+      ctrls = '<div class="order-ctrls">' +
+        '<button type="button" class="order-move" data-order-move="-1"' + (index === 0 ? " disabled" : "") + ' aria-label="Eén plek naar voren">↑</button>' +
+        '<button type="button" class="order-move" data-order-move="1"' + (index === total - 1 ? " disabled" : "") + ' aria-label="Eén plek naar achteren">↓</button>' +
+        (state.guest ? '<button type="button" class="order-hide" data-order-hide="' + esc(k) + '" aria-label="Verberg ' + esc(b.name) + '">Verberg</button>' : "") +
+        "</div>";
+    }
+    return '<div class="tile-wrap" data-key="' + esc(k) + '">' + btnHtml + ctrls + "</div>";
+  }
   function renderHome() {
     var d = state.data;
     var r = $("refreshed");
     if (!d) {
       r.textContent = "Geen gegevens";
-      $("botList").innerHTML = '<p class="empty">Kan de updates nu niet laden. Controleer je internetverbinding en tik op ↻.</p>';
+      if (!state.tileDragging) $("botList").innerHTML = '<p class="empty">Kan de updates nu niet laden. Controleer je internetverbinding en tik op ↻.</p>';
       return;
     }
     var stamp = d.generated_at ? fmtDate(d.generated_at) : "onbekend";
     r.textContent = "Laatst bijgewerkt: " + stamp + (state.fromCache ? " · offline" : "");
+    if (state.tileDragging) return;
     if (APP === "root") { $("botList").innerHTML = launcherHtml(d); showChromeTips(); return; }
-    // Email Reageren always first; preserve relative order of the rest.
-    var bots = d.bots.filter(botInApp).sort(function (a, b) {
-      var ae = isEmailBot(a) ? 0 : 1;
-      var be = isEmailBot(b) ? 0 : 1;
-      return ae - be;
-    });
+    var pool = d.bots.filter(botInApp);
+    var bots, hiddenBots = [];
+    if (APP === "onderzoek") {
+      var split = applyHidden(applyBotOrder(pool, loadTileOrder()), loadHidden());
+      bots = split.visible;
+      hiddenBots = split.hidden;
+    } else {
+      // Email Reageren altijd eerst; de rest houdt de onderlinge volgorde.
+      bots = pool.sort(function (a, b) {
+        var ae = isEmailBot(a) ? 0 : 1;
+        var be = isEmailBot(b) ? 0 : 1;
+        return ae - be;
+      });
+    }
+    var summaryWasOpen = false;
+    var prevSum = document.querySelector("#botList .mgmt-summary");
+    if (prevSum && prevSum.open) summaryWasOpen = true;
+    var scrollY = window.scrollY;
+    var activeId = document.activeElement && document.activeElement.id;
+    var selStart = document.activeElement && document.activeElement.selectionStart;
     var remInserted = false;
-    $("botList").innerHTML = (APP === "onderzoek" ? mgmtSummaryHtml(bots) : "") + bots.map(function (b) {
+    var guestNote = state.guest ? '<p class="guest-note">Gedeeld overzicht. Ordenen en verbergen blijft op dit apparaat.</p>' : "";
+    var emptyNote = "";
+    if (APP === "onderzoek" && !bots.length && hiddenBots.length && !state.orderMode) {
+      emptyNote = '<p class="empty">Alle tegels zijn verborgen. Tik op Tegels aanpassen om ze terug te zetten.</p>';
+    }
+    $("botList").innerHTML = guestNote + orderBarHtml() + (APP === "onderzoek" && bots.length ? mgmtSummaryHtml(bots) : "") + bots.map(function (b, i) {
       var html = botBtnHtml(b);
+      if (APP === "onderzoek") html = tileWrapHtml(b, html, i, bots.length);
       if (!remInserted && isEmailBot(b)) { remInserted = true; html += remHomeButtonHtml(); }
       return html;
-    }).join("") + (remInserted || APP !== "acties" ? "" : remHomeButtonHtml());
+    }).join("") + emptyNote + hiddenSectionHtml(hiddenBots) + guestFormHtml() + (remInserted || APP !== "acties" ? "" : remHomeButtonHtml());
+    if (summaryWasOpen) {
+      var ns = document.querySelector("#botList .mgmt-summary");
+      if (ns) ns.open = true;
+    }
+    if (state.orderFocus) {
+      var bits = state.orderFocus.split(":");
+      state.orderFocus = null;
+      var focusBtn = document.querySelector('.tile-wrap[data-key="' + String(bits[0]).replace(/"/g, "") + '"] [data-order-move="' + bits[1] + '"]');
+      if (focusBtn && !focusBtn.disabled) {
+        try { focusBtn.focus({ preventScroll: true }); } catch (e) { focusBtn.focus(); }
+      }
+    }
+    if (scrollY) window.scrollTo(0, scrollY);
+    if (activeId && /^(guestSuggestion|guestRemarks|guestName)$/.test(activeId) && $(activeId)) {
+      $(activeId).focus();
+      try { if (typeof selStart === "number") $(activeId).setSelectionRange(selStart, selStart); } catch (e) {}
+    }
+    syncOrderButton();
     showChromeTips();
   }
   // Managementsamenvatting (Onderzoek-home): dynamisch uit data.json, nieuwe bots komen er vanzelf in.
@@ -1336,7 +1599,7 @@
       }
       var cls = "bot-btn" + (needs ? " bot-btn--action" : "") + (isEmailBot(b) ? " tile-email" : "");
       var badge = needs ? '<span class="bot-badge" aria-label="Actie nodig">Actie</span>' : "";
-      return '<button type="button" class="' + cls + '" style="--c:' + esc(b.color || "#666") + '" data-id="' + esc(b.id) + '"' +
+      return '<button type="button" class="' + cls + '" style="--c:' + esc(b.color || "#666") + '" data-id="' + esc(b.id) + '" data-key="' + esc(botOrderId(b)) + '"' +
         (needs ? ' aria-description="Actie vandaag"' : "") + '>' +
         '<span class="bot-emoji" aria-hidden="true">' + esc(b.emoji || "🤖") + "</span>" +
         '<span class="bot-text"><span class="bot-name-row"><span class="bot-name">' + esc(b.name) + "</span>" + badge + "</span>" +
@@ -1560,7 +1823,47 @@
     if (op) { mailOpen(op.getAttribute("data-mail-open")); return; }
   });
   $("botList").addEventListener("click", function (e) {
-    var b = e.target.closest(".bot-btn[data-id], .ms-open[data-id]"); if (b) location.hash = "#/bot/" + encodeURIComponent(b.getAttribute("data-id"));
+    if (state.suppressTileClickUntil && Date.now() < state.suppressTileClickUntil) {
+      state.suppressTileClickUntil = 0;
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    var move = e.target.closest("[data-order-move]");
+    if (move) {
+      e.preventDefault();
+      var wrap = move.closest(".tile-wrap");
+      if (wrap && !move.disabled) moveTileKey(wrap.getAttribute("data-key"), Number(move.getAttribute("data-order-move")));
+      return;
+    }
+    var hide = e.target.closest("[data-order-hide]");
+    if (hide) { e.preventDefault(); hideTileKey(hide.getAttribute("data-order-hide")); return; }
+    var show = e.target.closest("[data-order-show]");
+    if (show) { e.preventDefault(); showTileKey(show.getAttribute("data-order-show")); return; }
+    if (e.target.closest("#orderDone")) { state.orderMode = false; renderHome(); return; }
+    if (e.target.closest("#orderReset")) { resetTileOrder(); return; }
+    if (e.target.closest("#orderShowAll")) { saveHidden([]); renderHome(); return; }
+    var send = e.target.closest("#guestSend");
+    if (send) {
+      var href = buildGuestMailto(state.guestDraft);
+      if (!href) { e.preventDefault(); toast("Vul een suggestie of een opmerking in."); return; }
+      if (href === "TOO_LONG") { e.preventDefault(); toast("De tekst is te lang voor de mail-app. Maak hem iets korter."); return; }
+      send.href = href;
+      return;
+    }
+    var b = e.target.closest(".bot-btn[data-id], .ms-open[data-id]");
+    if (b) location.hash = "#/bot/" + encodeURIComponent(b.getAttribute("data-id"));
+  });
+  $("botList").addEventListener("input", function (e) {
+    var t = e.target;
+    if (!t || !state.guestDraft) return;
+    if (t.id === "guestName") state.guestDraft.name = t.value;
+    if (t.id === "guestSuggestion") state.guestDraft.suggestion = t.value;
+    if (t.id === "guestRemarks") state.guestDraft.remarks = t.value;
+    var link = $("guestSend");
+    if (!link) return;
+    var href = buildGuestMailto(state.guestDraft);
+    if (href && href !== "TOO_LONG") link.href = href;
   });
   $("backBtn").addEventListener("click", function () {
     if (state.mailOpenId) { state.mailOpenId = null; mailRerender(); return; }
@@ -1583,12 +1886,13 @@
     var startY = 0, pulling = false;
     var home = $("home");
     home.addEventListener("touchstart", function (e) {
-      if (home.hidden || window.scrollY > 2) { pulling = false; return; }
+      if (home.hidden || window.scrollY > 2 || state.tileDragging) { pulling = false; return; }
       startY = e.touches[0].clientY; pulling = true;
     }, { passive: true });
     home.addEventListener("touchend", function (e) {
       if (!pulling) return;
       pulling = false;
+      if (state.tileDragging || (state.blockPullUntil && Date.now() < state.blockPullUntil)) return;
       var dy = e.changedTouches[0].clientY - startY;
       if (dy > 70 && window.scrollY < 4) {
         var btn = $("refreshBtn"); btn.classList.add("spin");
@@ -1611,12 +1915,222 @@
     });
   }
 
+  // Slepen: muis meteen na een kleine beweging; aanraken pas na ingedrukt houden,
+  // zodat tikken en scrollen op de iPhone blijven werken. Geen HTML5-drag (werkt niet in WebKit).
+  var tileDrag = {
+    pending: false, active: false, pointerId: null, pointerType: "",
+    x0: 0, y0: 0, dx: 0, dy: 0, lastX: 0, lastY: 0,
+    key: "", wrap: null, placeholder: null, origin: null,
+    holdTimer: 0, longTimer: 0, raf: 0, scrollDy: 0, lockUntil: 0
+  };
+  var TILE_SLOP = 14, TILE_LONG_MS = 460;
+  function clearTileTimers() {
+    if (tileDrag.holdTimer) { clearTimeout(tileDrag.holdTimer); tileDrag.holdTimer = 0; }
+    if (tileDrag.longTimer) { clearTimeout(tileDrag.longTimer); tileDrag.longTimer = 0; }
+  }
+  function tileMaybeSwap(x, y) {
+    if (!tileDrag.active || !tileDrag.placeholder) return;
+    if (tileDrag.lockUntil && Date.now() < tileDrag.lockUntil) return;
+    var stack = document.elementsFromPoint(x, y), tile = null, i;
+    for (i = 0; i < stack.length; i++) {
+      var w = stack[i].closest && stack[i].closest(".tile-wrap");
+      if (w && !w.classList.contains("is-drag-src")) { tile = w; break; }
+    }
+    if (!tile) return;
+    var rect = tile.getBoundingClientRect();
+    var before = (y > rect.top && y < rect.bottom) ? x < rect.left + rect.width / 2 : y < rect.top + rect.height / 2;
+    var ph = tileDrag.placeholder;
+    if (before) {
+      if (tile.previousElementSibling === ph) return;
+      ph.parentNode.insertBefore(ph, tile);
+    } else {
+      if (tile.nextElementSibling === ph) return;
+      ph.parentNode.insertBefore(ph, tile.nextSibling);
+    }
+    tileDrag.lockUntil = Date.now() + 70;
+  }
+  function tileAutoScroll(y) {
+    var edge = 70, max = 16, dy = 0;
+    if (y < edge) dy = -Math.ceil(max * (1 - Math.max(0, y) / edge));
+    else if (y > window.innerHeight - edge) dy = Math.ceil(max * Math.min(1, (y - (window.innerHeight - edge)) / edge));
+    tileDrag.scrollDy = dy;
+    if (dy && !tileDrag.raf) {
+      var step = function () {
+        if (!tileDrag.active || !tileDrag.scrollDy) { tileDrag.raf = 0; return; }
+        window.scrollBy(0, tileDrag.scrollDy);
+        tileMaybeSwap(tileDrag.lastX, tileDrag.lastY);
+        tileDrag.raf = requestAnimationFrame(step);
+      };
+      tileDrag.raf = requestAnimationFrame(step);
+    }
+  }
+  function startTileDrag(x, y) {
+    if (tileDrag.active || !tileDrag.wrap || !tileDrag.wrap.parentNode) return;
+    clearTileTimers();
+    var wrap = tileDrag.wrap;
+    var rect = wrap.getBoundingClientRect();
+    tileDrag.pending = false;
+    tileDrag.active = true;
+    tileDrag.dx = x - rect.left;
+    tileDrag.dy = y - rect.top;
+    tileDrag.origin = visibleTileKeys();
+    var ph = document.createElement("div");
+    ph.className = "order-placeholder";
+    ph.style.height = rect.height + "px";
+    ph.setAttribute("aria-hidden", "true");
+    wrap.parentNode.insertBefore(ph, wrap);
+    tileDrag.placeholder = ph;
+    document.body.appendChild(wrap);
+    wrap.classList.add("is-drag-src");
+    wrap.classList.remove("is-holding");
+    wrap.style.position = "fixed";
+    wrap.style.left = rect.left + "px";
+    wrap.style.top = rect.top + "px";
+    wrap.style.width = rect.width + "px";
+    wrap.style.height = rect.height + "px";
+    wrap.style.margin = "0";
+    wrap.style.zIndex = "80";
+    wrap.style.pointerEvents = "none";
+    wrap.style.boxSizing = "border-box";
+    state.tileDragging = true;
+    state.blockPullUntil = Date.now() + 1200;
+    document.documentElement.classList.add("is-tile-drag");
+    try { $("botList").setPointerCapture(tileDrag.pointerId); } catch (err) {}
+    try { if (navigator.vibrate) navigator.vibrate(12); } catch (err2) {}
+  }
+  function moveTileDrag(x, y) {
+    if (!tileDrag.active || !tileDrag.wrap) return;
+    tileDrag.lastX = x;
+    tileDrag.lastY = y;
+    tileDrag.wrap.style.left = (x - tileDrag.dx) + "px";
+    tileDrag.wrap.style.top = (y - tileDrag.dy) + "px";
+    tileMaybeSwap(x, y);
+    tileAutoScroll(y);
+  }
+  function endTileGesture(commit) {
+    clearTileTimers();
+    if (tileDrag.wrap) tileDrag.wrap.classList.remove("is-holding");
+    if (!tileDrag.pending && !tileDrag.active) return;
+    var wasActive = tileDrag.active;
+    var keys = null;
+    if (wasActive && commit && tileDrag.placeholder && tileDrag.placeholder.parentNode) {
+      keys = [];
+      [].slice.call($("botList").children).forEach(function (el) {
+        if (el === tileDrag.placeholder) keys.push(tileDrag.key);
+        else if (el.classList && el.classList.contains("tile-wrap")) keys.push(el.getAttribute("data-key"));
+      });
+    }
+    if (tileDrag.raf) { cancelAnimationFrame(tileDrag.raf); tileDrag.raf = 0; }
+    try { if (wasActive && tileDrag.pointerId != null) $("botList").releasePointerCapture(tileDrag.pointerId); } catch (err) {}
+    if (wasActive) {
+      if (tileDrag.placeholder && tileDrag.placeholder.parentNode) tileDrag.placeholder.parentNode.removeChild(tileDrag.placeholder);
+      if (tileDrag.wrap && tileDrag.wrap.parentNode) tileDrag.wrap.parentNode.removeChild(tileDrag.wrap);
+    }
+    tileDrag.placeholder = null;
+    tileDrag.wrap = null;
+    tileDrag.pending = false;
+    tileDrag.active = false;
+    tileDrag.pointerId = null;
+    tileDrag.scrollDy = 0;
+    state.tileDragging = false;
+    document.documentElement.classList.remove("is-tile-drag");
+    if (!wasActive) return;
+    state.blockPullUntil = Date.now() + 700;
+    state.suppressTileClickUntil = Date.now() + 800;
+    if (keys && tileDrag.origin && keys.join("\0") !== tileDrag.origin.join("\0")) commitVisibleOrder(keys);
+    tileDrag.origin = null;
+    renderHome();
+  }
+  function onTilePointerDown(e) {
+    if (APP !== "onderzoek" || $("home").hidden) return;
+    if (tileDrag.active || tileDrag.pending) return;
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    if (e.target.closest(".order-ctrls, .order-bar, .guest-suggest, .guest-hidden, .mgmt-summary, .ms-open")) return;
+    var wrap = e.target.closest(".tile-wrap");
+    if (!wrap || !wrap.closest("#botList")) return;
+    tileDrag.pending = true;
+    tileDrag.pointerId = e.pointerId;
+    tileDrag.pointerType = e.pointerType || "mouse";
+    tileDrag.x0 = e.clientX;
+    tileDrag.y0 = e.clientY;
+    tileDrag.wrap = wrap;
+    tileDrag.key = wrap.getAttribute("data-key");
+    tileDrag.holdTimer = setTimeout(function () {
+      if (tileDrag.pending && tileDrag.wrap) tileDrag.wrap.classList.add("is-holding");
+    }, 150);
+    if (tileDrag.pointerType !== "mouse") {
+      tileDrag.longTimer = setTimeout(function () {
+        if (tileDrag.pending) startTileDrag(tileDrag.x0, tileDrag.y0);
+      }, TILE_LONG_MS);
+    }
+  }
+  function onTilePointerMove(e) {
+    if (!tileDrag.pending && !tileDrag.active) return;
+    if (tileDrag.pointerId != null && e.pointerId !== tileDrag.pointerId) return;
+    var dx = e.clientX - tileDrag.x0, dy = e.clientY - tileDrag.y0;
+    if (tileDrag.pending && !tileDrag.active) {
+      if (dx * dx + dy * dy > TILE_SLOP * TILE_SLOP) {
+        if (tileDrag.pointerType === "mouse") startTileDrag(e.clientX, e.clientY);
+        else { clearTileTimers(); tileDrag.pending = false; if (tileDrag.wrap) tileDrag.wrap.classList.remove("is-holding"); tileDrag.wrap = null; }
+      }
+      return;
+    }
+    if (tileDrag.active && tileDrag.pointerType === "mouse") {
+      e.preventDefault();
+      moveTileDrag(e.clientX, e.clientY);
+    }
+  }
+  function onTileTouchMove(e) {
+    if (!tileDrag.pending && !tileDrag.active) return;
+    var t = e.touches && e.touches[0];
+    if (!t) return;
+    if (tileDrag.active) {
+      e.preventDefault();
+      moveTileDrag(t.clientX, t.clientY);
+      return;
+    }
+    var dx = t.clientX - tileDrag.x0, dy = t.clientY - tileDrag.y0;
+    if (dx * dx + dy * dy > TILE_SLOP * TILE_SLOP) {
+      clearTileTimers();
+      tileDrag.pending = false;
+      if (tileDrag.wrap) tileDrag.wrap.classList.remove("is-holding");
+      tileDrag.wrap = null;
+    }
+  }
+  function setupTileReorder() {
+    if (APP !== "onderzoek") return;
+    document.addEventListener("pointerdown", onTilePointerDown);
+    document.addEventListener("pointermove", onTilePointerMove);
+    document.addEventListener("pointerup", function () { endTileGesture(true); });
+    document.addEventListener("pointercancel", function () { endTileGesture(false); });
+    document.addEventListener("touchend", function () { endTileGesture(true); });
+    document.addEventListener("touchmove", onTileTouchMove, { passive: false });
+    $("botList").addEventListener("contextmenu", function (e) {
+      if (e.target.closest(".tile-wrap")) e.preventDefault();
+    });
+    window.__onderzoekOrder = {
+      apply: applyBotOrder,
+      hidden: applyHidden,
+      id: botOrderId,
+      merge: mergeVisibleOrder,
+      mailto: buildGuestMailto,
+      ORDER_KEY: ORDER_KEY,
+      GUEST_ORDER_KEY: GUEST_ORDER_KEY,
+      GUEST_HIDDEN_KEY: GUEST_HIDDEN_KEY,
+      GUEST_KEY: GUEST_KEY,
+      MAIL: GUEST_MAIL
+    };
+  }
+
   // Start
   try { if (!localStorage.getItem(MAIL_MIGRATED_KEY)) cleanupEmailChecks(); } catch (e) {}
   try {
     var c = JSON.parse(localStorage.getItem(DATA_KEY) || "null");
     if (c && c.data) { state.data = c.data; state.fetchedAt = new Date(c.fetchedAt); state.fromCache = true; }
   } catch (e) {}
+  setupGuest();
+  ensureOrderButton();
+  setupTileReorder();
   showChromeTips();
   route();
   loadData(false);
