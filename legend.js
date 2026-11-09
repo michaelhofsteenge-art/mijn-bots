@@ -3,7 +3,7 @@
 (function (root) {
   "use strict";
 
-  var CLIMATE = { klimaatonderzoek: 1, clintel: 1, klimaat: 1 };
+  var CLIMATE = { klimaatonderzoek: 1, clintel: 1, klimaatcritici: 1, klimaat: 1 };
 
   function gradeHit(text) {
     if (/\*\*\s*[A-E](?:\s*\/\s*[A-E])?\s*\*\*/.test(text)) return true;
@@ -182,7 +182,7 @@
       hit: function (t) { return /\bSMR\b/.test(t); }
     },
     {
-      keys: CLIMATE,
+      keys: { klimaatonderzoek: 1, clintel: 1, klimaat: 1 },
       term: "CERES",
       text: "Satellietmetingen van de stralingsbalans. Het verdiepingsrapport noemt CERES naast Argo bij de energie-onbalans.",
       hit: function (t) { return /\bCERES\b/.test(t); }
@@ -450,6 +450,211 @@
       term: "Claim 10",
       text: "Clintel-claim: er is geen klimaatnoodtoestand. Uit de claimtabel in het dossier.",
       hit: function (t) { return claimHit(10, t); }
+    },
+
+    {
+      keys: { klimaatcritici: 1 },
+      term: "CERES",
+      text: "Center for Environmental Research and Earth Sciences, het onderzoeksinstituut van Willie Soon en Ronan en Michael Connolly. Niet te verwarren met het NASA-satellietinstrument CERES.",
+      hit: function (t) { return /\bCERES\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "CWG",
+      text: "Climate Working Group van het Amerikaanse ministerie van Energie (DOE), 2025: Christy, Curry, Koonin, McKitrick en Spencer.",
+      hit: function (t) { return /\bCWG\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "NASEM",
+      text: "National Academies of Sciences, Engineering, and Medicine (VS). Reageerde in september 2025 op het DOE-rapport.",
+      hit: function (t) { return /\bNASEM\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "TSI",
+      text: "Total Solar Irradiance: de totale zonnestraling die de aarde bereikt.",
+      hit: function (t) { return /\bTSI\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "UHI",
+      text: "Urban heat island: het opwarmende effect van verstedelijking op temperatuurmetingen.",
+      hit: function (t) { return /\bUHI\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "FACA",
+      text: "Federal Advisory Committee Act: de Amerikaanse wet op openbaarheid en een evenwichtige samenstelling van adviescommissies.",
+      hit: function (t) { return /\bFACA\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T1.1",
+      text: "Klimaatcritici-claim: de ECS ligt aan de onderkant van het IPCC-bereik (ongeveer 1,5–2,5 °C). Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT1\.1\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T1.2",
+      text: "Klimaatcritici-claim: de ECS is ongeveer 1 °C of lager door een negatieve wolkenterugkoppeling (iris). Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT1\.2\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T1.3",
+      text: "Klimaatcritici-claim: wolken werken als thermostaat; het CO₂-effect wordt sterk overdreven (Clauser). Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT1\.3\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T2.1",
+      text: "Klimaatcritici-claim: modellen overschatten de opwarming van de tropische hogere troposfeer. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT2\.1\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T2.2",
+      text: "Klimaatcritici-claim: CMIP6 bevat te veel hete modellen met een te hoge ECS. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT2\.2\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T2.3",
+      text: "Klimaatcritici-claim: klimaatmodellen falen, dus projecties zijn onbruikbaar voor beleid. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT2\.3\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T2.4",
+      text: "Klimaatcritici-claim: landtemperatuurreeksen zijn vertekend door verstedelijking (UHI). Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT2\.4\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T2.5",
+      text: "Klimaatcritici-claim: stratosferische opwarming sinds 2000 zou in strijd zijn met de menselijke vingerafdruk (DOE-rapport). Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT2\.5\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T3.1",
+      text: "Klimaatcritici-claim: met een andere TSI-reconstructie verklaart de zon een groot deel van de recente opwarming. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT3\.1\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T3.2",
+      text: "Klimaatcritici-claim: kosmische straling beïnvloedt de bewolking en daarmee het klimaat merkbaar. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT3\.2\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T3.3",
+      text: "Klimaatcritici-claim: op geologische tijdschalen stuurt kosmische straling het klimaat meer dan CO₂. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT3\.3\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T4.1",
+      text: "Klimaatcritici-claim: genormaliseerde rampschade laat geen klimaatsignaal zien. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT4\.1\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T4.2",
+      text: "Klimaatcritici-claim: voor de meeste typen extreem weer is nog geen trend te detecteren. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT4\.2\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T4.3",
+      text: "Klimaatcritici-claim: de sterfte door weerrampen is sterk gedaald. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT4\.3\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T4.4",
+      text: "Klimaatcritici-claim: snelle attributie van afzonderlijke weersgebeurtenissen is methodologisch zwak. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT4\.4\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T4.5",
+      text: "Klimaatcritici-claim: klimaatverandering veroorzaakt geen extreem weer (Clauser). Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT4\.5\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T5.1",
+      text: "Klimaatcritici-claim: het CO₂-effect is verzadigd; extra CO₂ heeft nauwelijks effect. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT5\.1\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T5.2",
+      text: "Klimaatcritici-claim: meer CO₂ maakt de aarde groener. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT5\.2\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T5.3",
+      text: "Klimaatcritici-claim: CO₂ is geen verontreiniging; meer CO₂ is per saldo gunstig. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT5\.3\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T5.4",
+      text: "Klimaatcritici-claim: CO₂ volgt de temperatuur in ijskernen, dus zou het geen oorzaak zijn. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT5\.4\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T6.1",
+      text: "Klimaatcritici-claim: de klimaatschade is beperkt (ongeveer 3,6% bbp in 2100 zonder beleid, Lomborg). Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT6\.1\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T6.2",
+      text: "Klimaatcritici-claim: netto-nul-beleid kost meer dan het oplevert; innovatie en adaptatie zijn efficiënter. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT6\.2\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T6.3",
+      text: "Klimaatcritici-claim: RCP8.5 is onwaarschijnlijk en wordt ten onrechte als business as usual gebruikt. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT6\.3\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T6.4",
+      text: "Klimaatcritici-claim: betaalbare energie is voor ontwikkelingslanden belangrijker dan emissiereductie. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT6\.4\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T7.1",
+      text: "Klimaatcritici-claim: de 97%-consensus meet alleen de menselijke oorzaak, niet de ernst. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT7\.1\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T7.2",
+      text: "Klimaatcritici-claim: afwijkende wetenschappers worden belemmerd in financiering, publicatie en podium. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT7\.2\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T7.3",
+      text: "Klimaatcritici-claim: IPCC-samenvattingen zijn politiek onderhandeld en selectiever dan de hoofdstukken. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT7\.3\b/.test(t); }
+    },
+    {
+      keys: { klimaatcritici: 1 },
+      term: "T7.4",
+      text: "Klimaatcritici-claim: een red team of tegenrapport (zoals het DOE-rapport) verbetert de klimaatwetenschap. Uit het claimregister van de nulmeting (9 november 2026).",
+      hit: function (t) { return /\bT7\.4\b/.test(t); }
     },
 
     {

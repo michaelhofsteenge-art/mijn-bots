@@ -45,13 +45,13 @@ function logicTests() {
   assert.ok(app.indexOf("onderzoek-guest-order") > 0);
   assert.ok(app.indexOf("onderzoek-guest-hidden") > 0);
   assert.ok(app.indexOf('APP === "onderzoek"') > 0);
-  ["v53", "v32", "v34"].forEach(function (v, i) {
+  ["v54", "v33", "v35"].forEach(function (v, i) {
     var file = ["sw.js", "onderzoek/sw.js", "acties/sw.js"][i];
     assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf('VERSION = "' + v + '"') > 0, file);
   });
   ["index.html", "onderzoek/index.html", "acties/index.html"].forEach(function (file) {
-    assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf("20261109a") > 0, file);
-    assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf("20261108d") < 0, file);
+    assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf("20261109b") > 0, file);
+    assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf("20261109a") < 0, file);
   });
   console.log("order logic: ok");
 }

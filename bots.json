@@ -88,6 +88,14 @@
     "subtitle": "Clintel: claims, peer review & toetsing"
   },
   {
+    "id": "ac314622-32e8-4b3b-af48-8e23255d0d84",
+    "key": "klimaatcritici",
+    "name": "Klimaat Kritisch Onderzoek – Klimaatcritici",
+    "emoji": "🌡️",
+    "color": "#196F3D",
+    "subtitle": "Tien critici: claims, reacties & toetsing"
+  },
+  {
     "id": "tcs-research",
     "key": "tcs",
     "name": "TCS Onderzoek",
