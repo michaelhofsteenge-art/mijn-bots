@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-09T21:25:12+01:00",
+  "generated_at": "2026-11-10T08:04:53+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-11-10T08:00+01:00",
+          "markdown": "**Actie nodig**\n\n**Deze week**\n- Saskia van Nellen (Outlook): za 14 nov Verwevingslijn SZ1B: thuisopdracht 'De roep verstaan' en knutselspullen meenemen, mijmeren over thema 'mens, natuur en kosmos' [id:avgu-verwevingslijn-14nov]\n\n**Wanneer het uitkomt**\n- Lizette Hofsteenge (Outlook): Familieopstelling ma 25 jan 2027, 9.30-17.00 in Dieren in de agenda zetten [id:familieopstelling-25jan]\n\n**Voor Quinten**\n- Uyên / YOEP (Gmail Quinten): documenten aanleveren voor YOEP-dossier, deadline 1 okt verstreken; nagaan of Quinten dit gedaan heeft [id:yoep-quinten]"
+        },
+        {
           "date": "2026-11-09T17:00+01:00",
           "markdown": "**Actie nodig**\n\n- Uyên Hérault-Huynh / YOEP (Gmail (Quinten)): YOEP vraagt documenten aan te leveren voor zijn dossier (wachtlijst hulpverlening); deadline 1 okt verstreken, mail nog ongelezen. Nagaan of Quinten dit gedaan heeft (deadline 2026-10-01) [id:yoep-quinten]\n- Lizette Hofsteenge (Outlook): Familieopstelling ma 25 jan 2027, 9.30-17.00 in Dieren (De Dierense Sjoel, Spoorstraat 34): in de agenda zetten; lunch zelf regelen; bijlage met info over de dag (deadline 2027-01-25) [id:familieopstelling-25jan]\n- Erik Hessel, secretaris Loge De Stichtse Broederschap (Outlook): Concept notulen ALV 27 okt 2026 doorlezen en op- en aanmerkingen schriftelijk terugsturen aan secretaris Erik Hessel (ook definitieve notulen 28 april en schema van aftreden per 1 jan 2027 ontvangen) [id:dsb-notulen-alv-okt]\n- Saskia van Nellen (AVGU) (Outlook): AVGU Verwevingslijn SZ1B za 14 nov (10:30-13:00 en 14:00-16:30): thuisopdracht 'De roep verstaan' meenemen, mijmeren over wat je tegenkomt en noteren wat je meeneemt rond 'mens, natuur en kosmos'; creatief materiaal (post-its, potloden, stiften, plakband, lijm, wit papier) meenemen (deadline 2026-11-14) [id:avgu-verwevingslijn-14nov]\n- Rooster (Anne en Rinske) / Hospitium Vleuten (Outlook): Beschikbaarheid voor januari opgeven via ons.rooster.nl of de Mijn Inplanning-app, uiterlijk woensdag 25 november (deadline 2026-11-25) [id:hospitium-beschikbaarheid-jan]"
         },
         {
           "date": "2026-11-09T08:00+01:00",
           "markdown": "**Actie nodig**\n\n**Wanneer het uitkomt**\n- Lizette Hofsteenge (Outlook): Familieopstelling ma 25 jan 2027, 9.30-17.00 in Dieren (De Dierense Sjoel, Spoorstraat 34) in de agenda zetten (nieuw) [id:familieopstelling-25jan]\n\n**Voor Quinten**\n- Uyên / YOEP (Gmail Quinten): documenten aanleveren voor YOEP-dossier, deadline 1 okt verstreken; nagaan of Quinten dit gedaan heeft [id:yoep-quinten]"
-        },
-        {
-          "date": "2026-11-08T17:00+01:00",
-          "markdown": "**Actie nodig**\n- Uyên Hérault-Huynh / YOEP (Gmail Quinten): Quinten: YOEP-documenten/gegevens aanleveren via beveiligde link (wachtlijst hulpverlening; deadline 1 okt verstreken; nagaan of Quinten dit gedaan heeft) [id:yoep-quinten]"
         }
       ]
     },
