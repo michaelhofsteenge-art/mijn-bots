@@ -85,7 +85,8 @@
     "text": "bloemen papa",
     "due": "2026-11-06T09:00",
     "created": "2026-11-02T23:18:39",
-    "status": "herinnerd",
-    "remindedAt": "2026-11-06T09:15:42"
+    "status": "afgerond",
+    "remindedAt": "2026-11-06T09:15:42",
+    "doneAt": "2026-11-12T16:56:38"
   }
 ]
