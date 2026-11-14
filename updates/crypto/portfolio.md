@@ -1,6 +1,6 @@
 # Portfolio Crypto Adviseur
 
-Laatst bijgewerkt: 2026-11-13 16:37 CET (BTC €61.806,60, onder alertgrens €62.000)
+Laatst bijgewerkt: 2026-11-14 08:10 CET (BTC €61.139, onder alertgrens €62.000)
 
 ## Openstaand (bewust vastgehouden, lange termijn)
 - **BTC:** ~0,1199 BTC, gem. aankoop ~€59.726, piek €77.520,90

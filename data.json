@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-14T08:07:10+01:00",
+  "generated_at": "2026-11-14T08:10:32+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -76,16 +76,16 @@
       "subtitle": "Crypto-markt & advies",
       "updates": [
         {
+          "date": "2026-11-14T08:10+01:00",
+          "markdown": "# ⚠️ BTC onder €62.000 (11-14 08:10 CET)\n\n**Actie:** niets doen is prima; geen verplichte actie. Je houdt bewust vast.\n\n- BTC nu **€61.139** (24u hoog €63.438 / laag €60.323), ca. 21% onder de piek van €77.520,90. Daling in 24u ~1,3% t.o.v. open: geen 12%-crash.\n- Positie ~0,1199 BTC ≈ €7.330 (gem. aankoop €59.726, nog ca. +2,4%).\n\n**Scenario's**\n1. Vasthouden (past bij je hodl-plan): geen actie.\n2. Deel verkopen (bijv. 15% ≈ 0,018 BTC ≈ €1.100): alleen als je risico wilt beperken; je zit net boven je instap.\n3. Bijkopen: staffelen, bijv. €250–500 per stap, pas bij stabilisatie boven ~€60.300 (24u-laagste).\n\nContext/nieuws niet onderzocht. Ik handel nooit zelf; orders plaats jij.\n\n## Openstaand\n- BTC ~0,1199 (gem. €59.726)\n- XRP ~582,27 (gem. €0,7424, geen meldingen)"
+        },
+        {
           "date": "2026-11-13T16:37+01:00",
           "markdown": "# BTC-alert: onder €62.000\n\n**Actie nu: niets verplicht. Advies is vasthouden; bijkopen alleen in kleine stukjes.**\n\nBTC staat op €61.806,60 (Kraken), net onder je grens van €62.000. In 24 uur is dat ongeveer 5,3% omlaag (24u-hoog €65.241, laag €61.115,20), dus geen 12%-crash. Het is ruim 20% onder de piek van €77.520,90. Oorzaak heb ik niet gecheckt.\n\nScenario's:\n- **Vasthouden (mijn advies):** je bent hodler, je gemiddelde aankoop is €59.726 en je zit nog ongeveer 3,5% in de plus.\n- **Deel verkopen:** alleen als je risico wilt verkleinen. 20% is ~0,024 BTC, ongeveer €1.480.\n- **Bijkopen:** bijvoorbeeld ~€500 (~0,008 BTC) nu en een tweede stuk als de prijs richting €58.000 zakt. Niet alles in één keer.\n\nEr wordt niets automatisch gedaan; orders plaats je zelf.\n\n## Wat openstaat\n- BTC: ~0,1199 BTC, gem. ~€59.726, waarde ~€7.410\n- XRP: ~582,27 XRP, gem. ~€0,7424 (geen meldingen)\n- Alerts alleen bij BTC onder €62.000 / -12% in 24u, of boven €95.000 / +20% in een week"
         },
         {
           "date": "2026-10-11T12:47+02:00",
           "markdown": "Je houdt BTC en XRP allebei bewust vast. Er zijn geen trailing stops meer en geen XRP-meldingen.\n\nJe krijgt alleen nog een melding als:\n- **BTC echt instort:** onder €62.000, of 12% of meer daling binnen 24 uur.\n- **BTC een extreme piek bereikt:** boven €95.000, of 20% of meer stijging binnen een week naar een nieuw record. Dan raad ik aan een deel (15–25%) te verkopen.\n\n**Openstaand**\n- **BTC:** ~0,1199 (gem. ~€59.726), nu ~€74.050\n- **XRP:** ~582,27 (gem. ~€0,7424), nu ~€1,24"
-        },
-        {
-          "date": "2026-10-08T08:03+02:00",
-          "markdown": "# SPOED XRP: verder gezakt, onder €1,25 (08-10-2026 08:03)\n\n**Actie: verkoop de rest van je XRP, ongeveer 582,27 XRP, op Coinmerce.** Houd de opbrengst (nu zo'n €728) als cash apart voor een herinstap.\n\nXRP is vannacht verder gezakt, duidelijk onder je trailing stop van €1,276 (88% van de piek €1,45) en ook onder de ondergrens van ~€1,25 die ik gisteren noemde. Op Kraken lag de laagste koers rond 06:15 op €1,2396 en de koers staat nu rond €1,250. Dat is ruim 2% onder de stop en de daling zet sinds gisteravond door.\n\nScenario's:\n- **Verkopen (advies):** verkoop 582,27 XRP rond €1,24–1,25. Ten opzichte van je gemiddelde aankoop van ~€0,7424 zit je dan nog ongeveer €295 in de plus op deze rest.\n- **Bewust vasthouden:** alleen als je echt bewust kiest voor de lange termijn. Laat het me dan weten, dan stop ik met deze meldingen en stellen we een nieuwe, lagere ondergrens af (bijvoorbeeld rond €1,15).\n- **Herinstap na verkoop:** pas overwegen bij een duidelijke dip richting je gemiddelde aankoop (~€0,742), of als XRP zich weer stevig boven ~€1,35 herstelt.\n\nBTC zakt mee maar is nog veilig: rond €73.870, ongeveer 5,9% boven de stop van €69.768,81. Daar hoef je nu niets te doen.\n\nLaat me weten of je verkocht hebt, of dat je bewust vasthoudt.\n\n## Openstaand\n- **BTC:** ~0,1199 BTC (gem. ~€59.726), piek €77.520,90, stop €69.768,81, koers ~€73.870. Vasthouden.\n- **XRP:** ~582,27 XRP (gem. ~€0,7424), piek €1,45000, stop €1,276, koers ~€1,250. **Verkoop rest geadviseerd.**\n- Geen automatische orders: jij handelt zelf op Coinmerce."
         }
       ]
     },
