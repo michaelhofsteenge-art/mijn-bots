@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T21:10:04+01:00",
+  "generated_at": "2026-11-14T08:07:10+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-11-14T08:00+01:00",
+          "markdown": "**Actie nodig**\n\n**Deze week**\n- Justis (Outlook): VOG-aanvraag in behandeling, uitslag binnen 1-4 weken; na 6 weken contact opnemen [id:vog-justis-aanvraag]\n\n**Wanneer het uitkomt**\n- Lizette Hofsteenge / IVSW (Outlook): Familieopstelling ma 25 jan 2027 in Dieren in de agenda zetten [id:familieopstelling-25jan]"
+        },
+        {
           "date": "2026-11-12T17:00+01:00",
           "markdown": "**Actie nodig**\n\n- Justis / Johannes Hospitium Vleuten (Outlook): VOG-aanvraag afronden via mijn.justis.nl met DigiD, code 3Zpz265B, uiterlijk ca. 10 dec [id:vog-justis-aanvraag]\n- Lizette Hofsteenge / IVSW (Outlook): Familieopstelling ma 25 jan 2027 in Dieren in agenda zetten [id:familieopstelling-25jan]\n- ANWB (Outlook): optioneel inloggen bij Mijn ANWB, anders account verwijderd over twee weken [id:anwb-account-verwijderd]\n- Annika Lekkerkerker (Outlook): factuur 0031-2026 controleren en betalen [id:factuur-autismecoach-0031]"
         },
         {
           "date": "2026-11-12T08:00+01:00",
           "markdown": "**Actie nodig**\n\n**Deze week**\n- Justis / Johannes Hospitium Vleuten (Outlook): VOG-aanvraag afronden via mijn.justis.nl met DigiD en aanvraagcode 3Zpz265B (geldig tot ca. 10 dec) [id:vog-justis-aanvraag]\n- Lizette Hofsteenge / IVSW (Outlook): Familieopstelling ma 25 jan 2027, 9.30-17.00 in Dieren in de agenda zetten [id:familieopstelling-25jan]"
-        },
-        {
-          "date": "2026-11-11T17:00+01:00",
-          "markdown": "**Actie nodig**\n\n- Justis / Johannes Hospitium Vleuten (Outlook): VOG-aanvraag afronden via mijn.justis.nl met DigiD, code 3Zpz265B, geldig tot ca. 10 dec [id:vog-justis-aanvraag]\n- Lizette Hofsteenge / IVSW (Outlook): Familieopstelling ma 25 jan 2027 in Dieren in de agenda zetten [id:familieopstelling-25jan]\n- Uyên Hérault-Huynh / YOEP (Gmail, Quinten): nagaan of Quinten de documenten heeft aangeleverd, deadline 1 okt verstreken [id:yoep-quinten]"
         }
       ]
     },
