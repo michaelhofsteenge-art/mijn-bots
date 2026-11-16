@@ -13,7 +13,7 @@
   var KLIMAAT_BOT_ID = "80ec10c0-457b-46f7-b152-23e19cba262a";
   var NO_ACTION_RE = /geen\s+actie|niets\s+te\s+doen|geen\s+mails?|stil|geen\s+reactie\s+nodig/i;
   var REFRESH_MS = 60000;
-  // ---- app-split: één codebase, twee apps (acties/ en onderzoek/); root = keuzescherm ----
+  // ---- app-split: één codebase, twee bot-apps (acties/ en onderzoek/); root = keuzescherm, plus energieprijs/ ----
   var APP = window.APP_VARIANT || "root";           // "acties" | "onderzoek" | "root"
   var APP_BASE = window.APP_BASE || "";              // pad naar de gedeelde bestanden ("../" in submappen)
   var ACTIES_KEYS = ["email", "gv", "crypto"];       // + Herinneringen; al het andere = Onderzoek
@@ -1579,12 +1579,13 @@
         '<span class="bot-sub">' + esc(sub) + '</span><span class="bot-date">' + esc(list) + "</span></span>" +
         '<span class="bot-chev" aria-hidden="true">›</span></a>';
     }
-    return '<p class="launch-intro">Mijn Bots is opgesplitst in twee apps. Kies er één (en zet hem eventueel op je beginscherm):</p>' +
+    return '<p class="launch-intro">Kies een app (en zet hem eventueel op je beginscherm):</p>' +
       btn("acties", "#C2410C", "✅", "Akties Michael", "Mails, herinneringen, vacatures & crypto",
         acties.sort(function (a, b) { return ACTIES_KEYS.indexOf(a.key) - ACTIES_KEYS.indexOf(b.key); })
           .map(function (b) { return b.name; }).reduce(function (o, n, i) { return i === 0 ? [n, "Herinneringen"] : o.concat([n]); }, []).join(" · "), needs) +
       btn("onderzoek", "#1F6FB2", "🔬", "Onderzoek", "Alle onderzoeks- en nieuwsbots",
-        onderzoek.map(function (b) { return b.name; }).join(" · "), false);
+        onderzoek.map(function (b) { return b.name; }).join(" · "), false) +
+      btn("energieprijs", "#0F766E", "⚡", "Energieprijs", "Stroomprijs nu, vandaag en morgen", "Dynamische prijs Nederland", false);
   }
   function botBtnHtml(b) {
     return (function (b) {

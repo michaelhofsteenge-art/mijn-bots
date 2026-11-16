@@ -45,12 +45,12 @@ function logicTests() {
   assert.ok(app.indexOf("onderzoek-guest-order") > 0);
   assert.ok(app.indexOf("onderzoek-guest-hidden") > 0);
   assert.ok(app.indexOf('APP === "onderzoek"') > 0);
-  ["v55", "v34", "v36"].forEach(function (v, i) {
+  ["v56", "v35", "v37"].forEach(function (v, i) {
     var file = ["sw.js", "onderzoek/sw.js", "acties/sw.js"][i];
     assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf('VERSION = "' + v + '"') > 0, file);
   });
   ["index.html", "onderzoek/index.html", "acties/index.html"].forEach(function (file) {
-    assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf("20261109c") > 0, file);
+    assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf("20261116a") > 0, file);
     assert.ok(fs.readFileSync(path.join(ROOT, file), "utf8").indexOf("20261109b") < 0, file);
   });
   console.log("order logic: ok");
@@ -431,7 +431,8 @@ async function shot(page, name) {
     await root.waitForFunction(function () { return document.body.innerText.indexOf("Akties Michael") >= 0; });
     assert.strictEqual(await root.$("#orderBtn"), null);
     assert.strictEqual(await root.$("#guestSuggest"), null);
-    assert.strictEqual(await root.$$eval("a.launch-btn", function (els) { return els.length; }), 2);
+    assert.strictEqual(await root.$$eval("a.launch-btn", function (els) { return els.length; }), 3);
+    assert.ok((await root.evaluate(function () { return document.body.innerText; })).indexOf("Energieprijs") >= 0);
     await root.close();
 
     console.log("OK volgorde en gastmodus, screenshots in " + SHOTS);

@@ -1,4 +1,5 @@
-"""Iconen voor de twee apps: Acties (oranje, vinkje) en Onderzoek (blauw, vergrootglas)."""
+"""Iconen voor de apps: Acties (oranje, vinkje), Onderzoek (blauw, vergrootglas) en Energieprijs (groen, bliksem)."""
+import sys
 from PIL import Image, ImageDraw
 def hex2rgb(h): return tuple(int(h[i:i+2], 16) for i in (1, 3, 5))
 def icon(size, top, bot, glyph, pad=0.0):
@@ -13,13 +14,17 @@ def icon(size, top, bot, glyph, pad=0.0):
         d.line([P(.24, .52), P(.42, .70), P(.77, .31)], fill="white", width=w, joint="curve")
         for x, y in [(.24, .52), (.77, .31)]:
             cx, cy = P(x, y); d.ellipse([cx - w/2, cy - w/2, cx + w/2, cy + w/2], fill="white")
+    elif glyph == "bolt":
+        d.polygon([P(x, y) for x, y in [(.56, .10), (.30, .54), (.48, .54), (.36, .90), (.74, .42), (.54, .42)]], fill="white")
     else:
         cx, cy = P(.43, .43); r = S * k * .22
         d.ellipse([cx - r, cy - r, cx + r, cy + r], outline="white", width=w)
         d.line([P(.59, .59), P(.78, .78)], fill="white", width=int(w * 1.25))
         ex, ey = P(.78, .78); q = w * .62; d.ellipse([ex - q, ey - q, ex + q, ey + q], fill="white")
     return img.resize((size, size), Image.LANCZOS)
-for app, top, bot, g in [("acties", "#F59E0B", "#C2410C", "check"), ("onderzoek", "#38BDF8", "#1E40AF", "glass")]:
+only = set(sys.argv[1:])
+for app, top, bot, g in [("acties", "#F59E0B", "#C2410C", "check"), ("onderzoek", "#38BDF8", "#1E40AF", "glass"), ("energieprijs", "#FDE047", "#0F766E", "bolt")]:
+    if only and app not in only: continue
     icon(180, top, bot, g).save(f"{app}/icons/apple-touch-icon.png")
     icon(192, top, bot, g).save(f"{app}/icons/icon-192.png")
     icon(512, top, bot, g).save(f"{app}/icons/icon-512.png")
