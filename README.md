@@ -57,12 +57,13 @@ Daarna: `./publish.sh` (of commit + push naar `main`).
 - **Chrome-tab:** open de URL gewoon; alles werkt (PIN, updates, pull-to-refresh / ↻).
 - **Beginscherm-icoon:** open in **Safari** → Deel → **Zet op beginscherm** → Voeg toe.
 
-## Twee apps (sinds 19-10-2026)
+## Apps (keuzescherm op de root)
 - `acties/` = **App Acties Michael** (Email Reageren, Herinneringen, GV-vacatures, Crypto Adviseur)
 - `onderzoek/` = **App Onderzoek** (alle andere bots, ook nieuwe bots uit bots.json)
-- Root `./` = keuzescherm met twee knoppen; oude deep links (`#/bot/<id>`) sturen door naar de juiste app.
+- `energieprijs/` = **Energieprijs** (actuele day-ahead stroomprijs Nederland, los van de bots en zonder pincode)
+- Root `./` = keuzescherm; oude deep links (`#/bot/<id>`) sturen door naar de juiste bot-app.
 - Eén codebase: `acties/index.html` en `onderzoek/index.html` zetten `APP_VARIANT` en laden `../app.js`; de indeling staat in `ACTIES_KEYS` in app.js.
-- Eigen manifest, iconen (`make_app_icons.py`) en service worker per app. **Na een wijziging aan app.js/style.css/md.js: verhoog VERSION in alle drie sw.js-bestanden en `?v=` in de drie index.html.**
+- Eigen manifest, iconen (`make_app_icons.py`) en service worker per app. **Na een wijziging aan app.js/style.css/md.js: verhoog VERSION in sw.js, onderzoek/sw.js en acties/sw.js, en `?v=` in de drie index.html.** Energieprijs heeft een eigen `sw.js` en eigen `?v=`.
 
 ## AI-weekupdate (Onderzoek)
 Bot **AI** (key `airesearch`) staat in App Onderzoek. Blockchain blijft de bestaande bot. Het weekrapport komt uit `/workspace/ai-research/report-YYYY-MM-DD.md` en wordt door `publish.sh` naar `updates/airesearch/` gekopieerd. Vorm, datumregel en de eerste historische editie (periode t/m 1 november 2026): `update_data.md`. Die editie zit in deze branch ter controle; `publish.sh` pusht naar `main` en wordt pas gedraaid na aparte toestemming.
