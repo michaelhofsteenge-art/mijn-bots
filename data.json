@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-17T21:27:38+01:00",
+  "generated_at": "2026-11-18T08:05:37+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-11-18T08:00+01:00",
+          "markdown": "**Actie nodig**\n\n**Deze week**\n- Nationale-Nederlanden (Outlook): nieuwe zorgpremie/polis 2027 bekijken en eventueel aanpassen voor 31 dec [id:nn-zorgpremie-2027]\n\n**Wanneer het uitkomt**\n- Lizette Hofsteenge / IVSW (Outlook): familieopstelling ma 25 jan 2027, 9.30-17.00 Dieren, in agenda zetten [id:familieopstelling-25jan]"
+        },
+        {
           "date": "2026-11-17T08:00+01:00",
           "markdown": "**Actie nodig**\n\n**Deze week**\n- Justis (Outlook): VOG-aanvraag in behandeling, uitslag binnen 1-4 weken; geen bericht na 6 weken → contact opnemen [id:vog-justis-aanvraag]\n\n**Wanneer het uitkomt**\n- Lizette Hofsteenge / IVSW (Outlook): Familieopstelling ma 25 jan 2027 in Dieren in agenda zetten [id:familieopstelling-25jan]"
         },
         {
           "date": "2026-11-16T17:00+01:00",
           "markdown": "**Actie nodig**\n\n- Justis (Outlook): VOG-aanvraag in behandeling; uitslag binnen 1-4 weken, na 6 weken contact opnemen [id:vog-justis-aanvraag]\n- Lizette Hofsteenge / IVSW (Outlook): familieopstelling ma 25 jan 2027 in Dieren in de agenda zetten [id:familieopstelling-25jan]"
-        },
-        {
-          "date": "2026-11-16T08:00+01:00",
-          "markdown": "**Actie nodig**\n\n**Vandaag / Deze week**\n- Zonneplan (Outlook): adviesgesprek di 17 nov 14:30-15:00 in de agenda zetten (nieuw) [id:zonneplan-adviesgesprek-17nov]\n- Justis (Outlook): VOG-aanvraag in behandeling; uitslag binnen 1-4 weken, na 6 weken contact opnemen [id:vog-justis-aanvraag]\n\n**Wanneer het uitkomt**\n- Lizette Hofsteenge / IVSW (Outlook): familieopstelling ma 25 jan 2027 in Dieren in de agenda zetten [id:familieopstelling-25jan]"
         }
       ]
     },
