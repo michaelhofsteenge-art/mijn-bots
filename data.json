@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-19T21:33:07+01:00",
+  "generated_at": "2026-11-20T08:07:26+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-11-20T08:00+01:00",
+          "markdown": "**Actie nodig**\n\n**Deze week**\n- Feenstra (Outlook): onderhoudsafspraak cv-ketel do 14 jan 2027 (07:30-10:00) bevestigen of wijzigen via Mijn Feenstra, vastgehouden tot ca. 3 dec [id:feenstra-onderhoud-14jan]\n\n**Wanneer het uitkomt**\n- Lizette Hofsteenge / IVSW (Outlook): Familieopstelling ma 25 jan 2027, 9.30-17.00 in Dieren in de agenda zetten [id:familieopstelling-25jan]\n\n**Voor Quinten**\n- YOEP (Gmail Quinten): intakegesprek 14 dec 2026 09:30 in Woerden in de agenda zetten, geldig legitimatiebewijs meenemen [id:yoep-quinten]"
+        },
+        {
           "date": "2026-11-19T17:00+01:00",
           "markdown": "**Actie nodig**\n- Feenstra (Outlook): cv-onderhoud do 14 jan 2027 07:30-10:00 bevestigen/wijzigen via Mijn Feenstra, uiterlijk 3 dec [id:feenstra-onderhoud-14jan]\n- Lizette Hofsteenge / IVSW (Outlook): Familieopstelling ma 25 jan 2027 in Dieren in agenda zetten [id:familieopstelling-25jan]\n- Uyên (fw YOEP) (Gmail Quinten): intakegesprek YOEP Woerden 14 dec 2026 09:30 in agenda, legitimatie meenemen [id:yoep-quinten]"
         },
         {
           "date": "2026-11-19T08:00+01:00",
           "markdown": "**Actie nodig**\n\n- Feenstra (Outlook): cv-onderhoud do 14 jan 2027 bevestigen via Mijn Feenstra (nieuw) [id:feenstra-onderhoud-14jan]\n- Lizette Hofsteenge / IVSW (Outlook): Familieopstelling 25 jan 2027 in agenda [id:familieopstelling-25jan]\n- YOEP via Uyên (Gmail Quinten): intake 14 dec 09:30 Woerden, ID meenemen [id:yoep-quinten]"
-        },
-        {
-          "date": "2026-11-18T17:00+01:00",
-          "markdown": "**Actie nodig**\n\n- Lizette Hofsteenge / IVSW (Outlook): Familieopstelling ma 25 jan 2027 in de agenda zetten [id:familieopstelling-25jan]\n- Nationale-Nederlanden (Outlook): nieuwe zorgpremie 2027 bekijken, uiterlijk 31 dec [id:nn-zorgpremie-2027]"
         }
       ]
     },
