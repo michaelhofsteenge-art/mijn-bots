@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20T21:25:31+01:00",
+  "generated_at": "2026-11-21T08:06:53+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-11-21T08:00+01:00",
+          "markdown": "**Actie nodig**\n\n**Deze week**\n- Meindert Hart (Outlook): laten weten of je dinsdag 24 nov meedoet aan Stalen Gewelf, oefenen 19:00 [id:stalen-gewelf-dinsdag] (nieuw)\n- Antonius Ziekenhuis (Outlook): nieuwe brief in Mijn Antonius lezen (DigiD) [id:antonius-brief-mijn-antonius] (nieuw)\n- Feenstra (Outlook): cv-onderhoud 14 jan 2027 bevestigen via Mijn Feenstra, uiterlijk ca. 3 dec [id:feenstra-onderhoud-14jan] (nieuw)\n\n**Voor Quinten**\n- YOEP (Gmail Quinten): intakegesprek ma 14 dec 09:30 Woerden, legitimatie meenemen [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Lizette Hofsteenge (Outlook): agenda familieopstelling ma 25 jan 2027 Dieren [id:familieopstelling-25jan]"
+        },
+        {
           "date": "2026-11-20T17:00+01:00",
           "markdown": "**Actie nodig**\n\n- Feenstra (Outlook): actie Onderhoudsafspraak cv-ketel do 14 jan 2027 (07:30-10:00, Vleuten) bevestigen of wijzigen via Mijn Feenstra; afspraak wordt 14 dagen vastgehouden (deadline 2026-12-03) [id:feenstra-onderhoud-14jan]\n- Lizette Hofsteenge / IVSW (Outlook): actie Familieopstelling ma 25 jan 2027, 9.30-17.00 in Dieren (De Dierense Sjoel, Spoorstraat 34) in de agenda zetten; je bent door Lizette ingeschreven, factuur gaat naar haar (deadline 2027-01-25) [id:familieopstelling-25jan]\n- Uyên Hérault-Huynh (fw YOEP) (Gmail (Quinten)): actie Intakegesprek YOEP Woerden (Houttuinlaan 4) op 14 dec 2026 09:30 in de agenda zetten; geldig legitimatiebewijs meenemen, tijdig afzeggen anders kosten (deadline 2026-12-14) [id:yoep-quinten]\n- Rooster Hospitium Vleuten (Outlook): actie Beschikbaarheid voor januari 2027 opgeven via ons.rooster.nl of de Inplanning-app, uiterlijk woensdag 25 nov (deadline 2026-11-25) [id:hospitium-beschikbaarheid-jan]\n- Antonius Ziekenhuis (Outlook): actie Nieuwe brief lezen in Mijn Antonius (inloggen met DigiD) [id:antonius-nieuwe-brief]\n- Meindert Hart (met Alexander de Koning) (Outlook): actie Meindert Hart vraagt of je dinsdag 24 nov (oefenen 19:00 in de Werkplaats) het Stalen Gewelf wilt vormen bij inwijding; antwoord of je aanwezig bent en meedoet (deadline 2026-11-24) [id:stalen-gewelf-dinsdag]"
         },
         {
           "date": "2026-11-20T08:00+01:00",
           "markdown": "**Actie nodig**\n\n**Deze week**\n- Feenstra (Outlook): onderhoudsafspraak cv-ketel do 14 jan 2027 (07:30-10:00) bevestigen of wijzigen via Mijn Feenstra, vastgehouden tot ca. 3 dec [id:feenstra-onderhoud-14jan]\n\n**Wanneer het uitkomt**\n- Lizette Hofsteenge / IVSW (Outlook): Familieopstelling ma 25 jan 2027, 9.30-17.00 in Dieren in de agenda zetten [id:familieopstelling-25jan]\n\n**Voor Quinten**\n- YOEP (Gmail Quinten): intakegesprek 14 dec 2026 09:30 in Woerden in de agenda zetten, geldig legitimatiebewijs meenemen [id:yoep-quinten]"
-        },
-        {
-          "date": "2026-11-19T17:00+01:00",
-          "markdown": "**Actie nodig**\n- Feenstra (Outlook): cv-onderhoud do 14 jan 2027 07:30-10:00 bevestigen/wijzigen via Mijn Feenstra, uiterlijk 3 dec [id:feenstra-onderhoud-14jan]\n- Lizette Hofsteenge / IVSW (Outlook): Familieopstelling ma 25 jan 2027 in Dieren in agenda zetten [id:familieopstelling-25jan]\n- Uyên (fw YOEP) (Gmail Quinten): intakegesprek YOEP Woerden 14 dec 2026 09:30 in agenda, legitimatie meenemen [id:yoep-quinten]"
         }
       ]
     },
