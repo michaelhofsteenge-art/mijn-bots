@@ -3,13 +3,21 @@
 set -euo pipefail
 cd /workspace/bots-app
 # GV-bot schrijft zijn dagrapport naar /workspace/gv-vacatures-<datum>.md
-for f in /workspace/gv-vacatures-*.md; do
+# De datum komt uit de bestandsnaam (niet uit de mtime: die kan voor oude bestanden
+# gelijk worden gezet, zoals op 16-11). Een al gepubliceerd rapport blijft staan,
+# tenzij de GV-bot het op die dag zelf heeft herschreven (mtime-dag = rapportdag).
+for f in /workspace/gv-vacatures-20[0-9][0-9]-[0-9][0-9]-[0-9][0-9].md; do
   [ -e "$f" ] || continue
-  d=$(date -r "$f" +%Y-%m-%dT%H-%M)
-  [ -e "updates/gv/$d.md" ] && continue
-  # één GV-rapport per dag: vervang een oudere versie van dezelfde dag
-  rm -f updates/gv/"${d%%T*}"T*.md
-  cp "$f" "updates/gv/$d.md"
+  day=$(basename "$f" .md); day=${day#gv-vacatures-}
+  mday=$(date -r "$f" +%Y-%m-%d)
+  old=$(ls updates/gv/"$day"T*.md 2>/dev/null | tail -n 1 || true)
+  if [ -n "$old" ]; then
+    cmp -s "$f" "$old" && continue
+    [ "$mday" = "$day" ] && [ "$f" -nt "$old" ] || continue
+  fi
+  if [ "$mday" = "$day" ]; then d="${day}T$(date -r "$f" +%H-%M)"; else d="${day}T09-00"; fi
+  rm -f updates/gv/"$day"T*.md
+  cp -p "$f" "updates/gv/$d.md"
 done
 # Parkinson-, Covid-, Covid kritisch-, GV-research-, AI- en Klimaatcritici-bot schrijven wekelijks report-<datum>.md
 # AI: /workspace/ai-research  ·  GV Research: /workspace/gv-research  ·  overige: /workspace/<key>
