@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T12:27:46+01:00",
+  "generated_at": "2026-11-24T13:32:15+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -442,8 +442,9 @@
       "text": "doorgeven beschikbaarheid Hospice",
       "due": "2026-11-24T09:00",
       "created": "2026-11-23T21:36:02",
-      "status": "herinnerd",
-      "remindedAt": "2026-11-24T09:04:41"
+      "status": "afgerond",
+      "remindedAt": "2026-11-24T09:04:41",
+      "doneAt": "2026-11-24T13:02:18"
     }
   ]
 }

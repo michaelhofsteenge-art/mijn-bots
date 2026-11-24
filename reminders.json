@@ -94,7 +94,8 @@
     "text": "doorgeven beschikbaarheid Hospice",
     "due": "2026-11-24T09:00",
     "created": "2026-11-23T21:36:02",
-    "status": "herinnerd",
-    "remindedAt": "2026-11-24T09:04:41"
+    "status": "afgerond",
+    "remindedAt": "2026-11-24T09:04:41",
+    "doneAt": "2026-11-24T13:02:18"
   }
 ]
