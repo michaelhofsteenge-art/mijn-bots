@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T21:36:55+01:00",
+  "generated_at": "2026-11-24T08:02:37+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-11-24T08:00+01:00",
+          "markdown": "**Actie nodig**\n\n**Deze week**\n- Saskia van Nellen (Outlook): za 28 nov les, documenten lezen + spullen meenemen [id:academie-verwevingslijn-28nov] (nieuw)\n- Feenstra (Outlook): cv-onderhoud 14 jan 2027 bevestigen via Mijn Feenstra, vóór ca. 3 dec [id:feenstra-onderhoud-14jan]\n- Erik Swillens (Outlook): bouwstuk 8 dec voorbereiden [id:bouwstuk-8dec] (nieuw)\n\n**Voor Quinten**\n- YOEP (Gmail Quinten): intakegesprek ma 14 dec 09:30 Woerden, legitimatie meenemen [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Lizette Hofsteenge (Outlook): familieopstelling 25 jan 2027 in agenda [id:familieopstelling-25jan]"
+        },
+        {
           "date": "2026-11-23T17:00+01:00",
           "markdown": "**Actie nodig**\n- Feenstra (Outlook): onderhoudsafspraak cv-ketel 14 jan 2027 bevestigen via Mijn Feenstra, uiterlijk 3 dec [id:cv-ketel-onderhoud-14jan]\n- Lizette Hofsteenge (Outlook): agenda familieopstelling ma 25 jan 2027, Dieren [id:familieopstelling-25jan]\n- Aanmeldteam YOEP (Outlook, voor Quinten): intake ma 14 dec 09:30, legitimatie meenemen [id:yoep-quinten]\n- Erik Swillens (Outlook): bouwstuk Michael, actie vóór 8 dec [id:bouwstuk-8dec]\n- Saskia van Nellen (Outlook): za 28 nov les, documenten lezen en creatieve spullen meenemen [id:verwevingslijn-28nov]"
         },
         {
           "date": "2026-11-23T08:00+01:00",
           "markdown": "**Actie nodig**\n\n**Deze week**\n- Feenstra (Outlook): bevestig of wijzig onderhoudsafspraak cv-ketel 14 jan 2027 via Mijn Feenstra, vastgehouden tot ca. 3 dec [id:cv-ketel-onderhoud-14jan]\n\n**Voor Quinten**\n- Uyên Hérault-Huynh (Gmail): intakegesprek YOEP Woerden ma 14 dec 2026 09:30, Houttuinlaan 4 [id:yoep-quinten]\n\n**Wanneer het uitkomt**\n- Lizette Hofsteenge (Outlook): familieopstelling ma 25 jan 2027 Dieren in agenda zetten [id:familieopstelling-25jan]"
-        },
-        {
-          "date": "2026-11-22T17:00+01:00",
-          "markdown": "**Actie nodig**\n\n- Alexander de Koning (Outlook): Reageer aan Meindert Hart of je dinsdag 24 nov aanwezig bent en 19:00 wilt oefenen voor het Stalen Gewelf [id:stalen-gewelf-dinsdag]\n- Feenstra (Outlook): Bevestig of wijzig de onderhoudsafspraak cv-ketel 14 jan 2027 (07:30–10:00) via Mijn Feenstra; afspraak 14 dagen vastgehouden (vanaf 19 nov) [id:cv-ketel-onderhoud-14jan]\n- Lizette Hofsteenge (Outlook): Agenda: familieopstelling ma 25 jan 2027, De Dierense Sjoel, Dieren [id:familieopstelling-25jan]\n- Aanmeldteam YOEP (via Uyên) (Gmail (Quinten)): Voor Quinten: intakegesprek YOEP Woerden ma 14 dec 2026 09:30 (Houttuinlaan 4), geldig legitimatiebewijs meenemen [id:yoep-quinten]"
         }
       ]
     },
@@ -436,6 +436,14 @@
       "status": "afgerond",
       "remindedAt": "2026-11-06T09:15:42",
       "doneAt": "2026-11-12T16:56:38"
+    },
+    {
+      "id": "r-69477e7b60",
+      "text": "doorgeven beschikbaarheid Hospice",
+      "due": "2026-11-24T09:00",
+      "created": "2026-11-23T21:36:02",
+      "status": "gepland",
+      "remindedAt": null
     }
   ]
 }
