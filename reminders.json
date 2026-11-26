@@ -103,23 +103,23 @@
     "text": "medicijnen bestellen",
     "due": "2026-11-26T09:00",
     "created": "2026-11-25T15:23:33",
-    "status": "gepland",
-    "remindedAt": null
+    "status": "herinnerd",
+    "remindedAt": "2026-11-26T09:17:14"
   },
   {
     "id": "r-bdda266686",
     "text": "Sinterklaas gedicht Kristie en Heleen",
     "due": "2026-11-26T09:00",
     "created": "2026-11-25T15:23:53",
-    "status": "gepland",
-    "remindedAt": null
+    "status": "herinnerd",
+    "remindedAt": "2026-11-26T09:17:16"
   },
   {
     "id": "r-1c2723541d",
     "text": "Voorbereiden zaterdag AvGW",
     "due": "2026-11-26T09:00",
     "created": "2026-11-25T15:24:25",
-    "status": "gepland",
-    "remindedAt": null
+    "status": "herinnerd",
+    "remindedAt": "2026-11-26T09:17:19"
   }
 ]
