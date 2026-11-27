@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-27T09:30:22+01:00",
+  "generated_at": "2026-11-27T10:28:20+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -451,16 +451,9 @@
       "text": "medicijnen bestellen",
       "due": "2026-11-26T09:00",
       "created": "2026-11-25T15:23:33",
-      "status": "herinnerd",
-      "remindedAt": "2026-11-26T09:17:14"
-    },
-    {
-      "id": "r-bdda266686",
-      "text": "Sinterklaas gedicht Kristie en Heleen",
-      "due": "2026-11-26T09:00",
-      "created": "2026-11-25T15:23:53",
-      "status": "herinnerd",
-      "remindedAt": "2026-11-26T09:17:16"
+      "status": "afgerond",
+      "remindedAt": "2026-11-26T09:17:14",
+      "doneAt": "2026-11-27T09:55:03"
     },
     {
       "id": "r-1c2723541d",
@@ -471,10 +464,34 @@
       "remindedAt": "2026-11-26T09:17:19"
     },
     {
+      "id": "r-645cd699c9",
+      "text": "Boustuk loge afmaken",
+      "due": "2026-11-28T09:00",
+      "created": "2026-11-27T09:28:43",
+      "status": "gepland",
+      "remindedAt": null
+    },
+    {
+      "id": "r-bdda266686",
+      "text": "Sinterklaas gedicht Kristie en Heleen",
+      "due": "2026-11-29T09:00",
+      "created": "2026-11-25T15:23:53",
+      "status": "gepland",
+      "remindedAt": null
+    },
+    {
       "id": "r-2d02dce83e",
       "text": "Sinterklaas kado's inpakken (genoeg papier?)",
-      "due": "2026-11-28T09:00",
+      "due": "2026-12-02T09:00",
       "created": "2026-11-27T09:28:22",
+      "status": "gepland",
+      "remindedAt": null
+    },
+    {
+      "id": "r-8927634fa7",
+      "text": "kleding Gstar terug sturen",
+      "due": "2026-12-02T09:00",
+      "created": "2026-11-27T09:30:08",
       "status": "gepland",
       "remindedAt": null
     }
