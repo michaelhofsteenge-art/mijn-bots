@@ -121,5 +121,13 @@
     "created": "2026-11-25T15:24:25",
     "status": "herinnerd",
     "remindedAt": "2026-11-26T09:17:19"
+  },
+  {
+    "id": "r-2d02dce83e",
+    "text": "Sinterklaas kado's inpakken (genoeg papier?)",
+    "due": "2026-11-28T09:00",
+    "created": "2026-11-27T09:28:22",
+    "status": "gepland",
+    "remindedAt": null
   }
 ]
