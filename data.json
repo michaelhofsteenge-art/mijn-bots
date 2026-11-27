@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-26T21:26:23+01:00",
+  "generated_at": "2026-11-27T08:04:33+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -120,16 +120,16 @@
       "subtitle": "Mails waar je op moet reageren",
       "updates": [
         {
+          "date": "2026-11-27T08:05+01:00",
+          "markdown": "**Actie nodig**\n\n- Erik Swillens (Outlook): bouwstuk presenteren 8 dec [id:bouwstuk-8dec]\n- Feenstra (Outlook): cv-onderhoud 14 jan 2027 07:30-10:00 in agenda [id:feenstra-cv-onderhoud-14jan]\n- YOEP (Gmail Quinten): intake 14 dec 09:30 Woerden, legitimatie meenemen [id:yoep-intake-14dec]"
+        },
+        {
           "date": "2026-11-26T08:02+01:00",
           "markdown": "**Actie nodig**\n\n## Deze week\n- Erik Swillens (Outlook): bouwstuk 8 dec voorbereiden, handreiking 1e graad doornemen [id:bouwstuk-8dec]\n\n## Voor Quinten\n- Uyên Hérault-Huynh (Gmail): intakegesprek YOEP ma 14 dec 09:30, Woerden Houttuinlaan 4; legitimatie meenemen [id:yoep-intake-14dec]\n\n## Wanneer het uitkomt\n- Feenstra (Outlook): cv-onderhoud do 14 jan 2027 07:30-10:00 in agenda [id:feenstra-cv-14jan]\n- Loge Sint Lodewijk (Outlook): jubileum za 20 mrt 2027 reserveren [id:jubileum-sintlodewijk-20mrt]"
         },
         {
           "date": "2026-11-25T17:00+01:00",
           "markdown": "**Actie nodig**\n\n- Erik Swillens (Outlook): bouwstuk 8 dec voorbereiden, handreiking doornemen (deadline 2026-12-08) [id:bouwstuk-8dec]\n- Feenstra (Outlook): cv-onderhoud do 14 jan 2027 07:30-10:00 in agenda (2027-01-14) [id:feenstra-cv-14jan]\n- YOEP via Uyên (Gmail, Quinten): intakegesprek ma 14 dec 09:30 Woerden, legitimatie meenemen (2026-12-14) [id:yoep-intake-14dec]\n- Loge Sint Lodewijk (Outlook): vooraankondiging jubileum 20 mrt 2027 in agenda [id:jubileum-sintlodewijk-20mrt]"
-        },
-        {
-          "date": "2026-11-25T08:10+01:00",
-          "markdown": "**Actie nodig**\n\n**Deze week**\n- Erik Swillens (Outlook): bouwstuk 8 dec voorbereiden, handreiking 1e graad doornemen [id:bouwstuk-8dec]\n\n**Voor Quinten**\n- YOEP (Gmail Quinten): intakegesprek ma 14 dec 09:30 Woerden, legitimatiebewijs meenemen [id:yoep-intake-14dec]\n\n**Wanneer het uitkomt**\n- Feenstra (Outlook): cv-onderhoud 14 jan 2027 07:30–10:00, agenda (nieuw) [id:feenstra-cv-14jan]\n- IVSW/Lizette (Outlook): Familieopstelling 25 jan 2027 Dieren, agenda [id:familieopstelling-25jan]"
         }
       ]
     },
