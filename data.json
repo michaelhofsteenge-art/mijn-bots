@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-28T09:03:39+01:00",
+  "generated_at": "2026-11-28T09:11:10+01:00",
   "bots": [
     {
       "id": "9a6d0150-5f98-4827-9e94-ec044c5b3054",
@@ -468,8 +468,8 @@
       "text": "Boustuk loge afmaken",
       "due": "2026-11-28T09:00",
       "created": "2026-11-27T09:28:43",
-      "status": "gepland",
-      "remindedAt": null
+      "status": "herinnerd",
+      "remindedAt": "2026-11-28T09:11:07"
     },
     {
       "id": "r-bdda266686",
